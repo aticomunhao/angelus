@@ -184,8 +184,8 @@ class UsuarioController extends Controller
         DB::table('usuario')->insert([
             'id_pessoa' => $request->input('idPessoa'),
             'ativo' => $ativo,
-            'data_criacao' => date("y/m/d"),
-            'data_ativacao' => date("y/m/d"),
+            'data_criacao' => date("m-d-Y"),
+            'data_ativacao' => date("m-d-Y"),
             'bloqueado' => $bloqueado,
             'hash_senha' => $senha_inicial,
         ]);
