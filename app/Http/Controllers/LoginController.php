@@ -23,7 +23,7 @@ class LoginController extends Controller
         $cpf = $request->input('cpf');
         $senha = $request->input('senha');
 
-        //dd($cpf);
+        //dd($senha);
 
         // $result=DB::table('usuario')->
         //             join('pessoa', 'usuario.id_pessoa', '=', 'pessoa.id')->

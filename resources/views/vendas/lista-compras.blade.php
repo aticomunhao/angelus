@@ -44,7 +44,7 @@
                 <!-- <td>0</td> -->
                 <td>{{$listaItemVendas->qtd}}</td>
                 <?php $tot += floatval($listaItemVendas->valor_venda); $qtde++; ?>
-                <td>R$ {{$listaItemVendas->valor_venda}}</td>
+                <td>R$ {{number_format($listaItemVendas->valor_venda,2,'.','.')}}</td>
                 <td>
                     <button type="button" value="{{$listaItemVendas->id}}"  class="btn btn-danger btn-custom btnRemoveItem"><i class="far fa-trash-alt"></i></button>
                 </td>

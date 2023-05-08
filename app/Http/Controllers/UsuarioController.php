@@ -264,9 +264,9 @@ class UsuarioController extends Controller
 
     public function gerarSenhaInicial($id_pessoa){
 
-       $resultPessoa = DB::select("select SUBSTRING(cpf , 1,3) id from pessoa where id =$id_pessoa");
+       $resultPessoa = DB::select("select cpf, id from pessoa where id =$id_pessoa");
 
-       return Hash::make('angelus'.$resultPessoa[0]->id);
+       return Hash::make($resultPessoa[0]->cpf);
     }
 
     public function alteraSenha(){

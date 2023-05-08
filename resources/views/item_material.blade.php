@@ -1,38 +1,37 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <title>Código barras</title>
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <style>
-    .row{
-        /*margin: 1px;
-        line-height: 1.0;8*/
-        font-size: 5px;
-        color: #000000;
+@extends('layouts.master')
 
-    }
-    </style>
-</head>
-    <body>
+@section('title') Gerar código @endsection
+
+@section('content')
+
         <a href="/gerenciar-cadastro-inicial">
             <input class="btn btn-danger" type="button" value="Cancelar">
         </a>
+        <a href="">
+            <input class="btn btn-success" onclick="cont();" type="button" value="Imprimir">
+        </a>
     </div>
-        <div class="Col" style="font-size: 14px; color:#000; text-align: center;">
-        @foreach($itens as $p)
-            <strong>
-                {!! DNS1D::getBarcodeSVG($p->id, 'C128', 2, 40)!!}</br>
-                {{$p->nome}}</br>
-                {{number_format($p->valor_venda, 2,',','.')}}</br>
-            </strong>
-        @endforeach
+    <script>
+            function cont(){
+               var conteudo = document.getElementById('print').innerHTML;
+               tela_impressao = window.open('about:blank');
+               tela_impressao.document.write(conteudo);
+               tela_impressao.window.print();
+               tela_impressao.window.close();
+            }
+        </script>
+        <div id='print' class='conteudo'>
+            <div class="Col" style="font-size: 14px; color:#000; text-align: center;">
+            @foreach($itens as $p)
+                <strong>
+                    {!! DNS1D::getBarcodeSVG($p->id, 'C128', 2, 40)!!}</br>
+                    {{$p->nome}}</br>
+                    {{number_format($p->valor_venda, 2,',','.')}}</br>
+                </strong>
+            @endforeach
+            </div>
         </div>
-    </body>
-</html>
+@endsection
 
     {{-- <div class="container text-center" style="margin-top: 50px;">
     <h3 class="mb-5">Barcode Laravel</h3>
