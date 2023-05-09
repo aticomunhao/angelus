@@ -59,7 +59,6 @@
                             <label for="nome_item" class="col-sm-5 content-md-center col-form-label">Nome Material:</label>
                             <div class="col-12">
                                 <select class="form-control select2" id="" name="item_mat" default-value="teste"  required="required">
-                                    <option value=>{{($itemmat[0]->nome)}}</option>
                                     @foreach($nomeitem as $nomeitems)
                                     <option value="{{$nomeitems->id_nome}}">{{$nomeitems->n1}}</option>
                                     @endforeach
