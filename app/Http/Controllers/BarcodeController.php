@@ -17,7 +17,8 @@ class BarcodeController extends Controller
      select
      m.id,
      m.valor_venda,
-     c.nome
+     c.nome,
+     m.observacao
      from item_material m
      left join item_catalogo_material c on (c.id = m.id_item_catalogo_material)
      where m.id = $id");

@@ -42,32 +42,19 @@
             <div class="card-body">
                 @csrf
                 <div class="row align-items-end" style="background:#fff;">
-                    {{--<div class="col-4">
-                        <div class="form-group row">
-                            <label for="nome_item" class="col-sm-5 content-md-center col-form-label">Categoria:</label>
-                            <div class="col-12">
-                                <select class="form-control select2" id="" name="categoria" required="required">
-                                    @foreach($result as $results)
-                                    <option value="{{$results->id_cat}}">{{$results->n5}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>--}}
                     <div class="col">
-                        <div class="form-group row">
-                            <label for="nome_item" class="col-sm-5 content-md-center col-form-label">Nome Material:</label>
-                            <div class="col-12">
-                                <select class="form-control select2" id="" name="item_mat" default-value="teste"  required="required">
-                                    @foreach($nomeitem as $nomeitems)
-                                    <option value="{{$nomeitems->id_nome}}">{{$nomeitems->n1}}</option>
-                                    @endforeach
-
-                                </select>
-                            </div>
-                        </div>
+                        <label for="nome_item" class="col-sm-5 content-md-center col-form-label">Nome Material:</label>
+                        <select class="form-control select2" id="" name="item_mat" default-value="teste"  required="required">
+                            @foreach($nomeitem as $nomeitems)
+                            <option value="{{$nomeitems->id_nome}}">{{$nomeitems->n1}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">Observação:
+                            <input class="form-control" type="text" id="" name="obs" required="requiered" value="">
                     </div>
                 </div>
+                <br>
                 <div class="row align-items-end" style="background:#fff;">
                     <div class="col-2">
                         <div class="form-group row">

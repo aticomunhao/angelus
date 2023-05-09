@@ -172,6 +172,7 @@ class CadastroInicialController extends Controller
             ->where('id', $id)
             ->update([
                 'id_item_catalogo_material' => $request->input('item_mat'),
+                'observacao' => $request->input('obs'),
                 'valor_venda' => $request->input('valor'),
                 'id_tamanho' => $request->input('tamanho'),
                 'id_marca' => $request->input('marca'),
@@ -328,7 +329,7 @@ class CadastroInicialController extends Controller
 
             $html= getCombo($result,'valor_venda', 1);
         }else{
-            $html='<input type="text" id="valor_venda" name="valor_venda" required>';
+            $html='<input type="number" step="0.01" id="valor_venda" name="valor_venda" required>';
         }
         return $html;
     }
