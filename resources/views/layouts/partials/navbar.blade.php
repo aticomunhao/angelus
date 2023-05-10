@@ -1,9 +1,14 @@
 <header id="page-topbar">
             <div class="navbar-header">
                 <div class="container-fluid">
+
                     <div class="float-left">
+
                         <!-- LOGO -->
                         <div class="navbar-brand-box">
+                            <div class="container-fluid" style="background-color:#5C7CB6; font-family:Arial, Helvetica, sans-serif; padding:5px; text-shadow: 1px 1px black; height: 30px; font-weight: bold; color: #fff;">
+                                "Olá, seja bem-vindo(a) {{session()->get('usuario.nome', 'usuario.perfis')}}"
+                                </div>
                             <a href="index" class="logo logo-dark">
                                 <span class="logo-sm">
                                     <img src="{{ URL::asset('/images/logo-sm.png')}}" alt="" height="22">
@@ -12,7 +17,7 @@
                                     <img src="{{ URL::asset('/images/logo-dark.png')}}" alt="" height="19">
                                 </span>
                             </a>
-    
+
                             <a href="index" class="logo logo-light">
                                 <span class="logo-sm">
                                     <img src="{{ URL::asset('/images/logo-sm.png')}}" alt="" height="22">
@@ -22,14 +27,14 @@
                                 </span>
                             </a>
                         </div>
-    
+
                         <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item waves-effect waves-light" data-toggle="collapse-hide" data-target="#topnav-menu-content">
                             <i class="mdi mdi-menu"></i>
                         </button>
                     </div>
-    
+
                     <div class="float-right">
-    
+
                         <!-- App Search-->
                         <form class="app-search d-none d-lg-inline-block">
                             <div class="position-relative">
@@ -43,46 +48,46 @@
                                 <img class="mr-2" src="{{ URL::asset('/images/flags/us_flag.jpg')}}" alt="Header Language" height="16"> English <span class="mdi mdi-chevron-down"></span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
-    
+
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                                     <img src="{{ URL::asset('/images/flags/germany_flag.jpg')}}" alt="user-image" class="mr-1" height="12"> <span class="align-middle"> German </span>
                                 </a>
-    
+
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                                     <img src="{{ URL::asset('/images/flags/italy_flag.jpg')}}" alt="user-image" class="mr-1" height="12"> <span class="align-middle"> Italian </span>
                                 </a>
-    
+
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                                     <img src="{{ URL::asset('/images/flags/french_flag.jpg')}}" alt="user-image" class="mr-1" height="12"> <span class="align-middle"> French </span>
                                 </a>
-    
+
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                                     <img src="{{ URL::asset('/images/flags/spain_flag.jpg')}}" alt="user-image" class="mr-1" height="12"> <span class="align-middle"> Spanish </span>
                                 </a>
-    
+
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                                     <img src="{{ URL::asset('/images/flags/russia_flag.jpg')}}" alt="user-image" class="mr-1" height="12"> <span class="align-middle"> Russian </span>
                                 </a>
                             </div>
                         </div>
-    
+
                         <div class="dropdown d-none d-lg-inline-block">
                             <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                                 <i class="mdi mdi-fullscreen font-size-24"></i>
                             </button>
                         </div>
-    
+
                         <div class="dropdown d-inline-block d-lg-none ml-2">
                             <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="mdi mdi-magnify"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0" aria-labelledby="page-header-search-dropdown">
-    
+
                                 <form class="p-3">
                                     <div class="form-group m-0">
                                         <div class="input-group">
@@ -95,7 +100,7 @@
                                 </form>
                             </div>
                         </div>
-    
+
                         <div class="dropdown d-inline-block ml-1">
                             <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -127,7 +132,7 @@
                                             </div>
                                         </div>
                                     </a>
-    
+
                                     <a href="" class="text-reset notification-item">
                                         <div class="media">
                                             <div class="avatar-xs mr-3">
@@ -143,7 +148,7 @@
                                             </div>
                                         </div>
                                     </a>
-    
+
                                     <a href="" class="text-reset notification-item">
                                         <div class="media">
                                             <div class="avatar-xs mr-3">
@@ -159,7 +164,7 @@
                                             </div>
                                         </div>
                                     </a>
-    
+
                                     <a href="" class="text-reset notification-item">
                                         <div class="media">
                                             <div class="avatar-xs mr-3">
@@ -175,7 +180,7 @@
                                             </div>
                                         </div>
                                     </a>
-    
+
                                     <a href="" class="text-reset notification-item">
                                         <div class="media">
                                             <div class="avatar-xs mr-3">
@@ -199,7 +204,7 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="dropdown d-inline-block">
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -219,13 +224,13 @@
                                 </form>
                             </div>
                         </div>
-    
+
                         <div class="dropdown d-inline-block">
                             <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
                                 <i class="mdi mdi-spin mdi-settings"></i>
                             </button>
                         </div>
-    
+
                     </div>
                 </div>
             </div>
@@ -277,7 +282,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-email" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ti-email"></i>Email 
+                                        <i class="ti-email"></i>Email
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-left" aria-labelledby="topnav-email">
                                         <a href="/email/email-inbox" class="dropdown-item">Inbox</a>
@@ -289,7 +294,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ti-support"></i>UI Elements 
+                                        <i class="ti-support"></i>UI Elements
                                     </a>
 
                                     <div class="dropdown-menu mega-dropdown-menu px-2 dropdown-mega-menu-xl"
@@ -332,7 +337,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-forms" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ti-receipt"></i>Forms 
+                                        <i class="ti-receipt"></i>Forms
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-left" aria-labelledby="topnav-forms">
                                             <a href="/form/form-elements" class="dropdown-item">Form Elements</a>
@@ -402,7 +407,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-charts" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ti-pie-chart"></i>Charts 
+                                        <i class="ti-pie-chart"></i>Charts
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-left" aria-labelledby="topnav-charts">
                                     <a href="/charts/charts-morris" class="dropdown-item">Morris Chart</a>
@@ -417,7 +422,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ti-support"></i>Pages 
+                                        <i class="ti-support"></i>Pages
                                     </a>
 
                                     <div class="dropdown-menu mega-dropdown-menu px-2 dropdown-mega-menu-lg dropdown-menu-right"
@@ -449,7 +454,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layouts" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ti-tablet"></i>Layouts 
+                                        <i class="ti-tablet"></i>Layouts
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="topnav-layouts">
                                         <a href="/pagelayouts/layouts-horizontal" class="dropdown-item">Horizontal</a>
@@ -469,5 +474,5 @@
             </div>
         </div>
 
-   
+
         </header>

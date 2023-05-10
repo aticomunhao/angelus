@@ -30,8 +30,15 @@
 </head>
 
 <body>
-
     @yield('content')
+
+
+
+
+
+
+
+
 
     <!-- JAVASCRIPT -->
     <script src="{{ URL::asset('/libs/jquery/jquery.min.js')}}"></script>

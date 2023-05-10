@@ -26,6 +26,8 @@
     <link href="{{ URL::asset('/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <link href="{{ URL::asset('/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
+
+
 </head>
 
 <body class="vertical-collpsed" data-sidebar="dark" style="font-family: consolas; background:#fff;  color:black;">
@@ -45,9 +47,12 @@
 
 
 
+
                 <div class="page-content" style="color: #000; padding-top: 70px;">
 
-                    <div class="container-fluid" style="color: #000;">
+                    <div class="container-fluid" style="background-color:#5C7CB6; font-family:Arial, Helvetica, sans-serif; padding:5px; text-shadow: 1px 1px black; height: 30px; font-weight: bold; color: #fff;">
+                        "Olá, seja bem-vindo(a) {{session()->get('usuario.nome', 'usuario.perfis')}}"
+                    </div>
 
                   <!-- content -->
 
@@ -64,7 +69,7 @@
 
 
 
-
+                    </div>
 
 
                 </div>

@@ -54,7 +54,7 @@ class CadastroInicialController extends Controller
 
         //$result = $this->getListaItens();
         $result = DB::table('item_material AS im')
-                            ->select('im.data_cadastro','im.id', 'icm.nome AS n1','tcm.nome AS n5', 'im.valor_venda','m.nome AS n2', 't.nome AS n3', 'c.nome AS n4', 'im.valor_venda', 'im.adquirido', 'tcm.id AS id_cat', 'im.id_tipo_situacao')
+                            ->select('im.data_cadastro','im.id', 'icm.nome AS n1','tcm.nome AS n5', 'im.observacao AS obs', 'im.valor_venda','m.nome AS n2', 't.nome AS n3', 'c.nome AS n4', 'im.valor_venda', 'im.adquirido', 'tcm.id AS id_cat','tcm.nome AS nome_cat', 'im.id_tipo_situacao')
                             ->leftjoin('item_catalogo_material AS icm', 'icm.id' , '=', 'im.id_item_catalogo_material')
                             ->leftjoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material' , '=', 'tcm.id')
                             ->leftjoin('marca AS m', 'm.id' , '=', 'im.id_marca')
@@ -92,7 +92,7 @@ class CadastroInicialController extends Controller
         if ($request->comprado){
             $result->where('im.adquirido', '=', "$request->comprado");
         }
-        $result = $result->orderBy('im.id', 'DESC')->paginate(10);
+        $result = $result->orderBy('im.id', 'DESC')->paginate(100);
 
 
         return view('cadastroinicial/gerenciar-cadastro-inicial', compact('result','categoria', 'data_inicio', 'data_fim', 'material', 'resultCat'));

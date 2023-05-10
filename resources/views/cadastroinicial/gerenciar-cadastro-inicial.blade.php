@@ -43,7 +43,7 @@
                             <a href="/gerenciar-cadastro-inicial"><input class="btn btn-danger" type="button" value="Limpar"></a>
                         </form>
                             <a href="/barcode"><input class="btn btn-info" type="button" value="Imprimir Cód Barras"></a>
-                            <a href="/gerenciar-cadastro-inicial/incluir"><input class="btn btn-success" type="button" value="Novo Cadastro +"></a>
+                            <a href="/gerenciar-cadastro-inicial/incluir"><input class="btn btn-success" style="font-weight:bold; font-size:15px;" type="button" value="Novo Cadastro +"></a>
                         </div>
                     </div>
                 </div>
@@ -52,11 +52,13 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <table id="datatable" class="table-resposive-sm table-bordered table-striped table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead >
-                                        <tr style="text-align:center;">
+                                        <tr style="text-align:center; background-color:#c6e6ce">
                                             <th>CÓDIGO</th>
+                                            <th>CATEGORIA</th>
                                             <th>NOME</th>
+                                            <th>OBS</th>
                                             <th>DATA</th>
                                             <th>MARCA</th>
                                             <th>TAMANHO</th>
@@ -70,7 +72,9 @@
                                         @foreach($result as $results)
                                         <tr>
                                             <td>{{$results->id}}</td>
+                                            <td>{{$results->nome_cat}}</td>
                                             <td>{{$results->n1}}</td>
+                                            <td>{{$results->obs}}</td>
                                             <td>{{date( 'd/m/Y' , strtotime($results->data_cadastro))}}</td>
                                             <td>{{$results->n2}}</td>
                                             <td>{{$results->n3}}</td>
