@@ -266,6 +266,8 @@ class UsuarioController extends Controller
 
        $resultPessoa = DB::select("select cpf, id from pessoa where id =$id_pessoa");
 
+       //dd($resultPessoa[0]->cpf);
+
        return Hash::make($resultPessoa[0]->cpf);
     }
 

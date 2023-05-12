@@ -54,7 +54,7 @@ class CadastroInicialController extends Controller
 
         //$result = $this->getListaItens();
         $result = DB::table('item_material AS im')
-                            ->select('im.data_cadastro','im.id', 'icm.nome AS n1','tcm.nome AS n5', 'im.observacao AS obs', 'im.valor_venda','m.nome AS n2', 't.nome AS n3', 'c.nome AS n4', 'im.valor_venda', 'im.adquirido', 'tcm.id AS id_cat','tcm.nome AS nome_cat', 'im.id_tipo_situacao')
+                            ->select('im.data_cadastro','im.id', 'im.ref_fabricante AS ref_fab', 'icm.nome AS n1','tcm.nome AS n5', 'im.observacao AS obs', 'im.valor_venda','m.nome AS n2', 't.nome AS n3', 'c.nome AS n4', 'im.valor_venda', 'im.adquirido', 'tcm.id AS id_cat','tcm.nome AS nome_cat', 'im.id_tipo_situacao')
                             ->leftjoin('item_catalogo_material AS icm', 'icm.id' , '=', 'im.id_item_catalogo_material')
                             ->leftjoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material' , '=', 'tcm.id')
                             ->leftjoin('marca AS m', 'm.id' , '=', 'im.id_marca')
@@ -66,7 +66,6 @@ class CadastroInicialController extends Controller
 
         $data_inicio = $request->data_inicio;
         $data_fim = $request->data_fim;
-
         if ($request->data_inicio){
 
             $result->where('im.data_cadastro','>=' , $request->data_inicio);
@@ -76,10 +75,15 @@ class CadastroInicialController extends Controller
         }
 
         $material = $request->material;
-
         if ($request->material){
             $result->where('icm.nome', 'like', "%$request->material%");
         }
+
+        $ref_fab = $request->ref_fab;
+        if ($request->ref_fab){
+            $result->where('im.ref_fabricante', '=', $request->ref_fab);
+        }
+
         $doado = $request->doado;
         if ($request->doado){
             $result->where('im.adquirido', '=', "$request->doado");
@@ -88,9 +92,9 @@ class CadastroInicialController extends Controller
         if ($request->categoria){
             $result->where('tcm.id', '=', "$request->categoria");
         }
-        $comprado = $request->comprado;
-        if ($request->comprado){
-            $result->where('im.adquirido', '=', "$request->comprado");
+        $compra = $request->compra;
+        if ($request->compra){
+            $result->where('im.adquirido', '=', "$request->compra");
         }
         $result = $result->orderBy('im.id', 'DESC')->paginate(100);
 
@@ -238,7 +242,7 @@ class CadastroInicialController extends Controller
         $html.='<tr><td>Cor</td> <td>'.getCombo($result4,'cor', 0).'</td></tr>';
         $html.='<tr><td>Tipo Material</td> <td>'.getCombo($result5,'tp_mat', 0).'</td></tr>';
         $html.='<tr><td>Fase Etária</td> <td>'.getCombo($result6,'fase_etaria', 0).'</td></tr>';
-        $html.='<tr><td>Gênero</td> <td>'.getCombo($result7,'genero', 0).'</td></tr>';
+        $html.='<tr><td>Sexo</td> <td>'.getCombo($result7,'genero', 0).'</td></tr>';
         $html.='</table>';
         $html.='</div>';
 
@@ -263,10 +267,24 @@ class CadastroInicialController extends Controller
         $html.='<tr><td>Deposito *</td> <td>'.getCombo($result8,'deposito', 1).'</td></tr>';
         $html.='<tr><td>Embalagem </td> <td>'.getCombo($result9,'embalagem', 0).'</td></tr>';
         $html.='<tr><td>Qtd Embalagem</td> <td><input type="text" name="qtdEmb" id="qtdEmb"></td></tr>';
+        $html.='<tr><td>Código Fabricante</td> <td><input type="numeric" name="ref_fab" id="ref_fab"></td></tr>';
         $html.='<tr><td>Unidade Medida </td> <td>'.getCombo($result10,'und_med', 0).'</td></tr>';
-        $html.='<tr><td>Comprado</td><td><input type="checkbox" id="checkAdq" name="checkAdq" switch="bool" /><label for="checkAdq" data-on-label="Sim" data-off-label="Não"></label></td>';
-        $html.='</table>';
-        $html.='</div>';
+        $html.='<tr><td>Comprado</td><td><input type="checkbox" id="checkAdq" name="checkAdq" switch="bool" class="valCheck"/><label for="checkAdq" data-on-label="Sim" data-off-label="Não"></label></td>';
+       
+        //dd($_REQUEST);
+
+        if($_REQUEST['adquirido'] = 'true'){
+        
+            $html.='<tr><td>Valor aquisição</td><td><input type="number" step="0.01" id="vlr_aqs" name="vlr_aqs" required></td></tr>';
+            $html.='</table>';
+            $html.='</div>';
+        }
+        else if ($_REQUEST['adquirido'] = 'false'){
+           
+           $html.='</table>';
+           $html.='</div>';
+        }
+
 
         return $html;
     }
@@ -320,7 +338,7 @@ class CadastroInicialController extends Controller
                     <label for="valor_etiqueta">Etiqueta R$'.$result[0]->valor_etiqueta.'</label><br>';
 
 
-                    //dd($html);
+                    //dd($_REQUEST['avariado']);
 
         }else if($_REQUEST['avariado'] =='true'){
 
@@ -409,6 +427,8 @@ class CadastroInicialController extends Controller
             'id_fase_etaria' => $request->input('fase_etaria'),
             'id_tp_genero' => $request->input('genero'),
             'id_deposito' => $request->input('deposito'),
+            'valor_aquisicao' => $request->input ('vlr_aqs'),
+            'ref_fabricante' => $request->input ('ref_fab'),
             'avariado' => $Avariado,
             'data_validade' => $request->input('dt_validade'),
             'liberacao_venda' => 0,

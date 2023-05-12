@@ -235,7 +235,9 @@ Route::name('pagamentos')->middleware('validaUsuario')->group(function (){
   Route::get('/cad-pagamento/excluir/{id}', 'TipoPagamentoController@destroy')->middleware('validaUsuario');
   Route::get('/cad-pagamento/alterar/{id}', 'TipoPagamentoController@edit')->middleware('validaUsuario');
   Route::put('/cad-pagamento/atualizar/{id}', 'TipoPagamentoController@update')->middleware('validaUsuario');
+});
 
+Route::name('relatorios')->middleware('validaUsuario')->group(function (){
   Route::get('/demonstrativo/{id}', 'GerenciardemonstrativoController@index')->middleware('validaUsuario');
   Route::get('/relatorio-vendas', 'RelatoriosController@index')->middleware('validaUsuario');
   Route::get('/relatorio-entrada', 'RelatoriosController@entrada')->middleware('validaUsuario');
