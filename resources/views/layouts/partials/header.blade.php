@@ -18,7 +18,7 @@
                                 <img src="{{ URL::asset('/images/logo150px.png')}}" alt="" height="22">
                             </span>--}}
                             <span class="logo-lg">
-                                <img src="{{ URL::asset('/images/logo150px.png')}}" style=" margin:1em;" alt="" height="55">
+                               <a href="/login/valida"> <img src="{{ URL::asset('/images/logo150px.ico')}}" style=" margin:1em;" alt="" height="55"></a>
                             </span>
                         {{--</a>--}}
                     </div>

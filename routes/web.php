@@ -1,8 +1,10 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 
 /*
@@ -35,10 +37,10 @@ Route::get('/logout', 'LexaAdmin@logout');
 // });
 
 Route::get('/', 'LoginController@index');
-Route::post('/login/valida', 'LoginController@valida')->name('home.post');
+Route::any('/login/valida', 'LoginController@validaUserLogado')->name('home.post');
 Route::get('/email/remessa-email', 'RecuperaSenhaController@index');
 Route::post('/email/remessa-email', 'RecuperaSenhaController@validar');
-Route::post('/login/home', 'LoginController@valida');
+Route::any('/login/home', 'LoginController@valida');
 
 
 //Route::view('/dashboard/index' , 'dashboard/index')->middleware('validaUsuario');
