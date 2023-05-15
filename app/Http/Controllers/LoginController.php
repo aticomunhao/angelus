@@ -90,7 +90,6 @@ class LoginController extends Controller
             echo "nao";
             //return view('login/login');
         }
-        echo 'sim';
     }
 
     public function create()
