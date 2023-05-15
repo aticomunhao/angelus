@@ -55,6 +55,7 @@ class CadastroInicialController extends Controller
         //$result = $this->getListaItens();
         $result = DB::table('item_material AS im')
                             ->select('im.data_cadastro','im.id', 'im.ref_fabricante AS ref_fab', 'icm.nome AS n1','tcm.nome AS n5', 'im.observacao AS obs', 'im.valor_venda','m.nome AS n2', 't.nome AS n3', 'c.nome AS n4', 'im.valor_venda', 'im.adquirido', 'tcm.id AS id_cat','tcm.nome AS nome_cat', 'im.id_tipo_situacao')
+                            ->where('id_tipo_situacao', '1')
                             ->leftjoin('item_catalogo_material AS icm', 'icm.id' , '=', 'im.id_item_catalogo_material')
                             ->leftjoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material' , '=', 'tcm.id')
                             ->leftjoin('marca AS m', 'm.id' , '=', 'im.id_marca')
@@ -270,17 +271,17 @@ class CadastroInicialController extends Controller
         $html.='<tr><td>Código Fabricante</td> <td><input type="numeric" name="ref_fab" id="ref_fab"></td></tr>';
         $html.='<tr><td>Unidade Medida </td> <td>'.getCombo($result10,'und_med', 0).'</td></tr>';
         $html.='<tr><td>Comprado</td><td><input type="checkbox" id="checkAdq" name="checkAdq" switch="bool" class="valCheck"/><label for="checkAdq" data-on-label="Sim" data-off-label="Não"></label></td>';
-       
+
         //dd($_REQUEST);
 
         if($_REQUEST['adquirido'] = 'true'){
-        
+
             $html.='<tr><td>Valor aquisição</td><td><input type="number" step="0.01" id="vlr_aqs" name="vlr_aqs" required></td></tr>';
             $html.='</table>';
             $html.='</div>';
         }
         else if ($_REQUEST['adquirido'] = 'false'){
-           
+
            $html.='</table>';
            $html.='</div>';
         }

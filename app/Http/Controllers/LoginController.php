@@ -72,7 +72,7 @@ class LoginController extends Controller
 
 
 
-               return view('dashboard/index');
+               return view('login/home');
                //$this->validaUserLogado();
             }
 

@@ -39,6 +39,8 @@ Route::get('/', 'LoginController@index');
 Route::post('/login/valida', 'LoginController@valida')->name('home.post');
 Route::get('/email/remessa-email', 'RecuperaSenhaController@index');
 Route::post('/email/remessa-email', 'RecuperaSenhaController@validar');
+Route::post('/login/home', 'LoginController@valida');
+
 
 //Route::view('/dashboard/index' , 'dashboard/index')->middleware('validaUsuario');
 

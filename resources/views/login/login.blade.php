@@ -15,7 +15,7 @@
                             <div class="p-3">
                                 <!-- <h4 class="text-muted font-size-18 mb-1 text-center">Welcome Back !</h4> -->
                                 <!-- <p class="text-muted text-center">Sign in to continue to Lexa.</p> -->
-                                <form method="POST" class="form-horizontal mt-4" action="/login/valida">
+                                <form method="POST" class="form-horizontal mt-4" action="/login/home">
                                     @csrf
 
                                     @if($errors->any())
@@ -33,7 +33,7 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                         @enderror
-                                       
+
                                     </div>
                                     <div class="form-group">
                                         <label for="userpassword">Senha</label>
