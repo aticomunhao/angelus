@@ -46,7 +46,7 @@
                         </select>
                     </div>
                     <div class="col">Observação:
-                            <input class="form-control" type="text" id="" name="obs" required="requiered" value="">
+                            <input class="form-control" type="text" id="" name="obs" value="{{$itemmat[0]->obs}}">
                     </div>
                 </div>
                 <br>
@@ -54,7 +54,14 @@
                     <div class="col-2">
                         <div class="form-group row">
                             <div class="col">Valor da venda:
-                            <input class="form-control" type="numeric" id="" name="valor" required="requiered" value="{{number_format($itemmat[0]->valor_venda,'2','.','')}}">
+                            <input class="form-control" type="numeric" id="" name="valor" value="{{number_format($itemmat[0]->valor_venda,'2','.','')}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group row">
+                            <div class="col">Ref fabricante:
+                            <input class="form-control" type="numeric" id="" name="ref_fab" value="{{number_format($itemmat[0]->ref_fab,'0','.','')}}">
                             </div>
                         </div>
                     </div>
@@ -110,7 +117,7 @@
                 <div class="row align-items-end" style="background:#fff;">
                     <div class="col">
                         <div class="form-group row">
-                            <div class="col">Genero:
+                            <div class="col">Sexo:
                                 <select class="form-control" id="" name="genero" >
                                     <option value="">Selecione</option>
                                    @foreach($genero as $generos)

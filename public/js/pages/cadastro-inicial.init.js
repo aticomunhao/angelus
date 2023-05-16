@@ -55,12 +55,40 @@ $(document).ready(function() {
 	                  	$(".select2").select2();
 	                  }
 	              	});
+
 	});
 
+	//$(document).on('change', '.compraCheck', function(){
+
+	
+	//	if($(this).attr("id") == "checkAdq" && $("#checkAdq").is(':checked') == true){
+		
+	//	}
+		
+	//	var comprado = $("#checkAdq").is(':checked');
+
+	//	var urls = "/combo/catForm/"+item_material;
+
+	//			jQuery.ajax({
+	//                  url: urls,
+	//                  method: 'get',
+	//                  data: {
+	 //                   comprado: $("#checkAdq").is(':checked')
+	  ///              	},
+	  //                success: function(result){
+	   //               	$("#DivComprado").html(result);
+		//				$(".select2").select2();
+	      //            }
+	        //      	});
+		
+		
+  	//});
+
+
+	
 	$(document).on('change', '.valCheck', function(){
 
-			//alert($("#checkAvariado").is(':checked'));
-			//var check = $(this).attr("id"));
+			
 
 		if($(this).attr("id") == "checkAvariado" && $("#checkAvariado").is(':checked') == true	){
 		 	$("#checkVal").prop('checked', false);
@@ -70,24 +98,10 @@ $(document).ready(function() {
 		 	$("#checkAvariado").prop('checked', false);
 		}
 
-		// if( $(this).attr("id") == 'checkVal' ){
-
-		//  	$("#checkAvariado").prop('checked', false);
-		//}
-
-		// if($("#checkAvariado").is(':checked') && ){
-
-		//  	$("#checkVal").prop('checked', false);
-		// }
-
-		//  if($("#checkVal").is(':checked') ){
-
-		//  	$("#checkAvariado").prop('checked', false);
-		//  }
-
-
+		
 
 		var item_material = $("#item_material").val();
+
 		var listaValor = $("#checkVal").is(':checked');
 
 		var avariado = $("#checkAvariado").is(':checked');

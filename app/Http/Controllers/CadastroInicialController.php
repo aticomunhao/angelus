@@ -133,7 +133,7 @@ class CadastroInicialController extends Controller
     {
 
         $itemmat = DB::table('item_material AS im')
-                        ->select('im.id', 'icm.nome AS nome', 'im.data_cadastro', 'im.valor_venda', 'im.id_tipo_situacao')
+                        ->select('im.id', 'icm.nome AS nome', 'im.observacao AS obs', 'im.ref_fabricante AS ref_fab', 'im.data_cadastro', 'im.valor_venda', 'im.id_tipo_situacao')
                         ->leftjoin('item_catalogo_material AS icm', 'im.id_item_catalogo_material', 'icm.id')
                         ->where('im.id',$id)
                         ->get();
@@ -185,7 +185,9 @@ class CadastroInicialController extends Controller
                 'id_tipo_material' => $request->input('tp_mat'),
                 'id_tp_genero' => $request->input('genero'),
                 'id_fase_etaria' => $request->input('etaria'),
+                'ref_fabricante' => $request->input('ref_fab'),
                 'data_validade' => $request->input('dt_validade'),
+
                 'adquirido' => $ativo,
         ]);
 
@@ -250,7 +252,7 @@ class CadastroInicialController extends Controller
         return $html;
     }
 
-    public function getFormCadastro($id){
+    public function getFormCadastro(Request $request, $id){
 
         $sql8 = "select d.id, d.nome||' / '||e.nome nome
                 from deposito d left join
@@ -270,6 +272,7 @@ class CadastroInicialController extends Controller
         $html.='<tr><td>Qtd Embalagem</td> <td><input type="text" name="qtdEmb" id="qtdEmb"></td></tr>';
         $html.='<tr><td>Código Fabricante</td> <td><input type="numeric" name="ref_fab" id="ref_fab"></td></tr>';
         $html.='<tr><td>Unidade Medida </td> <td>'.getCombo($result10,'und_med', 0).'</td></tr>';
+<<<<<<< Updated upstream
         $html.='<tr><td>Comprado</td><td><input type="checkbox" id="checkAdq" name="checkAdq" switch="bool" class="valCheck"/><label for="checkAdq" data-on-label="Sim" data-off-label="Não"></label></td>';
 
         //dd($_REQUEST);
@@ -282,6 +285,17 @@ class CadastroInicialController extends Controller
         }
         else if ($_REQUEST['adquirido'] = 'false'){
 
+=======
+        $html.='<tr><td>Comprado</td><td><input type="checkbox" id="checkAdq" name="checkAdq" switch="bool" class="compraCheck"/><label for="checkAdq" data-on-label="Sim" data-off-label="Não"></label></td>';
+       
+
+        if($_REQUEST['comprado'] = 'true'){
+        
+            $html.='<div id="DivComprado"><tr><td>Valor aquisição</td><td><input type="number" step="0.01" id="vlr_aqs" name="vlr_aqs" required></td></tr></div>';
+        }
+        else {
+           
+>>>>>>> Stashed changes
            $html.='</table>';
            $html.='</div>';
         }
@@ -297,7 +311,7 @@ class CadastroInicialController extends Controller
 
         $html='<div class="table-responsive">';
         $html.='<table class="table table-bordered table-striped mb-0">';
-        $html.='<tr><td>Lista valores <br><input type="checkbox" id="checkVal" name="checkVal" switch="bool"  checked class="valCheck" /><label for="checkVal" data-on-label="Sim" data-off-label="Não"></label></td>';
+        $html.='<tr><td>Lista valores <br><input type="checkbox" id="checkVal" name="checkVal" switch="bool" checked class="valCheck" /><label for="checkVal" data-on-label="Sim" data-off-label="Não"></label></td>';
         $html.='<td>Avariado<br><input type="checkbox" id="checkAvariado" name="checkAvariado" switch="bool" class="valCheck" /><label for="checkAvariado" data-on-label="Sim" data-off-label="Não"></label></td></tr>';
         $html.='<tr><td>Valor de Venda</td>
                 <td>
@@ -328,7 +342,7 @@ class CadastroInicialController extends Controller
             $result = DB::select($sql);
 
             $html ='<input type="radio" id="valor_minimo" name="valor_venda" value="'.$result[0]->valor_minimo.'">
-                    <label for="valor_minimo">Mínimo'.$result[0]->valor_minimo.'</label><br>
+                    <label for="valor_minimo">Mínimo R$'.$result[0]->valor_minimo.'</label><br>
                     <input type="radio" id="valor_medio" name="valor_venda" value="'.$result[0]->valor_medio.'">
                     <label for="valor_medio">Médio R$'.$result[0]->valor_medio.'</label><br>
                     <input type="radio" id="valor_maximo" name="valor_venda" value="'.$result[0]->valor_maximo.'">
