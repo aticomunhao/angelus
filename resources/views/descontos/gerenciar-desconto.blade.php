@@ -24,7 +24,7 @@
                                                 <th>CATEGORIA</th>
                                                 <th>DATA INÍCIO</th>
                                                 <th>DATA FIM</th>
-                                                <th>PORCENTAGEM</th>
+                                                <th>PERCENTUAL</th>
                                                 <th>ATIVO?</th>
                                                 <th>USUÁRIO</th>
                                                 <th>DATA REGISTRO</th>
@@ -39,7 +39,7 @@
                                                 <td>{{$results->nome1}}</td>
                                                 <td>{{$results->data_inicio}}</td>
                                                 <td>{{$results->data_fim}}</td>
-                                                <td>{{$results->porcentagem}} por cento</td>
+                                                <td>{{$results->percentual}}</td>
                                                 <td>{{$results->ativo ? 'Sim' : 'Não' }}</td>
                                                 <td>{{$results->nome2}}</td>
                                                 <td>{{$results->data_registro}}</td>

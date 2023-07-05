@@ -141,6 +141,9 @@
                         <li>
                             <a href="/gerenciar-desconto" class="waves-effect"><span>Gerenciar Descontos</span></a>
                         </li>
+                        <li>
+                            <a href="/gerenciar-devolucoes" class="waves-effect"><span>Gerenciar Devoluções</span></a>
+                        </li>
                     @endif
                     </ul>
                 </li>

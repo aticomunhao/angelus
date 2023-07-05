@@ -30,7 +30,7 @@
                             <div class="col-2">Porcentagem
                                 <select class="form-control select2" id="porcentagem" name="porcentagem">
                                 @foreach ($percent as $percents)
-                                    <option value="{{$percents}}">{{$percents}}% - Porcento</option>
+                                    <option value="{{$percents->valor}}">{{$percents->codigo}}</option>
                                 @endforeach
                                 </select>
                             </div>

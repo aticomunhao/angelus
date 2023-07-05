@@ -272,7 +272,6 @@ class CadastroInicialController extends Controller
         $html.='<tr><td>Qtd Embalagem</td> <td><input type="text" name="qtdEmb" id="qtdEmb"></td></tr>';
         $html.='<tr><td>Código Fabricante</td> <td><input type="numeric" name="ref_fab" id="ref_fab"></td></tr>';
         $html.='<tr><td>Unidade Medida </td> <td>'.getCombo($result10,'und_med', 0).'</td></tr>';
-<<<<<<< Updated upstream
         $html.='<tr><td>Comprado</td><td><input type="checkbox" id="checkAdq" name="checkAdq" switch="bool" class="valCheck"/><label for="checkAdq" data-on-label="Sim" data-off-label="Não"></label></td>';
 
         //dd($_REQUEST);
@@ -285,17 +284,6 @@ class CadastroInicialController extends Controller
         }
         else if ($_REQUEST['adquirido'] = 'false'){
 
-=======
-        $html.='<tr><td>Comprado</td><td><input type="checkbox" id="checkAdq" name="checkAdq" switch="bool" class="compraCheck"/><label for="checkAdq" data-on-label="Sim" data-off-label="Não"></label></td>';
-       
-
-        if($_REQUEST['comprado'] = 'true'){
-        
-            $html.='<div id="DivComprado"><tr><td>Valor aquisição</td><td><input type="number" step="0.01" id="vlr_aqs" name="vlr_aqs" required></td></tr></div>';
-        }
-        else {
-           
->>>>>>> Stashed changes
            $html.='</table>';
            $html.='</div>';
         }

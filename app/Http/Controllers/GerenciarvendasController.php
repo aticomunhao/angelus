@@ -51,11 +51,11 @@ class GerenciarVendasController extends Controller
         }
 
         if ($request->cliente){
-            $result->where('p.nome', '~*', "$request->cliente");
+            $result->where('p.nome', '~*', $request->cliente);
         }
 
         if ($request->id_venda){
-            $result->where('v.id', '=', "$request->id_venda");
+            $result->where('v.id', '=', $request->id_venda);
         }
 
         if ($request->data_inicio){

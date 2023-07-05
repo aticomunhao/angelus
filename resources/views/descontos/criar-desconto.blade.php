@@ -4,6 +4,7 @@
 
 @section('headerCss')
     <link href="{{ URL::asset('/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -26,33 +27,36 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-2">Porcentagem
+                            <div class="col-1">Percentual
                                 <select class="form-control select2" type="numeric" id="porcentagem" name="porcentagem">
                                 @foreach ($percent as $percents)
-                                    <option value="{{$percents}}">{{$percents}} Por cento</option>
+                                    <option value="{{$percents->valor}}">{{$percents->codigo}}</option>
                                 @endforeach
                                 </select>
                             </div>
-                            <div class="col-3">Data Cadastro - De
+                            <div class="col-2">Data Cadastro - De
 
-                                <input type="date" name='data_inicio' value="">
+                                <input style="height:65%;" type="date" name='data_inicio' value="">
                             </div>
 
-                            <div class="col-3">Data Cadastro - Até
+                            <div class="col-2">Data Cadastro - Até
 
-                                <input type="date" name='data_fim' value="">
+                                <input style="height:65%;" type="date" name='data_fim' value="">
                             </div>
 
                         </div>
                         <div class="form-group row">
 
-                            <div class="form-check form-check-inline">
+                            <!--<div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="ativo" id="" value="" >
                                 <label class="form-check-label" for="">Ativo</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="inativo" id="" value="" checked>
                                 <label class="form-check-label" for="">Inativo</label>
+                            </div>-->
+                            <div class="col-2 form-check"><br>
+                                <input type="checkbox"  data-toggle="toggle" data-on="Ativo" data-off="Inativo" data-onstyle="success" data-offstyle="danger" data-size="xs">
                             </div>
                             <div class="col-4">Usuário
                                 <input class="form-control" value="{{session()->get('usuario.id_usuario')}}" name="id_usuario" id="id_usuario" type="hidden">
@@ -87,6 +91,6 @@
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
             <script src="js/bootstrap.min.js"></script>
             <script src="jquery.bsAlerts.js"></script>
-
+            <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 @endsection
 

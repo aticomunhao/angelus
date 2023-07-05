@@ -17,7 +17,7 @@
                 </a>
                 <br><br><hr>
                 <h4 class="card-title">Lista de Pessoas</h4>
-                    <div class="row">
+                    <div class="form-group row">
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
