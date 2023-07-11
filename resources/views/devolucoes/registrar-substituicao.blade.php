@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') Registrar venda @endsection
+@section('title') Registrar Devolução @endsection
 
 @section('headerCss')
     <link href="{{ URL::asset('/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css" />
@@ -173,7 +173,7 @@
             </div>
         </div>
     </div>
-    @include('vendas/popUp-buscaritem')
+    @include('devolucoes/popUp-buscaritem')
 
     <!--
     **********************************************************************************************************************************
@@ -213,7 +213,7 @@
 
             <!-- Datatable init js -->
             <script src="{{ URL::asset('/js/pages/datatables.init.js')}}"></script>
-            <script src="{{ URL::asset('/js/pages/registrar-venda.init.js')}}"></script>
+            <script src="{{ URL::asset('/js/pages/registrar-devolucao.init.js')}}"></script>
 
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

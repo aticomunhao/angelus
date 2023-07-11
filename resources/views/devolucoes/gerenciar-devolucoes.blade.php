@@ -76,7 +76,7 @@
                             <a href="/gerenciar-devolucoes/excluir/{{$results->id}}" style="" >
                                 <button class="btn btn-danger btn-md"><i class="far fa-trash-alt"></i></button>
                             </a>
-                            <a href="/devolucao/substitutos/{{$results->id}}" style="" >
+                            <a href="/gerenciar-substitutos/{{$results->id}}" style="" >
                                 <button class="btn btn-info btn-md"><i class="fas fa-thumbs-up"></i></button>
                             </a>
                             <a href="/devolucao/recibo/{{$results->id}}" style="" >

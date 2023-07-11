@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                                 <br>
-                                <div class="container" id="divVendaItens">
+                                <div class="container" id="2">
                                     <div class="row">
                                         <div class="col col-lg-4" id="DivConfirmaItem">
                                             <!--
@@ -88,7 +88,7 @@
                                             -->
                                         </div>
                                         <div class="col">
-                                            <button type="button" id="btnAddLista" class="btn btn-outline-warning">Incluir na lista de compras</button>
+                                            <button type="button" id="1" class="btn btn-outline-warning">Incluir na lista de compras</button>
                                             <div id="divListaCompras" class="col">
 
                                                         <table class="table table-bordered" style="display: none;">
@@ -155,12 +155,12 @@
                                     </div>
                                 </div>
                                 <br/>
-                                <div class="container" id="divVendaBotoes">
+                                <div class="container" id="3">
                                     <div class="row">
                                         <div class="col-12 mt-3" style="text-align: right;">
-                                            <button id="btnCancVenda" type="button" class="btn btn-danger">Cancelar venda</button>
+                                            <button id="5" type="button" class="btn btn-danger">Cancelar venda</button>
                                             <!-- <button type="submit" class="btn btn-success">Salvar</button> -->
-                                            <a href="/gerenciar-vendas" id="btnConcVenda" type="button" class="btn btn-success">Salvar e concluir</a>
+                                            <a href="/gerenciar-vendas" id="4" type="button" class="btn btn-success">Salvar e concluir</a>
 
                                         </div>
                                     </div>

@@ -138,12 +138,12 @@ class GerenciarDevolucoesController extends Controller
 
     }
 
-    public function buscarItem($id){
+    public function vincular($id){
 
 
        $result = DB::select("select id, data, id_pessoa, id_usuario from devolucoes where id = $id ");
 
-       $trocar = DB::select("
+       $item = DB::select("
        select
            im.id as imat,
            ic.nome as nome_dev,
@@ -152,7 +152,7 @@ class GerenciarDevolucoesController extends Controller
        left join item_catalogo_material ic on (im.id_item_catalogo_material = ic.id)
        left join devolucoes d on (d.id_item_devolvido = im.id)
        where d.id = $id
-   ");
+        ");
 
         $substituto  = DB::select("
         select
@@ -169,13 +169,12 @@ class GerenciarDevolucoesController extends Controller
 
         //dd($resultDev);
 
-       return view('/devolucoes/listar-substitutos', compact('result', 'trocar', 'substituto'));
+       return view('/devolucoes/gerenciar-substitutos', compact('result', 'item', 'substituto'));
 
 
     }
 
-    public function getItem()
-    {
+    public function getItem($id){
 
 
        $item = DB::select("
@@ -196,13 +195,148 @@ class GerenciarDevolucoesController extends Controller
             left join tamanho t on (im.id_tamanho = t.id)
             left join cor c on (im.id_cor = c.id)
             left join tipo_material tm on (im.id_tipo_material = tm.id)
-            where im.id_tipo_situacao = 1
+            where im.id = $id and im.id_tipo_situacao = 1
         ");
         if ($item){
-             return view('devolucoes/incluir-substitutos', compact('item'));
+             return view('devolucoes/area-confirmacao', compact('item'));
         }
         return '<div class="alert alert-danger" role="alert">Nenhum registro encontrado!</div>';
     }
+
+     public function setItemLista($id_item, $id_dev){
+
+        DB::table('itens_substitutos')->insert([
+            'id_devolucao' => $id_dev,
+            'id_item_material' => $id_item,
+        ]);
+
+        $listaItemDev = $this->getListaDev($id_dev);
+
+        DB::table ('item_material')
+            ->where('id', $id_item)
+            ->update(['id_tipo_situacao' => 8]);
+
+        return view('devolucoes/gerenciar-substitutos', compact('listaItemDev'));
+     }
+
+
+     public function removeItemLista($id_item, $id_dev){
+        DB::table ('item_material')
+            ->where('id', $id_item)
+            ->update(['id_tipo_situacao' => 1]);
+
+        DB::table ('itens_substitutos')
+        ->where('id', $id_dev)
+        ->where('id_item_material', $id_item)
+        ->delete();
+        $listaItemDev = $this->getListaDev($id_dev);
+        return view('devolucoes/gerenciar-substitutos', compact('listaItemDev'));
+    }
+
+
+    public function cancelarDev($id_dev){
+        DB::table ('item_material')
+            ->whereRaw('id IN (select id_item_material from itens_substituidos where id_devolucao='.$id_dev.')')
+            ->update(['id_tipo_situacao' => 1]);
+
+        DB::table ('itens_substituidos')
+        ->where('id_devolucao', $id_dev)
+        ->delete();
+
+        $listaItemDev = $this->getListaDev($id_dev);
+        return view('devolucoes/gerenciar-devolucoes', compact('listaItemDev'));
+    }
+
+
+    public function concluirDev($id_dev, $vlr_total){
+        DB::table ('devolucoes')
+            ->where('id', $id_dev)
+            ->update(['status' => 2]);
+
+        $listaItemDev = $this->getListaDev(0);
+
+        return view('devolucoes/gerenciar-devolucoes', compact('listaItemDev'));
+
+    }
+
+
+    public function getListaDev($id_dev){
+
+         $result = DB::select("
+            select
+            ist.id_devolucao,
+            ic.nome nomemat,
+            ist.id_item_material,
+            1 as qtd
+            from itens_substitutos ist
+            left join item_material im on ist.id_item_material = im.id
+            left join item_catalogo_material ic on im.id_item_catalogo_material = ic.id
+            where id_venda =$id_dev");
+
+        return $result;
+     }
+
+     public function edit($id_dev){
+
+
+        $dev = DB::select ("
+        Select
+        d.id,
+        pe.cpf,
+        pe.nome as nomepes,
+        d.data
+        from devolucao d
+        left join pessoa pe on (pe.id = d.id_pessoa)
+        where d.id=$id_dev
+        ");
+
+        $item = DB::select ("
+        Select
+        vi.id_item_material,
+        im.valor_venda,
+        ic.nome
+        from devolucao d
+        left join itens_substitutos ist on (d.id = ist.id_devolucao)
+        left join item_material im on (im.id = ist.id_item_material)
+        left join item_catalogo_material ic on (ic.id = im.id_item_catalogo_material)
+        where v.id=$id_dev
+        ");
+
+
+        return view('devolucao/registrar-substituicao-editar', compact('dev', 'item'));
+
+     }
+
+     public function fimEdicao($id){
+
+        $dev = DB::select ("
+        Select
+        d.id,
+        pe.cpf,
+        pe.nome as nomepes,
+        d.data
+        from devolucao d
+        left join pessoa pe on (pe.id = v.id_pessoa)
+        where d.id=$id
+        ");
+
+
+        $total = DB::table ('devolucao AS d')
+            ->leftjoin('itens_substitutos AS ist', 'd.id', 'ist.id_devolucao')
+            ->leftjoin('item_material AS im', 'ist.id_item_material', 'im.id')
+            ->where('d.id','=', $id)
+            ->sum('im.valor_venda');
+
+
+        DB::table ('devolucao')
+            ->where('id', $id)
+            ->update(['status' => 2]);
+
+        return redirect()->action('GerenciarDevolucoesController@index');
+      
+
+    }
+
 
 
 }

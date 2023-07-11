@@ -228,29 +228,12 @@ Route::name('vendas')->middleware('validaUsuario')->group(function () {
 
 
   Route::get('/gerenciar-devolucoes', 'GerenciarDevolucoesController@index');
-  Route::get('/registrar-substituicao/buscaritem', 'GerenciarDevolucoesController@buscaritem');
   Route::get('/criar-devolucao', 'GerenciarDevolucoesController@store');
   Route::any('/incluir-devolucao/{id_p}/{id_venda}/{data}/{id_mat}', 'GerenciarDevolucoesController@create');
-
-
   
-  //Route::get('/devolucao/substituto/{id}', 'GerenciarDevolucoesController@getItem');
+  Route::get('/gerenciar-substitutos/{id}', 'GerenciarDevolucoesController@vincular');
+  Route::get('/substituicao/buscaritem', 'RegistrarVendaController@buscaritem');
   
-  Route::get('/incluir-substituto/{id}', 'RegistrarDevolucoesController@edit');
-  Route::get('/devolucao/substitutos/{id}', 'GerenciarDevolucoesController@buscarItem');
-
-
-  Route::get('/registrar-devolucao/setDevolucao/{id_pessoa}/{data_devolucao}/{id_usuario}', 'GerenciarDevolucoesController@setVenda');
-  Route::get('/gerenciar-devolucoes/excluir/{id}', 'GerenciarDevolucoesController@delete');
-  Route::get('/gerenciar-devolucoes/finalizar/{id}', 'GerenciarDevolucoesController@finalizar');
-  Route::get('/gerenciar-devolucoes/demonstrativo/{id}', 'GerenciarDevolucoesController@update');
-  Route::get('/gerenciar-devolucoes/demonstrativo/{id}', 'GerenciarDevolucoesController@imprimir');
-  Route::get('/registrar-devolucao/removeItemLista/{id_item}/{id_devolucao}', 'GerenciarDevolucoesController@removeItemLista');
-  Route::get('/registrar-devolucao/cancelarVenda/{id_devolucao}', 'GerenciarDevolucoesController@cancelarDevolucao');
-  Route::get('/registrar-devolucao/concluirVenda/{id_devolucao}/{vlr_total}', 'GerenciarDevolucoesController@concluirDevolucao');
-
-
-
 
 
 
