@@ -144,11 +144,11 @@ Route::get('/cad-embalagem/excluir/{id}', 'EmbalagemController@destroy')->middle
 Route::get('/cad-embalagem/alterar/{id}', 'EmbalagemController@edit')->middleware('validaUsuario');
 Route::put('/cad-embalagem/atualizar/{id}', 'EmbalagemController@update')->middleware('validaUsuario');
 
-Route::get('/cad-genero', 'GeneroController@index')->middleware('validaUsuario');
-Route::post('/cad-genero/inserir', 'GeneroController@store')->middleware('validaUsuario');
-Route::get('/cad-genero/excluir/{id}', 'GeneroController@destroy')->middleware('validaUsuario');
-Route::get('/cad-genero/alterar/{id}', 'GeneroController@edit')->middleware('validaUsuario');
-Route::put('/cad-genero/atualizar/{id}', 'GeneroController@update')->middleware('validaUsuario');
+Route::get('/cad-sexo', 'SexoController@index')->middleware('validaUsuario');
+Route::post('/cad-sexo/inserir', 'SexoController@store')->middleware('validaUsuario');
+Route::get('/cad-sexo/excluir/{id}', 'SexoController@destroy')->middleware('validaUsuario');
+Route::get('/cad-sexo/alterar/{id}', 'SexoController@edit')->middleware('validaUsuario');
+Route::put('/cad-sexo/atualizar/{id}', 'SexoController@update')->middleware('validaUsuario');
 
 Route::get('/cad-tipo-material', 'TipoMaterialController@index')->middleware('validaUsuario');
 Route::post('/cad-tipo-material/inserir', 'TipoMaterialController@store')->middleware('validaUsuario');

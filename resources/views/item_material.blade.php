@@ -26,7 +26,7 @@
         @foreach($itens as $p)
             <strong>
                 {!! DNS1D::getBarcodeSVG($p->id, 'C128', 2, 40)!!}</br>
-                {{$p->nome}} {{$p->observacao}}</br>
+                {{$p->nomei}}-{{$p->nomem}}-{{$p->observacao}}</br>
                 {{number_format($p->valor_venda, 2,',','.')}}
             </strong>
         @endforeach

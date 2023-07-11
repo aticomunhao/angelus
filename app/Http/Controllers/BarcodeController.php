@@ -15,13 +15,16 @@ class BarcodeController extends Controller
      //$itens = DB::table ('item_material')->get();
      $itens = DB::select ("
      select
-     m.id,
-     m.valor_venda,
-     c.nome,
-     m.observacao
-     from item_material m
-     left join item_catalogo_material c on (c.id = m.id_item_catalogo_material)
-     where m.id = $id");
+     im.id,
+     im.valor_venda,
+     c.nome as nomei,
+     im.observacao,
+     m.nome as nomem
+     from item_material im
+     left join item_catalogo_material c on (c.id = im.id_item_catalogo_material)
+     left join marca m on (im.id_marca = m.id)
+     
+     where im.id = $id");
      //return view ('item_material', ['item_material' => $itens]);
      return view ('item_material', compact('itens'));
     }

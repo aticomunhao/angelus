@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title')Cadastro de gênero  @endsection
+@section('title')Cadastro de sexo@endsection
 
 @section('content')
 
@@ -9,22 +9,22 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="card-title">Cadastro Genero</h4>
+                    <h4 class="card-title">Cadastro Sexo</h4>
                     <hr>
-                    <form class="form-horizontal mt-4" method="POST" action="/cad-genero/inserir">
+                    <form class="form-horizontal mt-4" method="POST" action="/cad-sexo/inserir">
                     @csrf
                     <div class="form-group">
                         <div class="row">
-                            <label for="genero" class="col-sm-2 col-form-label">Novo Genero</label>
+                            <label for="genero" class="col-sm-2 col-form-label">Novo Sexo</label>
                             <div class="col-sm-6">
-                                <input class="form-control" type="text" value="" id="genero" name="genero" required oninvalid="this.setCustomValidity('Campo requerido')">
+                                <input class="form-control" type="text" value="" id="sexo" name="sexo" required oninvalid="this.setCustomValidity('Campo requerido')">
                             </div>
                         </div>
 
                         <div class="row mt-3">
                             <label for="siglaGenero" class="col-sm-2 col-form-label">Sigla</label>
                             <div class="col-sm-6">
-                                <input class="form-control" type="text" maxlength="1" value="" id="siglaGenero" name="siglaGenero" required oninvalid="this.setCustomValidity('Campo requerido')">
+                                <input class="form-control" type="text" maxlength="1" value="" id="siglaSexo" name="siglaSexo" required oninvalid="this.setCustomValidity('Campo requerido')">
                             </div>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                         <button type="submit" class="btn btn-success">CADASTRAR</button>
                     </div>
                     <br>
-                    <h4 class="card-title">Lista de Generos</h4>
+                    <h4 class="card-title">Lista de Sexos</h4>
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -55,7 +55,7 @@
                                                 <td>{{$results->sigla}}</td>
                                                  <td>
                                                     <button type="button" value="{{$results->id}}" id="btnAlterarGenero" class="btn btn-warning waves-effect waves-light classBtnAlterar" data-toggle="modal" data-target=".bs-example-modal-lg">Alterar</button>
-                                                    <a href="/cad-genero/excluir/{{$results->id}}">
+                                                    <a href="/cad-sexo/excluir/{{$results->id}}">
                                                         <input class="btn btn-danger" type="button" value="Excluir">
                                                     </a>
                                                 </td>

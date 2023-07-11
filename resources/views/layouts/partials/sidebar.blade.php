@@ -103,7 +103,7 @@
                             <a href="/fase-etaria" class="waves-effect"><span>Fase Etária</span></a>
                         </li>
                         <li>
-                            <a href="/cad-genero" class="waves-effect"><span>Genero</span></a>
+                            <a href="/cad-sexo" class="waves-effect"><span>Sexo</span></a>
                         </li>
                         @if(!$perfil_vol)
                             <li>
