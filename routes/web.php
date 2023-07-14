@@ -96,10 +96,10 @@ Route::name('usuario')->middleware('validaUsuario')->group(function () {
   Route::get('/usuario/alterar/{id}', 'UsuarioController@edit');
   Route::put('usuario-atualizar/{id}', 'UsuarioController@update');
   Route::get('/usuario/gerar-Senha/{id}', 'UsuarioController@gerarSenha');
-  Route::get('/usuario/alterar-senha', 'UsuarioController@alteraSenha');
   Route::post('/usuario/gravaSenha', 'UsuarioController@gravaSenha');
-
 });
+Route::get('/usuario/alterar-senha', 'UsuarioController@alteraSenha');
+
 
 Route::get('gerenciar-item-catalogo', 'ItemCatalogoController@index')->middleware('validaUsuario');
 Route::get('item-catalogo-incluir', 'ItemCatalogoController@create')->middleware('validaUsuario');
