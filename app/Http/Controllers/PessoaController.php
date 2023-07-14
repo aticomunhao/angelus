@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\ModelGenero;
+use App\Models\ModelSexo;
 use App\Models\ModelPessoa;
 use App\Models\ModelEntidade;
 use Illuminate\Support\Facades\Http;
@@ -13,11 +13,11 @@ use Illuminate\Support\Arr;
 class PessoaController extends Controller
 {
 
-    private $objGenero;
+    private $objSexo;
     private $objPessoa;
 
     public function __construct(){
-        $this->objGenero = new ModelGenero();
+        $this->objSexo = new ModelSexo();
         $this->objPessoa = new ModelPessoa();
     }
 
@@ -36,7 +36,7 @@ class PessoaController extends Controller
 
         $resultEntidade = DB::select("select id, nome_fantasia||' - '||cnpj nome  from entidade");
 
-        $result= $this->objGenero->all();
+        $result= $this->objSexo->all();
         return view('/pessoa/cad-pessoa',['result'=>$result, 'resultEntidade'=> $resultEntidade]);
     }
 
@@ -78,7 +78,7 @@ class PessoaController extends Controller
             'identidade' => $request->input('identidade'),
             'cpf' => preg_replace("/[^0-9]/", "", $request->input('cpf')),
             'email' => $request->input('email'),
-            'id_genero' => $request->input('genero'),
+            'id_sexo' => $request->input('sexo'),
             'data_nascimento' => $request->input('dt_nascimento'),
             'id_entidade' => $request->input('entidade'),
             'celular' => preg_replace("/[^0-9]/", "", $request->input('celular')),
@@ -121,10 +121,10 @@ class PessoaController extends Controller
     public function edit($id)
     {
         $result =DB::table('pessoa')->where('id',$id)->get();
-        $resultGenero= $this->objGenero->all();
+        $resultSexo= $this->objSexo->all();
         $resultEntidade = DB::select("select id, nome_fantasia||' - '||cnpj nome  from entidade");
 
-        return view('/pessoa/edit-pessoa',compact('result','resultGenero','resultEntidade'));
+        return view('/pessoa/edit-pessoa',compact('result','resultSexo','resultEntidade'));
     }
 
     public function update(Request $request, $id)
@@ -136,7 +136,7 @@ class PessoaController extends Controller
             'identidade' => $request->input('identidade'),
             'cpf' => $request->input('cpf'),
             'email' =>$request->input('email'),
-            'id_genero' => $request->input('genero'),
+            'id_sexo' => $request->input('sexo'),
             'data_nascimento' => $request->input('dt_nascimento'),
             'id_entidade' => $request->input('entidade'),
             'celular' => $request->input('celular'),

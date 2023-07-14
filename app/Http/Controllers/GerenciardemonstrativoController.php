@@ -37,7 +37,7 @@ class GerenciardemonstrativoController extends Controller{
         ic.nome as nomemat,
         mr.nome as marca,
         c.nome as cor,
-        tg.nome as genero,
+        tg.nome as sexo,
         im.valor_venda
         from venda v
         left join pagamento p on (v.id = p.id_venda)
@@ -46,7 +46,7 @@ class GerenciardemonstrativoController extends Controller{
         left join item_catalogo_material ic on (ic.id = im.id_item_catalogo_material)
         left join marca mr on (im.id_marca = mr.id)
         left join cor c on (c.id = im.id_cor)
-        left join tipo_genero tg on (tg.id = im.id_tp_genero)
+        left join tipo_sexo tg on (tg.id = im.id_tp_sexo)
         where v.id=$id
         ");
 

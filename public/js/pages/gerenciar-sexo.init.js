@@ -9,13 +9,13 @@ $(document).ready(function() {
    	$(".classBtnAlterar").click(function(){
 
    		$("#divFormAlterar").html('<img src="/images/loader.gif"  width="50px" />');
-   		var idGenero = $(this).val();
+   		var idSexo = $(this).val();
    		jQuery.ajax({
-	                  url: "/cad-genero/alterar/"+idGenero,
+	                  url: "/cad-sexo/alterar/"+idSexo,
 	                  method: 'get',
 	                  success: function(result){
 	                  	$("#divFormAlterar").html(result);
-	                  	$("#title-alterar").html("Alteração de Genero");
+	                  	$("#title-alterar").html("Alteração de Sexo");
 	                  	$(".select2").select2();	                  	
 	                  }
 	              	});

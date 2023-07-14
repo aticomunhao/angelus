@@ -156,7 +156,7 @@ class CadastroInicialController extends Controller
                         ->select('tp.id AS id', 'tp.nome')
                         ->get();
 
-        $genero = DB::table('tipo_genero AS g')
+        $sexo = DB::table('tipo_sexo AS g')
                         ->select('g.id AS id', 'g.nome')
                         ->get();
 
@@ -166,7 +166,7 @@ class CadastroInicialController extends Controller
 
         //dd($request);
 
-        return view ('cadastroinicial/editar-cadastro-inicial', compact('result', 'itemmat', 'nomeitem', 'tipo','genero', 'etaria' ));
+        return view ('cadastroinicial/editar-cadastro-inicial', compact('result', 'itemmat', 'nomeitem', 'tipo','sexo', 'etaria' ));
     }
 
     public function update (Request $request, $id)
@@ -183,7 +183,7 @@ class CadastroInicialController extends Controller
                 'id_marca' => $request->input('marca'),
                 'id_cor' => $request->input('cor'),
                 'id_tipo_material' => $request->input('tp_mat'),
-                'id_tp_genero' => $request->input('genero'),
+                'id_tp_sexo' => $request->input('sexo'),
                 'id_fase_etaria' => $request->input('etaria'),
                 'ref_fabricante' => $request->input('ref_fab'),
                 'data_validade' => $request->input('dt_validade'),
@@ -235,7 +235,7 @@ class CadastroInicialController extends Controller
         $sql6 = "Select id, nome from fase_etaria where id_categoria_material = $idCat";
         $result6 = DB::select($sql6);
 
-        $sql7 = "Select id, nome from tipo_genero";
+        $sql7 = "Select id, nome from tipo_sexo";
         $result7 = DB::select($sql7);
 
         $html.='<div class="table-responsive">';
@@ -245,7 +245,7 @@ class CadastroInicialController extends Controller
         $html.='<tr><td>Cor</td> <td>'.getCombo($result4,'cor', 0).'</td></tr>';
         $html.='<tr><td>Tipo Material</td> <td>'.getCombo($result5,'tp_mat', 0).'</td></tr>';
         $html.='<tr><td>Fase Etária</td> <td>'.getCombo($result6,'fase_etaria', 0).'</td></tr>';
-        $html.='<tr><td>Sexo</td> <td>'.getCombo($result7,'genero', 0).'</td></tr>';
+        $html.='<tr><td>Sexo</td> <td>'.getCombo($result7,'sexo', 0).'</td></tr>';
         $html.='</table>';
         $html.='</div>';
 
@@ -278,7 +278,7 @@ class CadastroInicialController extends Controller
 
         if($_REQUEST['adquirido'] = 'true'){
 
-            $html.='<tr><td>Valor aquisição</td><td><input type="number" step="0.01" id="vlr_aqs" name="vlr_aqs" required></td></tr>';
+            $html.='<tr><td>Valor aquisição</td><td><input value="0.00" type="number" step="0.01" id="vlr_aqs" name="vlr_aqs" required></td></tr>';
             $html.='</table>';
             $html.='</div>';
         }
@@ -428,7 +428,7 @@ class CadastroInicialController extends Controller
             'id_cor' => $request->input('cor'),
             'id_tipo_material' => $request->input('tp_mat'),
             'id_fase_etaria' => $request->input('fase_etaria'),
-            'id_tp_genero' => $request->input('genero'),
+            'id_tp_sexo' => $request->input('sexo'),
             'id_deposito' => $request->input('deposito'),
             'valor_aquisicao' => $request->input ('vlr_aqs'),
             'ref_fabricante' => $request->input ('ref_fab'),

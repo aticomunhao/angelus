@@ -33,7 +33,7 @@
                         <div class="col-2">Categoria:
                             <select class="form-control" id="" name="categoria" ><option value="">Todos</option>
                             @Foreach($resultCat as $resultCats)
-                                <option value="{{$resultCats->id}}" {{$resultCats->id == $categoria ? 'selected' : ''}}>{{$resultCats->nome}}</option>
+                                <option value="{{$resultCats->id}}" {{$resultCats->id == $categoria ? 'selected': ''}}>{{$resultCats->nome}}</option>
                             @endForeach
                             </select>
                         </div>

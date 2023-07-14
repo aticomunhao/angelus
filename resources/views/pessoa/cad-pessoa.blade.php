@@ -37,8 +37,8 @@
                                 </span>
                                 @enderror
                             </div>
-                            <div class="col">GÊNERO*
-                                <select class="form-control select2" required="required"  id="genero" name="genero">
+                            <div class="col">SEXO*
+                                <select class="form-control select2" required="required"  id="sexo" name="sexo">
                                     <option value="">Selecione</option>
                                     @foreach($result as $results)
                                     <option value="{{$results->id}}">{{$results->nome}}</option>

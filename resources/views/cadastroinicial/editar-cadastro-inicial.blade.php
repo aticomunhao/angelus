@@ -118,10 +118,10 @@
                     <div class="col">
                         <div class="form-group row">
                             <div class="col">Sexo:
-                                <select class="form-control" id="" name="genero" >
+                                <select class="form-control" id="" name="sexo" >
                                     <option value="">Selecione</option>
-                                   @foreach($genero as $generos)
-                                    <option value="{{$generos->id}}">{{$generos->nome}}</option>
+                                   @foreach($sexo as $sexos)
+                                    <option value="{{$sexos->id}}">{{$sexos->nome}}</option>
                                     @endforeach
                                 </select>
                             </div>

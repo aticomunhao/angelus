@@ -35,12 +35,12 @@
                                 <input class="form-control" type="date" value="{{$result[0]->data_nascimento}}" id="dt_nascimento" name="dt_nascimento">
                             </div>
                             <div class="col-2">Gênero
-                                <select class="form-control select2"  id="genero" name="genero">
-                                    @foreach($resultGenero as $resultGeneros)
-                                        @if($result[0]->id_genero == $resultGeneros->id)
-                                            <option value="{{$resultGeneros->id}}" selected="s">{{$resultGeneros->nome}}</option>
+                                <select class="form-control select2"  id="sexo" name="sexo">
+                                    @foreach($resultSexo as $resultSexos)
+                                        @if($result[0]->id_sexo == $resultSexos->id)
+                                            <option value="{{$resultSexos->id}}" selected="s">{{$resultSexos->nome}}</option>
                                         @else
-                                            <option value="{{$resultGeneros->id}}">{{$resultGeneros->nome}}</option>
+                                            <option value="{{$resultSexos->id}}">{{$resultSexos->nome}}</option>
                                         @endif
                                     @endforeach
                                 </select>

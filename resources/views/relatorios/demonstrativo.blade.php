@@ -93,7 +93,7 @@
                         <td>{{$ic->nomemat}}</td>
                         <td>{{$ic->marca}}</td>
                         <td>{{$ic->cor}}</td>
-                        <td>{{$ic->genero}}</td>
+                        <td>{{$ic->sexo}}</td>
                         <td>{{number_format($ic->desconto,2,',','.')}}</td>
                         <td>{{number_format($ic->valor_venda,2,',','.')}}</td>
                     </tr>

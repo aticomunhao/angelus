@@ -15,14 +15,14 @@
                     @csrf
                     <div class="form-group">
                         <div class="row">
-                            <label for="genero" class="col-sm-2 col-form-label">Novo Sexo</label>
+                            <label for="sexo" class="col-sm-2 col-form-label">Novo Sexo</label>
                             <div class="col-sm-6">
                                 <input class="form-control" type="text" value="" id="sexo" name="sexo" required oninvalid="this.setCustomValidity('Campo requerido')">
                             </div>
                         </div>
 
                         <div class="row mt-3">
-                            <label for="siglaGenero" class="col-sm-2 col-form-label">Sigla</label>
+                            <label for="siglaSexo" class="col-sm-2 col-form-label">Sigla</label>
                             <div class="col-sm-6">
                                 <input class="form-control" type="text" maxlength="1" value="" id="siglaSexo" name="siglaSexo" required oninvalid="this.setCustomValidity('Campo requerido')">
                             </div>
@@ -54,7 +54,7 @@
                                                 <td>{{$results->nome}}</td>
                                                 <td>{{$results->sigla}}</td>
                                                  <td>
-                                                    <button type="button" value="{{$results->id}}" id="btnAlterarGenero" class="btn btn-warning waves-effect waves-light classBtnAlterar" data-toggle="modal" data-target=".bs-example-modal-lg">Alterar</button>
+                                                    <button type="button" value="{{$results->id}}" id="btnAlterarSexo" class="btn btn-warning waves-effect waves-light classBtnAlterar" data-toggle="modal" data-target=".bs-example-modal-lg">Alterar</button>
                                                     <a href="/cad-sexo/excluir/{{$results->id}}">
                                                         <input class="btn btn-danger" type="button" value="Excluir">
                                                     </a>
@@ -82,5 +82,5 @@
 
             <!-- Datatable init js -->
             <script src="{{ URL::asset('/js/pages/datatables.init.js')}}"></script>
-            <script src="{{ URL::asset('/js/pages/gerenciar-genero.init.js')}}"></script>
+            <script src="{{ URL::asset('/js/pages/gerenciar-sexo.init.js')}}"></script>
 @endsection
