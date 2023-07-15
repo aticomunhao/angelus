@@ -88,7 +88,7 @@
                                             -->
                                         </div>
                                         <div class="col">
-                                            <button type="button" id="1" class="btn btn-outline-warning">Incluir na lista de compras</button>
+                                            <button type="button" id="btnAddLista" class="btn btn-outline-warning">Incluir na lista de compras</button>
                                             <div id="divListaCompras" class="col">
 
                                                         <table class="table table-bordered" style="display: none;">

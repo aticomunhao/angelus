@@ -50,7 +50,6 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-
                                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
@@ -93,7 +92,9 @@
             <script src="{{ URL::asset('/libs/jszip/jszip.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/pdfmake/pdfmake.min.js')}}"></script>
 
+
             <!-- Datatable init js -->
             <script src="{{ URL::asset('/js/pages/datatables.init.js')}}"></script>
+
             <script src="{{ URL::asset('/js/pages/gerenciar-marca.init.js')}}"></script>
 @endsection

@@ -96,8 +96,9 @@ Route::name('usuario')->middleware('validaUsuario')->group(function () {
   Route::get('/usuario/alterar/{id}', 'UsuarioController@edit');
   Route::put('usuario-atualizar/{id}', 'UsuarioController@update');
   Route::get('/usuario/gerar-Senha/{id}', 'UsuarioController@gerarSenha');
-  Route::post('/usuario/gravaSenha', 'UsuarioController@gravaSenha');
+  
 });
+Route::post('/usuario/gravaSenha', 'UsuarioController@gravaSenha');
 Route::get('/usuario/alterar-senha', 'UsuarioController@alteraSenha');
 
 
@@ -230,9 +231,8 @@ Route::name('vendas')->middleware('validaUsuario')->group(function () {
   Route::get('/gerenciar-devolucoes', 'GerenciarDevolucoesController@index');
   Route::get('/criar-devolucao', 'GerenciarDevolucoesController@store');
   Route::any('/incluir-devolucao/{id_p}/{id_venda}/{data}/{id_mat}', 'GerenciarDevolucoesController@create');
-  
   Route::get('/gerenciar-substitutos/{id}', 'GerenciarDevolucoesController@vincular');
-  Route::get('/substituicao/buscaritem', 'RegistrarVendaController@buscaritem');
+  Route::get('/substituicao/buscaritem', 'GerenciarDevolucoesController@buscaritem');
   
 
 

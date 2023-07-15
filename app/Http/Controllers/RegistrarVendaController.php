@@ -12,9 +12,13 @@ use App\Http\Controllers\PessoaController;
 
 class RegistrarVendaController extends Controller
 {
+
+    private $objVendas;
+    private $objPessoa;
+
     public function __construct(){
         $this->objVendas = new ModelVendas();
-        $this->objPessoas = new ModelPessoa();
+        $this->objPessoa = new ModelPessoa();
     }
 
     private function getListaPessoaAll(){
@@ -159,6 +163,7 @@ class RegistrarVendaController extends Controller
         DB::table ('item_material')
             ->where('id', $id_item)
             ->update(['id_tipo_situacao' => 2]);
+        
 
         return view('vendas/lista-compras', compact('listaItemVenda'));
      }

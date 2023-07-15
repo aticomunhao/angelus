@@ -96,8 +96,8 @@
             <!-- footerScript -->
              @yield('footerScript')
 
-            <!-- App js -->
-            <script src="{{ URL::asset('/js/app.min.js')}}"></script>
+            <!-- App js 
+            <script src="{{ URL::asset('/js/app.min.js')}}"></script> -->
 </body>
 
 </html>
