@@ -47,7 +47,8 @@ class RegistrarVendaController extends Controller
                 tm.nome tipo_material,
                 im.valor_venda,
                 im.valor_venda_promocional,
-                im.liberacao_venda
+                im.liberacao_venda,
+                im.observacao
             from item_material im
             left join item_catalogo_material ic on (im.id_item_catalogo_material = ic.id)
             left join marca m on (im.id_marca = m.id)
@@ -118,7 +119,8 @@ class RegistrarVendaController extends Controller
                 tm.nome tipo_material,
                 im.valor_venda,
                 im.valor_venda_promocional,
-                im.liberacao_venda
+                im.liberacao_venda,
+                im.observacao
             from item_material im
             left join item_catalogo_material ic on (im.id_item_catalogo_material = ic.id)
             left join marca m on (im.id_marca = m.id)
