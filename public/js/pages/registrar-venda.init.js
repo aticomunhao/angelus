@@ -37,8 +37,8 @@ $(document).ready(function() {
   $("#btnbuscaitem").click(function(){
 
     $("#dialogBuscaItem").dialog({
-      width:700,
-      height:400
+      width:800,
+      height:500
     });
     $("#divBuscaritem").html('<img src="/images/loading02.gif" width="50px"><span>&nbsp;Carregando...</span>');
 

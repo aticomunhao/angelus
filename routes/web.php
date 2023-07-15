@@ -211,8 +211,9 @@ Route::name('vendas')->middleware('validaUsuario')->group(function () {
   Route::get('/gerenciar-vendas/finalizar/{id}', 'GerenciarvendasController@finalizar')->name('finalizarvenda.update');
   Route::get('/gerenciar-vendas/demonstrativo/{id}', 'GerenciarvendasController@update');
   Route::get('/gerenciar-vendas/demonstrativo/{id}', 'GerenciarvendasController@imprimir');
-
-
+  
+  Route::get('/cad-sit-venda', 'SituacaovendaController@index');
+});
 
   Route::get('/registrar-venda-editar/{id_venda}', 'RegistrarVendaController@edit');
   Route::get('/registrar-venda-fimedicao/{id}', 'RegistrarVendaController@fimEdicao');
@@ -225,7 +226,6 @@ Route::name('vendas')->middleware('validaUsuario')->group(function () {
   Route::get('/registrar-venda/cancelarVenda/{id_venda}', 'RegistrarVendaController@cancelarVenda');
   Route::get('/registrar-venda/concluirVenda/{id_venda}/{vlr_total}', 'RegistrarVendaController@concluirVenda');
 
-  Route::get('/cad-sit-venda', 'SituacaovendaController@index');
 
 
   Route::get('/gerenciar-devolucoes', 'GerenciarDevolucoesController@index');
@@ -237,7 +237,7 @@ Route::name('vendas')->middleware('validaUsuario')->group(function () {
 
 
 
-});
+
 
 Route::name('pagamentos')->middleware('validaUsuario')->group(function (){
   Route::get('/gerenciar-pagamentos/{id}', 'GerenciarpagamentoController@show')->name('pagamento.show');
