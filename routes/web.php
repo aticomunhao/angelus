@@ -240,17 +240,23 @@ Route::name('vendas')->middleware('validaUsuario')->group(function () {
 
 
 Route::name('pagamentos')->middleware('validaUsuario')->group(function (){
+
+});
+
+
   Route::get('/gerenciar-pagamentos/{id}', 'GerenciarpagamentoController@show')->name('pagamento.show');
   Route::post('/gerenciar-pagamentos/{id}', 'GerenciarpagamentoController@inserir')->middleware('validaUsuario');
   Route::delete('/gerenciar-pagamentos/{id}', 'GerenciarpagamentoController@destroy')->middleware('validaUsuario');
   Route::get('/alerta-pagamento', 'GerenciarpagamentoController@inserir');
 
-  Route::get('/cad-pagamento', 'TipoPagamentoController@index')->middleware('validaUsuario');
-  Route::post('/cad-pagamento/inserir', 'TipoPagamentoController@store')->middleware('validaUsuario');
-  Route::get('/cad-pagamento/excluir/{id}', 'TipoPagamentoController@destroy')->middleware('validaUsuario');
-  Route::get('/cad-pagamento/alterar/{id}', 'TipoPagamentoController@edit')->middleware('validaUsuario');
-  Route::put('/cad-pagamento/atualizar/{id}', 'TipoPagamentoController@update')->middleware('validaUsuario');
-});
+
+
+
+Route::get('/cad-pagamento', 'TipoPagamentoController@index')->middleware('validaUsuario');
+Route::post('/cad-pagamento/inserir', 'TipoPagamentoController@store')->middleware('validaUsuario');
+Route::get('/cad-pagamento/excluir/{id}', 'TipoPagamentoController@destroy')->middleware('validaUsuario');
+Route::get('/cad-pagamento/alterar/{id}', 'TipoPagamentoController@edit')->middleware('validaUsuario');
+Route::put('/cad-pagamento/atualizar/{id}', 'TipoPagamentoController@update')->middleware('validaUsuario');
 
 Route::name('relatorios')->middleware('validaUsuario')->group(function (){
   Route::get('/demonstrativo/{id}', 'GerenciardemonstrativoController@index')->middleware('validaUsuario');
