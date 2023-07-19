@@ -70,7 +70,7 @@
                         <div class="form-group row">
                             <div class="col">Tamanho:
                                 <select class="form-control" id="" name="tamanho" >
-                                    <option value="">Selecione</option>
+                                    <option value="{{($itemlista[0]->id_tam)}}">{{$itemlista[0]->n3}}</option>
                                     @foreach($tamanho as $tamanhos)
                                     <option value="{{$tamanhos->id_tam}}">{{$tamanhos->n3}}</option>
                                     @endforeach
@@ -82,7 +82,7 @@
                         <div class="form-group row">
                             <div class="col">Marca:
                                 <select class="form-control" id="" name="marca" >
-                                    <option value="">Selecione</option>
+                                    <option value="{{($itemlista[0]->id_marca)}}">{{$itemlista[0]->n2}}</option>
                                     @foreach($marca as $marcas)
                                     <option value="{{$marcas->id_marca}}">{{$marcas->n2}}</option>
                                     @endforeach
@@ -93,8 +93,8 @@
                     <div class="col">
                         <div class="form-group row">
                             <div class="col">Cor:
-                                <select class="form-control" id="" name="cor" >
-                                    <option value="">Selecione</option>
+                                <select class="form-control" id="" name="cor">
+                                    <option value="{{($itemlista[0]->id_cor)}}">{{$itemlista[0]->n4}}</option>
                                     @foreach($cor as $cors)
                                     <option value="{{$cors->id_cor}}">{{$cors->n4}}</option>
                                     @endforeach
@@ -106,7 +106,7 @@
                         <div class="form-group row">
                             <div class="col">Tipo material:
                                 <select class="form-control" id="" name="tp_mat" >
-                                    <option value="">Selecione</option>
+                                    <option value="{{($itemlista[0]->id_cor)}}">{{$itemlista[0]->n4}}</option>
                                     @foreach($tipo as $tipos)
                                     <option value="{{$tipos->id}}">{{$tipos->nome}}</option>
                                     @endforeach
@@ -120,7 +120,7 @@
                         <div class="form-group row">
                             <div class="col">Sexo:
                                 <select class="form-control" id="" name="sexo" >
-                                    <option value="">Selecione</option>
+                                    <option value="{{($itemlista[0]->id_sexo)}}">{{$itemlista[0]->n5}}</option>
                                    @foreach($sexo as $sexos)
                                     <option value="{{$sexos->id}}">{{$sexos->nome}}</option>
                                     @endforeach
@@ -132,7 +132,7 @@
                         <div class="form-group row">
                             <div class="col">Fase etária:
                                 <select class="form-control" id="" name="etaria" >
-                                    <option value="">Selecione</option>
+                                    <option value="{{($itemlista[0]->fase_e)}}">{{$itemlista[0]->n6}}</option>
                                    @foreach($etaria as $etarias)
                                     <option value="{{$etarias->id}}">{{$etarias->nome}}</option>
                                     @endforeach
