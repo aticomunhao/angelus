@@ -38,15 +38,15 @@ class RelatoriosController extends Controller
 
         if ($request->data_inicio){
 
-        $rela->where('venda.data','>' , $request->data_inicio);
-        $relb->where('venda.data','>' , $request->data_inicio);
+        $rela->where('venda.data','>=' , $request->data_inicio);
+        $relb->where('venda.data','>=' , $request->data_inicio);
 
         }
 
         if ($request->data_fim){
 
-            $rela->where('venda.data','<' , $request->data_fim);
-            $relb->where('venda.data','<' , $request->data_fim);
+            $rela->where('venda.data','<=' , $request->data_fim);
+            $relb->where('venda.data','<=' , $request->data_fim);
         }
 
         $rela = $rela->get();

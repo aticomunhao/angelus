@@ -193,7 +193,7 @@ Route::get('/usuario-logado', 'CadastroInicialController@search');
 Route::get('/gerenciar-cadastro-inicial', 'CadastroInicialController@index')->name('cadastroinicial.index');
 Route::get('/gerenciar-cadastro-inicial/incluir', 'CadastroInicialController@create')->middleware('validaUsuario');
 Route::get('/gerenciar-cadastro-inicial/excluir/{id}', 'CadastroInicialController@destroy')->middleware('validaUsuario');
-Route::get('/editar-cadastro-inicial/{id}', 'CadastroInicialController@formEditar')->middleware('validaUsuario');
+Route::get('/editar-cadastro-inicial/{id}/{id_cat}', 'CadastroInicialController@formEditar')->middleware('validaUsuario');
 Route::put('/gerenciar-cadastro-inicial/alterar/{id}', 'CadastroInicialController@update')->middleware('validaUsuario');
 
 Route::get('/combo/tamanho/{id}', 'CadastroInicialController@getTamanho')->middleware('validaUsuario');

@@ -88,11 +88,11 @@
                                         <td>{{number_format($results->valor_venda,2,',','.')}}</td>
                                         <td>
                                             @if ($results->id_tipo_situacao == 2)
-                                            <a href="/editar-cadastro-inicial/{{$results->id}}"><input class="btn btn-warning btn-sm" type="button" value="Alterar" disabled="true"></a>
+                                            <a href="/editar-cadastro-inicial/{{$results->id}}/{{$results->id_cat}}"><input class="btn btn-warning btn-sm" type="button" value="Alterar" disabled="true"></a>
                                             <a href="/gerenciar-cadastro-inicial/excluir/{{$results->id}}"><input class="btn btn-danger btn-sm" type="button" value="Excluir" disabled="true"></a>
                                             <a href="/item_material/{{$results->id}}"><input class="btn btn-info btn-sm" type="button" value="Cód Barras" disabled="true"></a>
                                             @else
-                                            <a href="/editar-cadastro-inicial/{{$results->id}}"><input class="btn btn-warning btn-sm" type="button" value="Alterar"></a>
+                                            <a href="/editar-cadastro-inicial/{{$results->id}}/{{$results->id_cat}}"><input class="btn btn-warning btn-sm" type="button" value="Alterar"></a>
                                             <a href="/gerenciar-cadastro-inicial/excluir/{{$results->id}}"><input class="btn btn-danger btn-sm" type="button" value="Excluir"></a>
                                             <a href="/item_material/{{$results->id}}"><input class="btn btn-info btn-sm" type="button" value="Cód Barras"></a>
                                             @endif

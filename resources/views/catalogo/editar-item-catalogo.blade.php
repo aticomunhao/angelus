@@ -41,33 +41,33 @@
                         <div class="form-group row">
                             <label for="val_minimo" class="col-sm-2 col-form-label">Valor Minimo*</label>
                             <div class="col">
-                                <input class="form-control" type="text" id="val_minimo" name="val_minimo" required="required" value="{{$result[0]->valor_minimo}}">
+                                <input class="form-control" type="text" id="val_minimo" name="val_minimo" required="required" value="{{number_format($result[0]->valor_minimo, 2, ".", ".")}}">
                             </div>
                             <label for="val_medio" class="col-sm-2 col-form-label">Valor Médio*</label>
                             <div class="col">
-                                <input class="form-control" type="text" id="val_medio" name="val_medio" required="required" value="{{$result[0]->valor_medio}}">
+                                <input class="form-control" type="text" id="val_medio" name="val_medio" required="required" value="{{number_format($result[0]->valor_medio, 2, ".", ".")}}">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="val_maximo" class="col-sm-2 col-form-label">Valor Máximo*</label>
                             <div class="col">
-                                <input class="form-control" type="text" id="val_maximo" name="val_maximo" required="required" value="{{$result[0]->valor_maximo}}">
+                                <input class="form-control" type="text" id="val_maximo" name="val_maximo" required="required" value="{{number_format($result[0]->valor_maximo, 2, ".", ".")}}">
                             </div>
                             <label for="val_marca" class="col-sm-2 col-form-label">Valor Marca*</label>
                             <div class="col">
-                                <input class="form-control" type="text" id="val_marca" name="val_marca" required="required" value="{{$result[0]->valor_marca}}">
+                                <input class="form-control" type="text" id="val_marca" name="val_marca" required="required" value="{{number_format($result[0]->valor_marca, 2, ".", ".")}}">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="val_etiqueta" class="col-sm-2 col-form-label">Valor Etiqueta*</label>
                             <div class="col">
-                                <input class="form-control" type="text" id="val_eitqueta" name="val_etiqueta" required="required" value="{{$result[0]->valor_etiqueta}}">
+                                <input class="form-control" type="text" id="val_eitqueta" name="val_etiqueta" required="required" value="{{number_format($result[0]->valor_etiqueta, 2, ".", ".")}}">
                             </div>
                             <label for="composicao" class="col-sm-2 col-form-label" >Item Composição</label>
                             <div class="col">
-                                <input  type="checkbox"  id="composicao" name="composicao" {{ $result[0]->composicao ? 'checked' : '' }}>
+                                <input  type="checkbox"  id="composicao" name="composicao" {{$result[0]->composicao ? 'checked' : '' }}>
                             </div>
                         </div>
 

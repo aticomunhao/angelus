@@ -15,10 +15,10 @@
                 <h4 class="card-title" style="color:blue">ALTERAR CADASTRO INICIAL</h4>
                 <div class="form-group row">
                     <div class="col-2">Código:
-                        <input class="form-control text-center" type="text" id="" name="id_item" required="required" value="{{number_format($itemmat[0]->id,' 0','','')}}" placeholder="ID"readonly style="background:#f3f3f3; color:rgb(0, 0, 0);font-weight:bold;">
+                        <input class="form-control text-center" type="text" id="" name="id_item" required="required" value="{{number_format($itemmat[0]->id_item,' 0','','')}}" placeholder="ID"readonly style="background:#f3f3f3; color:rgb(0, 0, 0);font-weight:bold;">
                     </div>
-                    <div class="col-6">Nome:
-                        <input class="form-control text-center" type="text" id="" name="nome" required="required" value="{{($itemmat[0]->nome)}}" placeholder="ID"readonly style="background:#f3f3f3; color:rgb(0, 0, 0);font-weight:bold;">
+                    <div class="col-6">Nome / Categoria:
+                        <input class="form-control text-center" type="text" id="" name="nome" required="required" value="{{($itemmat[0]->nome_item)}} / {{$itemmat[0]->nome_categ}}" placeholder="ID"readonly style="background:#f3f3f3; color:rgb(0, 0, 0);font-weight:bold;">
                     </div>
                     <div class="col-2">Data cadastro:
                         <input class="form-control text-center" type="text" id="" name="data_cadastro" required="required" value="{{date( 'd/m/Y' , strtotime($itemmat[0]->data_cadastro))}}" placeholder="nome" readonly style="background:#f3f3f3; color:rgb(0, 0, 0);font-weight:bold;">
@@ -31,22 +31,23 @@
         </div>
 
     <div class="col-12">
-        <form class="form-horizontal mt-4" method="POST" action="/gerenciar-cadastro-inicial/alterar/{{$itemmat[0]->id}}">
+        <form class="form-horizontal mt-4" method="POST" action="/gerenciar-cadastro-inicial/alterar/{{$itemmat[0]->id_item}}">
         @method('PUT')
         <div class="card">
             <div class="card-body">
                 @csrf
                 <div class="row align-items-end" style="background:#fff;">
                     <div class="col">
-                        <label for="nome_item" class="col-sm-5 content-md-center col-form-label">Nome Material:</label>
-                        <select class="form-control select2" id="" name="item_mat" default-value="teste"  required="required">
-                            @foreach($nomeitem as $nomeitems)
-                            <option value="{{$nomeitems->id_nome}}">{{$nomeitems->n1}}</option>
+                        <label for="nome_item" class="col-sm-5 content-md-center col-form-label">Nome/Categoria:</label>
+                        <select class="form-control select2" id="" name="item_cat" default-value="teste"  required="required">
+                            <option value="{{($itemmat[0]->id_item_cat)}}">{{($itemmat[0]->nome_item)}} / {{($itemmat[0]->nome_categ)}}</option>
+                            @foreach($lista as $listas)                            
+                            <option value="{{$listas->id_itemcat}}">{{$listas->nome_item}}/{{$listas->nome_categ}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col">Observação:
-                            <input class="form-control" type="text" id="" name="obs" value="{{$itemmat[0]->obs}}">
+                            <input class="form-control" type="text" id="" name="obs" value="{{($itemmat[0]->obs)}}">
                     </div>
                 </div>
                 <br>
@@ -70,8 +71,8 @@
                             <div class="col">Tamanho:
                                 <select class="form-control" id="" name="tamanho" >
                                     <option value="">Selecione</option>
-                                    @foreach($result as $results)
-                                    <option value="{{$results->id_tam}}">{{$results->n3}}</option>
+                                    @foreach($tamanho as $tamanhos)
+                                    <option value="{{$tamanhos->id_tam}}">{{$tamanhos->n3}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -82,8 +83,8 @@
                             <div class="col">Marca:
                                 <select class="form-control" id="" name="marca" >
                                     <option value="">Selecione</option>
-                                    @foreach($result as $results)
-                                    <option value="{{$results->id_marca}}">{{$results->n2}}</option>
+                                    @foreach($marca as $marcas)
+                                    <option value="{{$marcas->id_marca}}">{{$marcas->n2}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -94,8 +95,8 @@
                             <div class="col">Cor:
                                 <select class="form-control" id="" name="cor" >
                                     <option value="">Selecione</option>
-                                    @foreach($result as $results)
-                                    <option value="{{$results->id_cor}}">{{$results->n4}}</option>
+                                    @foreach($cor as $cors)
+                                    <option value="{{$cors->id_cor}}">{{$cors->n4}}</option>
                                     @endforeach
                                 </select>
                             </div>

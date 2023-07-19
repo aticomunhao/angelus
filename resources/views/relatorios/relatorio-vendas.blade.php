@@ -23,24 +23,12 @@
                     <input class="btn btn-warning" type="button" value="Limpar">
                     </a>
                 </form>
-                <a href="/gerenciar-vendas">
-                    <input class="btn btn-danger" type="button" value="Cancelar">
-                </a>
-                <a>
+                    <a href="/gerenciar-vendas">
+                        <input class="btn btn-danger" type="button" value="Cancelar">
+                    </a>
                     <a href="">
                     <input class="btn btn-success" onclick="cont();" type="button" value="Imprimir">
-                </a>
-
-                <script>
-                    function cont(){
-                    var conteudo = document.getElementById('print').innerHTML;
-                    tela_impressao = window.open('about:blank');
-                    tela_impressao.document.write(conteudo);
-                    tela_impressao.window.print();
-                    tela_impressao.window.close();
-                    }
-                </script>
-
+                    </a>
                </div>
             </div>
         </div>
@@ -127,7 +115,15 @@
         </div>
     </div>
 </div>
-
+<script>
+    function cont(){
+    var conteudo = document.getElementById('print').innerHTML;
+    tela_impressao = window.open('about:blank');
+    tela_impressao.document.write(conteudo);
+    tela_impressao.window.print();
+    tela_impressao.window.close();
+    }
+</script>
 @endsection
 
 

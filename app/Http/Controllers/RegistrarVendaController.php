@@ -64,6 +64,7 @@ class RegistrarVendaController extends Controller
     {
         $result= $this->getListaPessoaAll();
         $resultPessoa = DB::select ("select id, nome||'-'||cpf as cpf from pessoa");
+        
 
         return view('vendas/registrar-venda', compact("result", "resultPessoa"));
     }
@@ -199,7 +200,7 @@ class RegistrarVendaController extends Controller
         ->delete();
 
         $listaItemVenda = $this->getListaVenda($id_venda);
-        return view('vendas/lista-compras', compact('listaItemVenda'));
+        return view('vendas/gerenciar-vendas');
     }
 
 
@@ -210,8 +211,12 @@ class RegistrarVendaController extends Controller
 
         $listaItemVenda = $this->getListaVenda(0);
 
-        //return view('vendas/gerenciar-vendas', compact('listaItemVenda'));
-        return view('vendas/lista-compras', compact('listaItemVenda'));
+
+        return redirect()
+        ->route('GerenciarvendasController@index')
+        ->with('message', 'Falta apenas o pagamento!!!');
+
+        
 
     }
 

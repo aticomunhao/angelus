@@ -158,9 +158,9 @@
                                 <div class="container" id="3">
                                     <div class="row">
                                         <div class="col-12 mt-3" style="text-align: right;">
-                                            <button id="5" type="button" class="btn btn-danger">Cancelar venda</button>
-                                            <!-- <button type="submit" class="btn btn-success">Salvar</button> -->
-                                            <a href="/gerenciar-vendas" id="4" type="button" class="btn btn-success">Salvar e concluir</a>
+                                            <a href="/gerenciar-vendas" id="btnCancVenda" type="button" class="btn btn-danger">Cancelar venda</a>
+                                            <a href="/gerenciar-vendas" id="5" type="button" class="btn btn-success">Continuar comprando</a>
+                                            <a href="/gerenciar-vendas" id="btnConcVenda" type="button" class="btn btn-info">Concluir venda</a>
 
                                         </div>
                                     </div>

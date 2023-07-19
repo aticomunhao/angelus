@@ -277,7 +277,7 @@ function removeItem(pIdVenda, pIdItem){
   });
 }
 
-function cancelarVenda(pIdVenda){
+ function cancelarVenda(pIdVenda){
   console.log("cancelarVenda",pIdVenda);
   showModal();
   jQuery.ajax({
