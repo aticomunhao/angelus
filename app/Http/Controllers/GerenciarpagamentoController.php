@@ -97,6 +97,9 @@ class GerenciarpagamentoController extends Controller
         ///Cálculo do total do preço da venda com desconto se houver
         $total_original = $total_venda;
 
+         ///Cálculo do valor ainda não pago
+         $nao_pago = $total_original - $total_pago;
+
         ///Cálculo do total do preço da venda com desconto se houver
         $total_preco = $total_venda - $desconto;
 
@@ -137,7 +140,7 @@ class GerenciarpagamentoController extends Controller
                         ");
 
         return view ('vendas/gerenciar-pagamentos', compact('pagamentos','vendas','total_itens', 'total_preco', 'itens_compra',
-        'tipos_pagamento', 'total_pago', 'troco', 'total_especie', 'devolver', 'desconto', 'total_original'));
+        'tipos_pagamento', 'total_pago', 'troco', 'total_especie', 'devolver', 'desconto', 'total_original', 'nao_pago'));
 
     }
 
