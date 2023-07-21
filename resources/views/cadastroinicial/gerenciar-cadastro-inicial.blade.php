@@ -3,34 +3,36 @@
 @section('title') Gerenciar Cadastro inicial @endsection
 
 @section('content')
-@section('content')
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="container">
-                    <form action="{{route('cadastroinicial.index')}}" class="form-horizontal mt-4" method="GET" >
-                    <div class="row">
-                        <div class="col">Início
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">               
+                    <form action="{{route('cadastroinicial.index')}}" class="form-horizontal mt-4" method="GET" >     
+                    <div class="row">                        
+                        <div class="col-1">Início:
                             <input type="date" name="data_inicio" value="{{$data_inicio}}">
                         </div>
-                        <div class="col">Final
+                        <div class="col-1">Final:
                             <input type="date" name="data_fim" value="{{$data_fim}}">
                         </div>
-                        <div class="col-4">Nome do material
+                        <div class="col-3">Nome do material:
                             <input class="form-control" type="text" name="material" value="{{$material}}">
                         </div>
-                        <div class="col">Ref fabrica
+                        <div class="col-3">Observação:
+                            <input class="form-control" type="text" name="obs" value="{{$obs}}">
+                        </div>
+                        <div class="col-1">Ref Fab:
                             <input class="form-control" type="numeric" name="ref_fab" value="">
                         </div>
-                        <div class="col">Comprado?<br>
+                        <div class="col-1">Comprado?<br>
                             <select class="form-control" id="" name="compra">
                                 <option value="">Todos</option>
                                 <option value="true">Sim</option>
                                 <option value="false">Não</option>
                             </select>
                         </div>
-                        <div class="col-2">Categoria:
+                        <div class="col-1">Categoria:
                             <select class="form-control" id="" name="categoria" ><option value="">Todos</option>
                             @Foreach($resultCat as $resultCats)
                                 <option value="{{$resultCats->id}}" {{$resultCats->id == $categoria ? 'selected': ''}}>{{$resultCats->nome}}</option>
@@ -111,7 +113,7 @@
             </div>
         </div>
     </div>
-</div>
+
 @endsection
 
 @section('footerScript')

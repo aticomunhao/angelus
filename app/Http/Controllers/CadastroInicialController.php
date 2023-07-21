@@ -81,6 +81,11 @@ class CadastroInicialController extends Controller
             $result->where('icm.nome', 'like', "%$request->material%");
         }
 
+        $obs = $request->obs;
+        if ($request->obs){
+            $result->where('im.observacao', 'like', "%$request->obs%");
+        }
+
         $ref_fab = $request->ref_fab;
         if ($request->ref_fab){
             $result->where('im.ref_fabricante', '=', $request->ref_fab);
@@ -107,7 +112,7 @@ class CadastroInicialController extends Controller
 
         
 
-        return view('cadastroinicial/gerenciar-cadastro-inicial', compact('contar', 'result','categoria', 'data_inicio', 'data_fim', 'material', 'resultCat'));
+        return view('cadastroinicial/gerenciar-cadastro-inicial', compact('obs', 'contar', 'result','categoria', 'data_inicio', 'data_fim', 'material', 'resultCat'));
 
 
     }
