@@ -49,7 +49,7 @@ class CadastroInicialController extends Controller
 
 
     public function index(Request $request)
-    {
+    {        
 
         $resultCat = DB::select ('select id, nome from tipo_categoria_material');
 
@@ -94,14 +94,20 @@ class CadastroInicialController extends Controller
         if ($request->categoria){
             $result->where('tcm.id', '=', "$request->categoria");
         }
-        $compra = $request->compra;
+                
+        $total = $request->compra;
         if ($request->compra){
             $result->where('im.adquirido', '=', "$request->compra");
         }
-        $result = $result->orderBy('im.id', 'DESC')->paginate(100);
 
+        
+        $result = $result->orderBy('im.id', 'DESC')->paginate(500);
 
-        return view('cadastroinicial/gerenciar-cadastro-inicial', compact('result','categoria', 'data_inicio', 'data_fim', 'material', 'resultCat'));
+        $contar = $result->countBy('im.id');
+
+        
+
+        return view('cadastroinicial/gerenciar-cadastro-inicial', compact('contar', 'result','categoria', 'data_inicio', 'data_fim', 'material', 'resultCat'));
 
 
     }

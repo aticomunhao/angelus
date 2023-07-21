@@ -55,9 +55,9 @@
                 <div class="col-12">
                     <h4 class="card-title" style="color:red; text-align: left;">Listar o estoque</h4>
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body">Quantidade filtrada: {{$contar}}
                             <table id="datatable" class="table-resposive-sm table-bordered table-striped table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead >
+                                <thead>
                                     <tr style="text-align:center; background-color:#c6e6ce">
                                         <th>CÓDIGO</th>
                                         <th>CATEGORIA</th>
@@ -102,9 +102,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{--<div class="d-flex justify-content-center">
+                            <div class="d-flex justify-content-center">
                             {{$result->links()}}
-                            </div>--}}
+                            </div>
                         </div>
                     </div>
                 </div>
