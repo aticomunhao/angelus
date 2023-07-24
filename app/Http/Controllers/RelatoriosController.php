@@ -21,24 +21,24 @@ class RelatoriosController extends Controller
         $rela = ModelVendas::select('venda.data','venda.id as idv', 'pessoa.nome as nomep', DB::raw('sum(item_material.valor_venda * item_material.valor_venda_promocional) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - sum(item_material.valor_venda * item_material.valor_venda_promocional) as vlr_final'))
                                 ->join('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                                 ->join('item_material', 'venda_item_material.id_item_material', 'item_material.id')
-                                ->join('pessoa', 'venda.id_pessoa', '=', 'pessoa.id')
-                                ->where('venda.id_tp_situacao_venda', '3')
+                                ->join('pessoa', 'venda.id_pessoa', '=', 'pessoa.id')                                
                                 ->groupby('venda.data','venda.id', 'pessoa.nome');
 
 
         $relb = ModelPagamentos::join('venda','venda.id', 'pagamento.id_venda')
                             ->join('tipo_pagamento', 'pagamento.id_tipo_pagamento', 'tipo_pagamento.id')
-                            ->select('venda.data', 'pagamento.id as pid', 'tipo_pagamento.id as tpid', 'tipo_pagamento.nome as nomepg', 'pagamento.valor as valor_p', 'pagamento.id_venda', 'pagamento.valor')
-                            ->where('venda.id_tp_situacao_venda', '3');
+                            ->select('venda.data', 'pagamento.id as pid', 'tipo_pagamento.id as tpid', 'tipo_pagamento.nome as nomepg', 'pagamento.valor as valor_p', 'pagamento.id_venda', 'pagamento.valor');
 
 
 
         $data_inicio = $request->data_inicio;
         $data_fim = $request->data_fim;
 
+
         if ($request->data_inicio){
 
-        $rela->where('venda.data','>=' , $request->data_inicio);
+        $rela->where('venda.data','>=' , $request->data_inicio);            
+
         $relb->where('venda.data','>=' , $request->data_inicio);
 
         }
@@ -46,11 +46,13 @@ class RelatoriosController extends Controller
         if ($request->data_fim){
 
             $rela->where('venda.data','<=' , $request->data_fim);
+           
             $relb->where('venda.data','<=' , $request->data_fim);
+                
         }
 
-        $rela = $rela->get();
-        $relb = $relb->get();
+        $rela = $rela->where('venda.id_tp_situacao_venda', '3')->get();
+        $relb = $relb->where('venda.id_tp_situacao_venda', '3')->get();
 
         //dd($rela);
         $total1 = $rela->sum('vlr_final');

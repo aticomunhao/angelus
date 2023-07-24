@@ -108,7 +108,7 @@ class CadastroInicialController extends Controller
         
         $result = $result->orderBy('im.id', 'DESC')->paginate(500);
 
-        $contar = $result->countBy('im.id');
+        $contar = $result->count('im.id');
 
         
 
@@ -156,10 +156,11 @@ class CadastroInicialController extends Controller
                         ->get();
 
         $itemlista = DB::table('item_material AS im')
-                        ->select('im.id_tipo_situacao', 'ts.nome AS n1', 'im.id_marca', 'm.nome AS n2', 'im.id_tamanho AS id_tam', 't.nome AS n3', 'im.id_cor', 'c.nome AS n4', 'im.id_tp_sexo AS id_sexo', 'sex.nome AS n5', 'im.id_fase_etaria AS fase_e', 'fe.nome as n6'  )
+                        ->select('im.id_tipo_situacao', 'ts.nome AS n1', 'im.id_marca', 'm.nome AS n2', 'im.id_tamanho AS id_tam', 't.nome AS n3', 'im.id_cor', 'c.nome AS n4', 'im.id_tp_sexo AS id_sexo', 'tm.id AS tp_mat', 'tm.nome AS n7', 'sex.nome AS n5', 'im.id_fase_etaria AS fase_e', 'fe.nome as n6'  )
                         ->leftjoin('tipo_situacao_item_material AS ts', 'im.id_tipo_situacao', '=', 'ts.id' )
                         ->leftjoin('marca AS m', 'im.id_marca', '=', 'm.id')
                         ->leftjoin('tamanho AS t', 'im.id_tamanho' , '=', 't.id')
+                        ->leftjoin('tipo_material AS tm', 'im.id_tipo_material' , '=', 'tm.id')
                         ->leftjoin('cor AS c', 'im.id_cor', '=', 'c.id')
                         ->leftjoin('tipo_sexo AS sex', 'im.id_tp_sexo', '=', 'sex.id')
                         ->leftjoin('fase_etaria AS fe', 'im.id_fase_etaria', '=', 'fe.id')
@@ -207,11 +208,11 @@ class CadastroInicialController extends Controller
 
 
         $tipo = DB::table('tipo_material AS tp')
-                        ->select('tp.id AS id', 'tp.nome')
+                        ->select('tp.id AS tp_id', 'tp.nome AS n8')
                         ->get();
 
-        $sexo = DB::table('tipo_sexo AS g')
-                        ->select('g.id AS id', 'g.nome')
+        $sexo = DB::table('tipo_sexo AS tp_sex')
+                        ->select('tp_sex.id AS sexid', 'tp_sex.nome AS n7')
                         ->get();
 
         $etaria = DB::table('fase_etaria AS fe')
