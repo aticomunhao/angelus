@@ -31,7 +31,7 @@
         </div>
 
     <div class="col-12">
-        <form class="form-horizontal mt-4" method="POST" action="/gerenciar-cadastro-inicial/alterar/{{$itemmat[0]->id_item}}">
+        <form class="form-horizontal mt-4" method="POST" action="/gerenciar-cadastro-inicial/alterar/{{$itemlista[0]->id_item}}">
         @method('PUT')
         <div class="card">
             <div class="card-body">
@@ -42,12 +42,12 @@
                         <select class="form-control select2" id="" name="item_cat" default-value="teste"  required="required">
                             <option value="{{($itemmat[0]->id_item_cat)}}">{{($itemmat[0]->nome_item)}} / {{($itemmat[0]->nome_categ)}}</option>
                             @foreach($lista as $listas)                            
-                            <option value="{{$listas->id_itemcat}}">{{$listas->nome_item}}/{{$listas->nome_categ}}</option>
+                            <option value="{{$listas->id_item_cat}}">{{$listas->nome_item}}/{{$listas->nome_categ}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col">Observação:
-                            <input class="form-control" type="text" id="" name="obs" value="{{($itemmat[0]->obs)}}">
+                            <input class="form-control" type="text" id="" name="obs" value="{{($itemlista[0]->obs)}}">
                     </div>
                 </div>
                 <br>
@@ -55,14 +55,14 @@
                     <div class="col-2">
                         <div class="form-group row">
                             <div class="col">Valor da venda:
-                            <input class="form-control" type="numeric" id="" name="valor" value="{{number_format($itemmat[0]->valor_venda,'2','.','')}}">
+                            <input class="form-control" type="numeric" id="" name="valor" value="{{number_format($itemlista[0]->valor_venda,'2','.','')}}">
                             </div>
                         </div>
                     </div>
                     <div class="col-2">
                         <div class="form-group row">
                             <div class="col">Ref fabricante:
-                            <input class="form-control" type="numeric" id="" name="ref_fab" value="{{number_format($itemmat[0]->ref_fab,'0','.','')}}">
+                            <input class="form-control" type="numeric" id="" name="ref_fab" value="{{number_format($itemlista[0]->ref_fab,'0','.','')}}">
                             </div>
                         </div>
                     </div>

@@ -55,7 +55,7 @@ class CadastroInicialController extends Controller
 
         //$result = $this->getListaItens();
         $result = DB::table('item_material AS im')
-                            ->select('im.data_cadastro','im.id', 'im.ref_fabricante AS ref_fab', 'icm.nome AS n1','tcm.nome AS n5', 'im.observacao AS obs', 'im.valor_venda','m.nome AS n2', 't.nome AS n3', 'c.nome AS n4', 'im.valor_venda', 'im.adquirido', 'tcm.id AS id_cat','tcm.nome AS nome_cat', 'im.id_tipo_situacao', 'icm.id_categoria_material AS cat')
+                            ->select('im.data_cadastro','im.id', 'im.ref_fabricante AS ref_fab', 'im.observacao AS obs', 'im.adquirido', 'im.valor_venda', 'im.id_tipo_situacao', 'icm.id_categoria_material AS cat',  'icm.nome AS n1', 'm.nome AS n2', 't.nome AS n3', 'c.nome AS n4', 'tcm.nome AS n5',  'tcm.id AS id_cat','tcm.nome AS nome_cat')
                             ->where('id_tipo_situacao', '1')
                             ->leftjoin('item_catalogo_material AS icm', 'icm.id' , '=', 'im.id_item_catalogo_material')
                             ->leftjoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material' , '=', 'tcm.id')
@@ -141,22 +141,21 @@ class CadastroInicialController extends Controller
 
 
 
-    public function formEditar (Request $request, $id, $id_cat)
+    public function formEditar ($id, $id_cat)
     {
 
-
         $itemmat = DB::table('item_material AS im')
-                        ->select('im.id AS id_item', 'icm.id AS id_item_cat', 'im.id_item_catalogo_material AS id_item_cat_item',  'icm.nome AS nome_item', 'im.observacao AS obs', 'im.ref_fabricante AS ref_fab', 'im.data_cadastro', 'im.valor_venda', 'im.id_tipo_situacao', 'icm.id_categoria_material AS categ_mat', 'tcm.id AS id_categ', 'tcm.nome AS nome_categ', 'm.id AS id_marca', 'm.nome AS n2', 't.id AS id_tam', 't.nome AS n3', 'c.id AS id_cor', 'c.nome AS n4')
-                        ->leftjoin('item_catalogo_material AS icm', 'im.id_item_catalogo_material', 'icm.id')
-                        ->leftjoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material', 'tcm.id')
-                        ->leftjoin('marca AS m', 'tcm.id', '=', 'm.id_categoria_material')
-                        ->leftjoin('tamanho AS t', 'tcm.id' , '=', 't.id_categoria_material')
-                        ->leftjoin('cor AS c', 'tcm.id', '=', 'c.id_categoria_material')
+                        ->select('im.id AS id_item', 'im.data_cadastro', 'im.valor_venda', 'icm.id AS id_item_cat', 'icm.id_categoria_material AS id_cat_item', 'icm.nome AS nome_item', 'tcm.nome AS nome_categ')
+                        ->leftJoin('item_catalogo_material AS icm', 'im.id_item_catalogo_material', 'icm.id' )
+                        ->leftJoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material', 'tcm.id')
                         ->where('im.id',$id)
                         ->get();
 
+
         $itemlista = DB::table('item_material AS im')
-                        ->select('im.id_tipo_situacao', 'ts.nome AS n1', 'im.id_marca', 'm.nome AS n2', 'im.id_tamanho AS id_tam', 't.nome AS n3', 'im.id_cor', 'c.nome AS n4', 'im.id_tp_sexo AS id_sexo', 'tm.id AS tp_mat', 'tm.nome AS n7', 'sex.nome AS n5', 'im.id_fase_etaria AS fase_e', 'fe.nome as n6'  )
+                        ->select('im.id AS id_item', 'im.id_tipo_situacao', 'im.data_cadastro', 'im.valor_venda', 'icm.id_categoria_material AS id_item_cat', 'im.observacao AS obs', 'im.ref_fabricante AS ref_fab', 'icm.nome AS nomeitem', 'tcm.nome AS nome_categ', 'ts.nome AS n1', 'im.id_marca', 'm.nome AS n2', 'im.id_tamanho AS id_tam', 't.nome AS n3', 'im.id_cor', 'c.nome AS n4', 'im.id_tp_sexo AS id_sexo', 'tm.id AS tp_mat', 'tm.nome AS n7', 'sex.nome AS n5', 'im.id_fase_etaria AS fase_e', 'fe.nome as n6')
+                        ->leftJoin('item_catalogo_material AS icm', 'im.id_item_catalogo_material', 'icm.id' )
+                        ->leftJoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material', 'tcm.id')
                         ->leftjoin('tipo_situacao_item_material AS ts', 'im.id_tipo_situacao', '=', 'ts.id' )
                         ->leftjoin('marca AS m', 'im.id_marca', '=', 'm.id')
                         ->leftjoin('tamanho AS t', 'im.id_tamanho' , '=', 't.id')
@@ -172,9 +171,10 @@ class CadastroInicialController extends Controller
 
 
         $lista = DB::table('item_catalogo_material AS icm')
-                        ->select('icm.id AS id_itemcat', 'icm.nome AS nome_item',  'icm.id_categoria_material AS categ_mat', 'tcm.id AS id_categ', 'tcm.nome AS nome_categ')
+                        ->select('icm.id AS id_item_cat', 'icm.nome AS nome_item',  'icm.id_categoria_material AS categ_mat', 'tcm.id AS id_categ', 'tcm.nome AS nome_categ')
                         ->leftjoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material', 'tcm.id')
                         ->where('tcm.id',$id_cat)
+                        //->orderBy('nome_item','ASC')
                         ->get();
 
        
@@ -182,12 +182,14 @@ class CadastroInicialController extends Controller
                         ->select('tcm.id', 't.id AS id_tam', 'tcm.id AS id_cat',  't.nome AS n3')
                         ->leftjoin('tamanho AS t', 'tcm.id' , '=', 't.id_categoria_material')
                         ->where('tcm.id', $id_cat)
+                        ->orderBy('n3','ASC')
                         ->get();
 
         $marca = DB::table('tipo_categoria_material AS tcm')
                     ->select('tcm.id', 'm.id AS id_marca', 'tcm.id AS id_cat', 'm.nome AS n2')
                     ->leftjoin('marca AS m', 'tcm.id', '=', 'm.id_categoria_material')
                     ->where('tcm.id', $id_cat)
+                    ->orderBy('n2','ASC')
                     ->get();
 
         $cor = DB::table('tipo_categoria_material AS tcm')
@@ -195,18 +197,10 @@ class CadastroInicialController extends Controller
                     ->select('tcm.id', 'tcm.id AS id_cat', 'c.id AS id_cor', 'c.nome AS n4')
                     ->leftjoin('cor AS c', 'tcm.id', '=', 'c.id_categoria_material')
                     ->where('tcm.id', $id_cat)
+                    ->orderBy('n4','ASC')
                     ->get();
 
-        $result = DB::table('tipo_categoria_material AS tcm')
-        //->distinct('tcm.id')
-        ->select('tcm.id', 't.id AS id_tam', 'm.id AS id_marca', 'tcm.id AS id_cat', 'c.id AS id_cor', 'm.nome AS n2', 't.nome AS n3','tcm.nome AS n5', 'c.nome AS n4')
-        ->leftjoin('marca AS m', 'tcm.id', '=', 'm.id_categoria_material')
-        ->leftjoin('tamanho AS t', 'tcm.id' , '=', 't.id_categoria_material')
-        ->leftjoin('cor AS c', 'tcm.id', '=', 'c.id_categoria_material')
-        ->where('tcm.id', $id_cat)
-        ->get();
-
-
+       
         $tipo = DB::table('tipo_material AS tp')
                         ->select('tp.id AS tp_id', 'tp.nome AS n8')
                         ->get();
@@ -221,7 +215,7 @@ class CadastroInicialController extends Controller
 
         //dd($request);
 
-        return view ('cadastroinicial/editar-cadastro-inicial', compact('lista', 'itemlista', 'result', 'cor', 'tamanho', 'marca', 'itemmat', 'tipo','sexo', 'etaria' ));
+        return view ('cadastroinicial/editar-cadastro-inicial', compact('lista', 'itemlista', 'cor', 'tamanho', 'itemmat', 'marca', 'tipo','sexo', 'etaria' ));
     }
 
     public function update (Request $request, $id)

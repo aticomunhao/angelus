@@ -30,18 +30,63 @@ class BarcodeController extends Controller
     }
 
 
-    public function index ()
+    public function index (Request $request)
     {
 
-        $result = DB::select ("
-        select
-        m.id,
-        m.valor_venda,
-        m.data_cadastro,
-        c.nome
-        from item_material m
-        left join item_catalogo_material c on (c.id = m.id_item_catalogo_material)
-        ");
+                    //$result = $this->getListaItens();
+                    $result = DB::table('item_material AS im')
+                    ->select('im.data_cadastro','im.id AS id_item', 'im.ref_fabricante AS ref_fab', 'icm.nome AS n1','tcm.nome AS n5', 'im.observacao AS obs', 'im.valor_venda','m.nome AS n2', 't.nome AS n3', 'c.nome AS n4', 'im.valor_venda', 'im.adquirido', 'tcm.id AS id_cat','tcm.nome AS nome_cat', 'im.id_tipo_situacao', 'icm.id_categoria_material AS cat')
+                    ->where('id_tipo_situacao', '1')
+                    ->leftjoin('item_catalogo_material AS icm', 'icm.id' , '=', 'im.id_item_catalogo_material')
+                    ->leftjoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material' , '=', 'tcm.id')
+                    ->leftjoin('marca AS m', 'm.id' , '=', 'im.id_marca')
+                    ->leftjoin('tamanho AS t', 't.id' , '=', 'im.id_tamanho')
+                    ->leftjoin('cor AS c', 'c.id', '=', 'im.id_cor');
+            //$resultCategoria = DB::select ('select id, nome from tipo_categoria_material');
+            //$resultSitMat = DB::select ('select id, nome from tipo_situacao_item_material');
+
+
+            $data_inicio = $request->data_inicio;
+            $data_fim = $request->data_fim;
+            if ($request->data_inicio){
+
+            $result->where('im.data_cadastro','>=' , $request->data_inicio);
+            }
+            if ($request->data_fim){
+            $result->where('im.data_cadastro','<=' , $request->data_fim);
+            }
+
+            $material = $request->material;
+            if ($request->material){
+            $result->where('icm.nome', 'like', "%$request->material%");
+            }
+
+            $obs = $request->obs;
+            if ($request->obs){
+            $result->where('im.observacao', 'like', "%$request->obs%");
+            }
+
+            $ref_fab = $request->ref_fab;
+            if ($request->ref_fab){
+            $result->where('im.ref_fabricante', '=', $request->ref_fab);
+            }
+
+            $doado = $request->doado;
+            if ($request->doado){
+            $result->where('im.adquirido', '=', "$request->doado");
+            }
+            $categoria = $request->categoria;
+            if ($request->categoria){
+            $result->where('tcm.id', '=', "$request->categoria");
+            }
+
+            $total = $request->compra;
+            if ($request->compra){
+            $result->where('im.adquirido', '=', "$request->compra");
+            }
+
+
+            $result = $result->get();
 
 
        // dd($result);
