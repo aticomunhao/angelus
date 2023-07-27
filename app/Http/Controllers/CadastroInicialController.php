@@ -51,12 +51,12 @@ class CadastroInicialController extends Controller
     public function index(Request $request)
     {        
 
-        $resultCat = DB::select ('select id, nome from tipo_categoria_material');
+        $resultCat = DB::select ('select id, nome from tipo_categoria_material order by nome');
 
         //$result = $this->getListaItens();
         $result = DB::table('item_material AS im')
                             ->select('im.data_cadastro','im.id', 'im.ref_fabricante AS ref_fab', 'im.observacao AS obs', 'im.adquirido', 'im.valor_venda', 'im.id_tipo_situacao', 'icm.id_categoria_material AS cat',  'icm.nome AS n1', 'm.nome AS n2', 't.nome AS n3', 'c.nome AS n4', 'tcm.nome AS n5',  'tcm.id AS id_cat','tcm.nome AS nome_cat')
-                            ->where('id_tipo_situacao', '1')
+                            //->where('id_tipo_situacao', '1')
                             ->leftjoin('item_catalogo_material AS icm', 'icm.id' , '=', 'im.id_item_catalogo_material')
                             ->leftjoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material' , '=', 'tcm.id')
                             ->leftjoin('marca AS m', 'm.id' , '=', 'im.id_marca')
@@ -104,11 +104,12 @@ class CadastroInicialController extends Controller
         if ($request->compra){
             $result->where('im.adquirido', '=', "$request->compra");
         }
-
+        
+        $contar = $result->count();
         
         $result = $result->orderBy('im.id', 'DESC')->paginate(500);
 
-        $contar = $result->count('im.id');
+        
 
         
 
@@ -141,8 +142,18 @@ class CadastroInicialController extends Controller
 
 
 
-    public function formEditar ($id, $id_cat)
-    {
+    public function formEditar ($id, $id_cat){
+
+        $situacao = DB::select("select id from item_material where id_tipo_situacao > 1");
+
+
+        if ($id == $situacao){
+        
+            return redirect()->action('CadastroInicialController@index')
+            ->with('warning', 'Este item não pode ser alterado pois foi vendido!');
+
+        }
+        else {
 
         $itemmat = DB::table('item_material AS im')
                         ->select('im.id AS id_item', 'im.data_cadastro', 'im.valor_venda', 'icm.id AS id_item_cat', 'icm.id_categoria_material AS id_cat_item', 'icm.nome AS nome_item', 'tcm.nome AS nome_categ')
@@ -216,6 +227,9 @@ class CadastroInicialController extends Controller
         //dd($request);
 
         return view ('cadastroinicial/editar-cadastro-inicial', compact('lista', 'itemlista', 'cor', 'tamanho', 'itemmat', 'marca', 'tipo','sexo', 'etaria' ));
+        }
+
+
     }
 
     public function update (Request $request, $id)

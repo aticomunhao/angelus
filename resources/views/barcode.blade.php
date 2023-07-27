@@ -23,17 +23,15 @@
         </script>
     <div id='print' class='conteudo'>
         <div class="Col" style="font-size: 14px; color:#000; text-align: center;">
-
-          @foreach($result as $results)
+          @foreach($lista as $listas)
                 <strong>
-                    {!! DNS1D::getBarcodeSVG($results->id_item, 'C128', 2, 40)!!}</br>
-                    {{$results->n1}}-{{$results->n2}}-{{$results->obs}}</br>
-                    {{number_format($results->valor_venda, 2,',','.')}}
-                </strong>
-
-             @endforeach
-            </div>
+                    {!! DNS1D::getBarcodeSVG($listas->id_item, 'C128', 2, 40)!!}</br>
+                    {{$listas->n1}}-{{$listas->n2}}-{{$listas->obs}}</br>
+                    {{number_format($listas->valor_venda, 2,',','.')}}
+                </strong><br>
+            @endforeach
         </div>
+    </div>
     @endsection
 
 {{--

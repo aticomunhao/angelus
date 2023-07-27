@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">               
-                    <form action="{{route('cadastroinicial.index')}}" class="form-horizontal mt-4" method="GET" >     
+                    <form  class="form-horizontal mt-4" method="GET" >     
                     <div class="row">                        
                         <div class="col-1">Início:
                             <input type="date" name="data_inicio" value="{{$data_inicio}}">
@@ -33,7 +33,8 @@
                             </select>
                         </div>
                         <div class="col-1">Categoria:
-                            <select class="form-control" id="" name="categoria" ><option value="">Todos</option>
+                            <select class="form-control" id="" name="categoria">
+                            <option value="">Todos</option>
                             @Foreach($resultCat as $resultCats)
                                 <option value="{{$resultCats->id}}" {{$resultCats->id == $categoria ? 'selected': ''}}>{{$resultCats->nome}}</option>
                             @endForeach
@@ -43,10 +44,10 @@
                     <br>
                     <div class="row" style="text-align: right;">
                         <div class="col">
-                            <input class="btn btn-secondary" type="submit" value="Pesquisar">
-                            <a href="/gerenciar-cadastro-inicial"><input class="btn btn-secondary" type="button" value="Limpar"></a>
+                            <input class="btn btn-secondary" type="submit" formaction="{{route('cadastroinicial')}}" value="Pesquisar">
+                            <input class="btn btn-info" type="submit" formaction="{{route('codbarras')}}" value="Cód Barras Filtrados">
+                            <a href="/gerenciar-cadastro-inicial"><input class="btn btn-secondary" type="button" value="Limpar"></a>                            
                         </form>
-                            <a href="/barcode"><input class="btn btn-info" type="button" value="Imprimir Cód Barras"></a>
                             <a href="/gerenciar-cadastro-inicial/incluir"><input class="btn btn-success" style="font-weight:bold; font-size:15px;" type="button" value="Novo Cadastro +"></a>
                         </div>
                     </div>
@@ -105,7 +106,7 @@
                                 </tbody>
                             </table>
                             <div class="d-flex justify-content-center">
-                            {{$result->links()}}
+                            {{$result->withQueryString()->links()}}
                             </div>
                         </div>
                     </div>

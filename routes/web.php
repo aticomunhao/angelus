@@ -190,7 +190,7 @@ Route::get('/combo/composicao/{id}', 'CadastroInicialController@getComposicao')-
 Route::post('/cad-inicial-material/inserir', 'CadastroInicialController@store')->middleware('validaUsuario');
 Route::get('/usuario-logado', 'CadastroInicialController@search');
 
-Route::get('/gerenciar-cadastro-inicial', 'CadastroInicialController@index')->name('cadastroinicial.index');
+Route::get('/gerenciar-cadastro-inicial', 'CadastroInicialController@index')->name('cadastroinicial');
 Route::get('/gerenciar-cadastro-inicial/incluir', 'CadastroInicialController@create')->middleware('validaUsuario');
 Route::get('/gerenciar-cadastro-inicial/excluir/{id}', 'CadastroInicialController@destroy')->middleware('validaUsuario');
 Route::get('/editar-cadastro-inicial/{id}/{id_cat}', 'CadastroInicialController@formEditar')->middleware('validaUsuario');
@@ -201,7 +201,7 @@ Route::get('/combo/embalagem/{id}', 'CadastroInicialController@getEmbalagem')->m
 
 
 
-Route::get('/barcode', 'BarcodeController@index')->middleware('validaUsuario');
+Route::get('/barcode', 'BarcodeController@index')->middleware('validaUsuario')->name('codbarras');
 Route::get('/item_material/{id}', 'BarcodeController@show')->middleware('validaUsuario');
 
 
