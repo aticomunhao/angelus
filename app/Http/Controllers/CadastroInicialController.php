@@ -113,7 +113,7 @@ class CadastroInicialController extends Controller
 
         
 
-        return view('cadastroinicial/gerenciar-cadastro-inicial', compact('obs', 'contar', 'result','categoria', 'data_inicio', 'data_fim', 'material', 'resultCat'));
+        return view('cadastroinicial/gerenciar-cadastro-inicial', compact('obs', 'ref_fab', 'contar', 'result','categoria', 'data_inicio', 'data_fim', 'material', 'resultCat'));
 
 
     }

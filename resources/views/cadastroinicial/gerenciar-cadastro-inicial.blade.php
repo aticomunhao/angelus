@@ -23,7 +23,7 @@
                             <input class="form-control" type="text" name="obs" value="{{$obs}}">
                         </div>
                         <div class="col-1">Ref Fab:
-                            <input class="form-control" type="numeric" name="ref_fab" value="">
+                            <input class="form-control" type="numeric" name="ref_fab" value="{{$ref_fab}}">
                         </div>
                         <div class="col-1">Comprado?<br>
                             <select class="form-control" id="" name="compra">
