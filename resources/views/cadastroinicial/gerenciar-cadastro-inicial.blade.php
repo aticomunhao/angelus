@@ -23,7 +23,7 @@
                             <input class="form-control" type="text" name="obs" value="{{$obs}}">
                         </div>
                         <div class="col-1">Ref Fab:
-                            <input class="form-control" type="numeric" name="ref_fab" value="{{$ref_fab}}">
+                            <input class="form-control" type="text" name="ref_fab" value="{{$ref_fab}}">
                         </div>
                         <div class="col-1">Comprado?<br>
                             <select class="form-control" id="" name="compra">
@@ -44,11 +44,11 @@
                     <br>
                     <div class="row" style="text-align: right;">
                         <div class="col">
-                            <input class="btn btn-secondary" type="submit" formaction="{{route('cadastroinicial')}}" value="Pesquisar">
-                            <input class="btn btn-info" type="submit" formaction="{{route('codbarras')}}" value="Cód Barras Filtrados">
-                            <a href="/gerenciar-cadastro-inicial"><input class="btn btn-secondary" type="button" value="Limpar"></a>                            
+                            <input class="btn btn-light" type="submit" formaction="{{route('cadastroinicial')}}" value="Pesquisar" style="box-shadow: 1px 2px 5px #000000; margin:5px;">
+                            <input class="btn btn-light" type="submit" formaction="{{route('codbarras')}}" value="Cód Barras Filtrados" style="box-shadow: 1px 2px 5px #000000; margin:5px;">
+                            <a href="/gerenciar-cadastro-inicial"><input class="btn btn-light" type="button" value="Limpar" style="box-shadow: 1px 2px 5px #000000; margin:5px;"></a>                            
                         </form>
-                            <a href="/gerenciar-cadastro-inicial/incluir"><input class="btn btn-success" style="font-weight:bold; font-size:15px;" type="button" value="Novo Cadastro +"></a>
+                            <a href="/gerenciar-cadastro-inicial/incluir"><input class="btn btn-success" style="font-weight:bold; font-size:15px; box-shadow: 1px 2px 5px #000000; margin:5px;" type="button" value="Novo Cadastro +"></a>
                         </div>
                     </div>
                 </div>

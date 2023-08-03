@@ -1,4 +1,6 @@
 {
     "workbench.colorCustomizations": {},
-    "editor.tokenColorCustomizations": {}
+    "editor.tokenColorCustomizations": {},
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "editor.bracketPairColorization.enabled": false
 }

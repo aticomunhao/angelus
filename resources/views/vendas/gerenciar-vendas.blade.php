@@ -35,10 +35,10 @@
                 <br>
                 <div class="row" style="text-align: right;">
                     <div class="col">
-                        <input class="btn btn-info" type="submit" value="Pesquisar">
-                        <a href="/gerenciar-vendas"><input class="btn btn-danger" type="button" value="Limpar"></a>
+                        <input class="btn btn-light" type="submit" style="box-shadow: 1px 2px 5px #000000;  margin:5px;" value="Pesquisar">
+                        <a href="/gerenciar-vendas"><input class="btn btn-light" style="box-shadow: 1px 2px 5px #000000; margin:5px;" type="button" value="Limpar"></a>
                 </form>
-                        <a href="/registrar-venda"><input class="btn btn-success" style="font-weight:bold; font-size:15px;" type="button" value="Nova venda +"></a>
+                        <a href="/registrar-venda"><input class="btn btn-success" style="font-weight:bold; font-size:15px; box-shadow: 1px 2px 5px #000000; margin:5px;" type="button" value="Nova venda +"></a>
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
 
         <div class="row">
             <div class="col-12">
-                    <h4 class="card-title" style="color:red; text-align: left;">Listar as vendas</h4>
+                    <h4 class="card-title" style="color:red; text-align: left;">Listar as vendas</h4>Quantidade filtrada: {{$contar}}
                         <table id="datatable" class="table-resposive-sm table-bordered table-striped table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead style='text-align:center;vertical-align:middle'>
                                 <tr style="text-align:center; background-color:#c6e6ce">
@@ -95,7 +95,7 @@
                             </tbody>
                         </table>
                     <div class="d-flex justify-content-center">
-                    {{$result->links()}}
+                    {{$result->withQueryString()->links()}}
                     </div>
                 </div>
             </div>

@@ -62,7 +62,7 @@
                     <div class="col-2">
                         <div class="form-group row">
                             <div class="col">Ref fabricante:
-                            <input class="form-control" type="numeric" id="" name="ref_fab" value="{{number_format($itemlista[0]->ref_fab,'0','.','')}}">
+                            <input class="form-control" type="text" id="" name="ref_fab" value="{{number_format($itemlista[0]->ref_fab,'0','.','')}}">
                             </div>
                         </div>
                     </div>

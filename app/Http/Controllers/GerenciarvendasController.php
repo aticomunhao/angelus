@@ -60,18 +60,20 @@ class GerenciarVendasController extends Controller
 
         if ($request->data_inicio){
 
-            $result->where('v.data','>' , $request->data_inicio);
+            $result->where('v.data','>=' , $request->data_inicio);
         }
 
         if ($request->data_fim){
 
-            $result->where('v.data','<' , $request->data_fim);
+            $result->where('v.data','<=' , $request->data_fim);
         }
 
-        $result = $result->orderBy('v.id', 'DESC')->paginate(5);
+        $contar = $result->count();
+
+        $result = $result->orderBy('v.id', 'DESC')->paginate(100);
 
 
-       return view('vendas/gerenciar-vendas', compact('result','data_inicio', 'data_fim', 'resultSitVenda', 'situacao', 'cliente'));
+       return view('vendas/gerenciar-vendas', compact('result','data_inicio', 'data_fim','contar', 'resultSitVenda', 'situacao', 'cliente'));
     }
 
 
