@@ -3007,6 +3007,14 @@ fieldset:disabled a.btn {
   box-shadow: 0 0 0 0.15rem rgba(216, 217, 219, 0.5);
 }
 
+.btn-light:active,
+.btn-light:active {
+  position: relative;
+  top: 2px;
+  box-shadow: 1px 2px 3px 5px #ffffff;
+}
+
+
 .btn-light.disabled,
 .btn-light:disabled {
   color: #212529;

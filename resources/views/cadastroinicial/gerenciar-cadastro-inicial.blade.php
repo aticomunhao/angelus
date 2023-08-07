@@ -10,29 +10,29 @@
                 <div class="card-body">               
                     <form  class="form-horizontal mt-4" method="GET" >     
                     <div class="row">                        
-                        <div class="col-1">Início:
+                        <div class="col-sm">Início:
                             <input type="date" name="data_inicio" value="{{$data_inicio}}">
                         </div>
-                        <div class="col-1">Final:
+                        <div class="col-sm">Final:
                             <input type="date" name="data_fim" value="{{$data_fim}}">
                         </div>
-                        <div class="col-3">Nome do material:
+                        <div class="col-sm">Nome material:
                             <input class="form-control" type="text" name="material" value="{{$material}}">
                         </div>
-                        <div class="col-3">Observação:
+                        <div class="col-sm">Observação:
                             <input class="form-control" type="text" name="obs" value="{{$obs}}">
                         </div>
-                        <div class="col-1">Ref Fab:
+                        <div class="col-sm">Ref Fab:
                             <input class="form-control" type="text" name="ref_fab" value="{{$ref_fab}}">
                         </div>
-                        <div class="col-1">Comprado?<br>
+                        <div class="col-sm">Comprado?<br>
                             <select class="form-control" id="" name="compra">
                                 <option value="">Todos</option>
                                 <option value="true">Sim</option>
                                 <option value="false">Não</option>
                             </select>
                         </div>
-                        <div class="col-1">Categoria:
+                        <div class="col-sm">Categoria:
                             <select class="form-control" id="" name="categoria">
                             <option value="">Todos</option>
                             @Foreach($resultCat as $resultCats)
