@@ -20,15 +20,7 @@
                         
                         <input type="date" name="data_fim"  value="{{$data_fim}}">
                     </div>
-                    <div class="col">Categoria  
-                        <select class="form-control" id="" name="categoria">
-                        <option value="">Todos</option>
-                        @Foreach($result as $results)
-                            <option value="{{$results->id}}">{{$results->nome}}</option>
-                        @endForeach
-                        </select>
-                
-                    </div>
+                    
                     <div class="col">
                         <input class="btn btn-info" type="submit" value="Pesquisar">
                     </div>
