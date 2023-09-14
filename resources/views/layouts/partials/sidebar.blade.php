@@ -167,6 +167,9 @@
                         <li>
                             <a href="/relatorio-entrada" class="waves-effect"><span>Relatório de Entradas</span></a>
                         </li>
+                        <li>
+                            <a href="/relatorio-saidas" class="waves-effect"><span>Relatório de Saídas</span></a>
+                        </li>
                     </ul>
                 </li>
                 @endif

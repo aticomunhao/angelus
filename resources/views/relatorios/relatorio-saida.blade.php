@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') Relatório de entradas @endsection
+@section('title') Relatório de saídas @endsection
 
 @section('content')
 
@@ -9,13 +9,13 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-12">
-            <form action="/relatorio-entrada" class="form-horizontal mt-4" method="GET">
+            <form action="/relatorio-saidas" class="form-horizontal mt-4" method="GET">
             @csrf
                 <div class="row">
                     <div class="col">Início
                         <input type="date" name='data_inicio' value="{{$data_inicio}}" default="$today = Carbon::today();">
                     </div>
-                    <div class="col">Fim
+                    <div class="col">Final
                         <input type="date" name='data_fim' value="{{$data_fim}}" default="$today = Carbon::today();">
                     </div>
                     <div class="col-2">Categoria
@@ -26,27 +26,28 @@
                         @endForeach
                         </select>
                     </div>
-                    <div class="col">Comprado?<br>
+                    <div class="col-sm">Comprado?<br>
                         <select class="form-control" id="compra" name="compra">
                             <option value="">Todos</option>
                             <option value="1">Sim</option>
                             <option value="0">Não</option>
                         </select>
                     </div>
-                    <div class="col">
-                            <input class="btn btn-info" type="submit" value="Pesquisar">
+                    <div class="col"><br>
+                        <input class="btn btn-info" type="submit" value="Pesquisar">
                     </div>
-                    <div class="col">
-                        <a href="/relatorio-entrada"><input class="btn btn-warning" type="button" value="Limpar"></a>
+                    <div class="col"><br>
+                        <a href="/relatorio-saidas"><input class="btn btn-warning" type="button" value="Limpar"></a>
                     </div>
-                    <div class="col">
+                </form>
+                    <div class="col"><br>
                         <a href="/gerenciar-vendas"><input class="btn btn-danger" type="button" value="Cancelar"></a>
                     </div>
-                    <div class="col">
+                    <div class="col"><br>
                         <a href=""><input class="btn btn-success" onclick="cont();" type="button" value="Imprimir"></a>
                     </div>
                 </div>
-            </form>
+            
             </div>
         </div>
     </div>
@@ -63,33 +64,34 @@
 <br>
 <div id='print' class='conteudo'>
 <div class="container" style="background:#ffffff;">
-<h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">RELATÓRIO DE ENTRADAS POR PERÍODO</h4>
+<h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">RELATÓRIO DE SAÍDAS POR PERÍODO</h4>
     <div class="row align-items-center">
         <table class="table table-sm table-striped">
             <thead style="text-align:center;">
                 <tr style="text-align:center; font-weight: bold; font-size:15px; background: #daffe0;">
                 <td>NR</td>
-                <td>NOME</td>
                 <td>CATEGORIA</td>
+                <td>NOME</td>                
                 <td>COMPRADO?</td>
                 <td>VALOR</td>
-                <td style="text-align:center;">DATA ENTRADA</td>
+                <td style="text-align:center;">DATA SAÍDA</td>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($entmat as $entmats )
+                @foreach ($saidamat as $saidamats )
                 <tr style="text-align:center;">
                     <td>{{$nr_ordem++}}</td>
-                    <td style="text-align:center;">{{$entmats->nome}}</td>
-                    <td style="text-align:center;">{{$entmats->nomecat}}</td>
-                    <td >@if($entmats->adquirido == 0)
-                        Não
-                        @else
+                    <td style="text-align:left;">{{$saidamats->nomecat}}</td>
+                    <td style="text-align:center;">{{$saidamats->nome}}</td>
+                    <td style="text-align:center;">
+                    @if($saidamats->adquirido == 1)
                         Sim
-                        @endif
+                    @else
+                        Não
+                    @endif
                     </td>
-                    <td>{{number_format($entmats->valor_venda,2,',','.')}}</td>
-                    <td style="text-align:center;">{{ date( 'd/m/Y' , strtotime($entmats->data_cadastro))}}</td>
+                    <td>{{number_format($saidamats->valor_venda,2,',','.')}}</td>
+                    <td style="text-align:center;">{{ date( 'd/m/Y' , strtotime($saidamats->data))}}</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -98,8 +100,8 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>Soma total de entradas</td>
-                    <td>{{number_format($somaent,2,',','.')}}</td>
+                    <td>Soma total de saídas</td>
+                    <td>{{number_format($somasai,2,',','.')}}</td>
                     <td></td>
                     <td></td>
                 </tr>

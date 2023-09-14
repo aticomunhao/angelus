@@ -91,10 +91,6 @@ class CadastroInicialController extends Controller
             $result->where('im.ref_fabricante', '=', $request->ref_fab);
         }
 
-        $doado = $request->doado;
-        if ($request->doado){
-            $result->where('im.adquirido', '=', "$request->doado");
-        }
         $categoria = $request->categoria;
         if ($request->categoria){
             $result->where('tcm.id', '=', "$request->categoria");

@@ -11,25 +11,45 @@
             <div class="col-12" style="background:#ffffff;">
                 <form action="/relatorio-vendas" class="form-horizontal mt-4" method="GET" >
                     @csrf
-                <div class="col">
-                    <label for="nome">Início</label>
-                    <input type="date" name="data_inicio" value="{{$data_inicio}}">
-                    <label for="date">Final</label>
-                    <input type="date" name="data_fim"  value="{{$data_fim}}">
-
-                    <input class="btn btn-info" type="submit" value="Pesquisar">
-
-                    <a href="/relatorio-vendas">
-                    <input class="btn btn-warning" type="button" value="Limpar">
-                    </a>
-                </form>
-                    <a href="/gerenciar-vendas">
-                        <input class="btn btn-danger" type="button" value="Cancelar">
-                    </a>
-                    <a href="">
-                    <input class="btn btn-success" onclick="cont();" type="button" value="Imprimir">
-                    </a>
-               </div>
+                <div class="row">
+                    <div class="col">Início
+                        
+                        <input type="date" name="data_inicio" value="{{$data_inicio}}">
+                    </div>
+                    <div class="col">Final
+                        
+                        <input type="date" name="data_fim"  value="{{$data_fim}}">
+                    </div>
+                    <div class="col">Categoria  
+                        <select class="form-control" id="" name="categoria">
+                        <option value="">Todos</option>
+                        @Foreach($result as $results)
+                            <option value="{{$results->id}}">{{$results->nome}}</option>
+                        @endForeach
+                        </select>
+                
+                    </div>
+                    <div class="col">
+                        <input class="btn btn-info" type="submit" value="Pesquisar">
+                    </div>
+                    <div class="col">
+                        <a href="/relatorio-vendas">    
+                        <input class="btn btn-warning" type="button" value="Limpar">
+                        </a>
+                    </form>
+                    </div>  
+                    <div class="col">
+                        <a href="/gerenciar-vendas">
+                            <input class="btn btn-danger" type="button" value="Cancelar">
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="">
+                        <input class="btn btn-success" onclick="cont();" type="button" value="Imprimir">
+                        </a>
+                    </div>
+                    
+                </div>
             </div>
         </div>
     </div>

@@ -56,7 +56,7 @@
             <hr>
             <div class="row">
                 <div class="col-12">
-                    <h4 class="card-title" style="color:red; text-align: left;">Listar o estoque</h4>
+                <h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">RELAÇÃO DE CADASTROS INICIAIS</h4>
                     <div class="card">
                         <div class="card-body">Quantidade filtrada: {{$contar}}
                             <table id="datatable" class="table-resposive-sm table-bordered table-striped table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
