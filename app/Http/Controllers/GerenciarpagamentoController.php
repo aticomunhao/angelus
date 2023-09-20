@@ -98,7 +98,7 @@ class GerenciarpagamentoController extends Controller
         $total_original = $total_venda;
 
          ///Cálculo do valor ainda não pago
-         $nao_pago = $total_original - $total_pago;
+         $nao_pago = ($total_original - $desconto) - $total_pago;
 
         ///Cálculo do total do preço da venda com desconto se houver
         $total_preco = $total_venda - $desconto;

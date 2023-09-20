@@ -147,7 +147,9 @@ $(document).ready(function() {
       }else if ($("#qtd_item").val()<=0) {
         alert("Informe a quantidade");
         $("#qtd_item").focus();
+        
         return;
+        
       }
 
       showModal("divModal", "", "", "", true, pBackdrop="static", pKeyboard=false);

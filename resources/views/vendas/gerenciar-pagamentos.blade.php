@@ -91,14 +91,13 @@
                                 <span class="input-group-text" style="background-color: #ffb40a; font-size:18px;" type="text">Forma de pagamento</button>
                             </div>
                             <select class="form-control" id="forma" name="forma" required="required" style="font-size:18px;">
-                                <option>Escolher...</option>
                                 @foreach($tipos_pagamento as $tp)
                                 <option value="{{$tp->id}}">"{{$tp->nome}}"</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <input type="numeric" style="font-size:18px;" step="any" min="0" class="form-control" id="valor" name="valor" value="0.00" onchange="this.value = this.value.replace(/,/g, '.')">
+                            <input type="numeric" style="font-size:18px;" step="any" min="0" class="form-control" id="valor" name="valor" value=""  required="required" onchange="this.value = this.value.replace(/,/g, '.')">
                                 <div class="input-group-append">
                                 <button type="submit"  style="background-color: #ffb40a; font-size:18px;" class="btn btn-outline-secundary" id="button-addon2">>>Confirmar Valor</button>
                         </form>

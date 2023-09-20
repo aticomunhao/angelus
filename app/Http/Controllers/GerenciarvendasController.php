@@ -139,6 +139,13 @@ class GerenciarVendasController extends Controller
         where v.id=$id
         ");
 
+        ///Cálculo do total de desconto
+        $desconto = DB::table ('item_material')
+                ->leftjoin('venda_item_material', 'item_material.id', 'venda_item_material.id_item_material')
+                ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
+                ->where ('venda_item_material.id_venda', '=', $id)
+                ->sum(DB::raw('item_material.valor_venda * item_material.valor_venda_promocional'));
+
 
         $total_preco = DB::table ('venda')
         ->leftjoin('venda_item_material', 'venda.id', '=', 'venda_item_material.id_venda')
@@ -147,15 +154,16 @@ class GerenciarVendasController extends Controller
         ->sum('item_material.valor_venda');
 
 
-        $valor =  DB::table ('venda')
-        ->where ('id', '=', $id)
-        ->sum('valor');
+        $valor = ($total_preco - $desconto);
 
-        $pago =  DB::table ('venda_item_material')
-        ->leftjoin('pagamento', 'venda_item_material.id_venda', '=', 'pagamento.id_venda' )
+        
+
+        $pago =  DB::table ('venda')
+        ->leftjoin('pagamento', 'venda.id', '=', 'pagamento.id_venda' )
         ->where ('pagamento.id_venda', '=', $id)
         ->sum('pagamento.valor');
-
+        
+        //dd($pago);
 
         $sit_ven =  DB::table ('venda')
         ->where ('id', '=', $id)
@@ -177,27 +185,18 @@ class GerenciarVendasController extends Controller
                 //return view ('vendas/alerta-venda', compact('alerta'));
 
 
-        } elseif ($sit_ven == 3 && $total_preco == $valor) {
-
-            return view ('vendas/alerta-venda2', compact('alerta'));
+        } elseif ($sit_ven == 3 && $pago == $valor) {
 
             return redirect()
                 ->back()
                 ->with('warning', 'Esta venda foi finalizada e não pode ser paga novamente.');
 
-        } elseif ($sit_ven == 2 && $total_preco == $valor){
+        } elseif ($sit_ven == 2 && $pago == $valor){
 
             DB::table ('venda')
             ->where('id', $id)
-            ->update(['valor' => $total_preco,'id_tp_situacao_venda' => 3]);
+            ->update(['id_tp_situacao_venda' => 3]);
 
-
-
-           $teste = DB::table ('item_material')
-            ->select('item_material.id')
-            ->leftjoin('venda_item_material', 'venda_item_material.id_item_material', '=', 'item_material.id' )
-            ->where('venda_item_material.id_venda', $id)
-            ->update(['item_material.id_tipo_situacao' => 2]);
 
             return redirect()
                 ->action('GerenciarvendasController@index')
@@ -205,8 +204,10 @@ class GerenciarVendasController extends Controller
 
         }
 
-
-        return redirect()->action('GerenciarvendasController@index');
+        
+        return redirect()
+        ->action('GerenciarvendasController@index')
+        ->with('warning', 'Ocorreu um erro não identificado.');
 
     }
 
