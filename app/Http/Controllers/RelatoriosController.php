@@ -154,10 +154,10 @@ class RelatoriosController extends Controller
     public function saida(Request $request) {
 
         $nr_ordem = 1;
-
         
-
-        $saidamat = ModelItemMaterial::leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
+        $saidamat = DB::table('item_material')
+        ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
+        //$saidamat = ModelItemMaterial::leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
                         ->leftjoin('tipo_categoria_material', 'tipo_categoria_material.id','item_catalogo_material.id_categoria_material')
                         ->leftjoin('venda_item_material', 'item_material.id', 'id_item_material')
                         ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
@@ -165,17 +165,19 @@ class RelatoriosController extends Controller
                         ->select('item_material.adquirido', 'item_catalogo_material.nome','item_material.valor_venda','tipo_categoria_material.nome AS nomecat', 'venda.data', 'valor_venda', DB::raw('sum(item_material.valor_venda) as vlr_venda'))
                         ->where('item_material.id_tipo_situacao', '>', '1')
                         ->groupby('item_material.adquirido','item_catalogo_material.nome', 'item_material.valor_venda', 'tipo_categoria_material.nome', 'venda.data');
-       
+                        //->get();
+                        //dd($saidamat);
 
         $data_inicio = $request->data_inicio;
         $data_fim = $request->data_fim;
+        $categoria = $request->categoria;
+        $compra = $request->compra;
         
        
 
         if ($request->data_inicio){
 
-        $saidamat->where('venda.data','>=' , $request->data_inicio);
-
+            $saidamat->where('venda.data','>=' , $request->data_inicio);        
         }
 
         if ($request->data_fim){
@@ -183,21 +185,19 @@ class RelatoriosController extends Controller
             $saidamat->where('venda.data','<=' , $request->data_fim);
         }
         
-        $categoria = $request->categoria;
         if ($request->categoria){
 
             $saidamat->where('item_catalogo_material.id_categoria_material','=' , $request->categoria);
-        }
+        }        
         
-        $compra = $request->compra;
         if ($request->compra){
 
-            $saidamat->where('item_material.adquirido', '=', $request->compra);
-
-            
+            $saidamat->where('item_material.adquirido', '=', $request->compra);  
         }
-
+        
         $saidamat = $saidamat->get();
+
+       //dd($saidamat);
 
         $somasai = $saidamat->sum('vlr_venda');
 

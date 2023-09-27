@@ -29,8 +29,8 @@
                     <div class="col-sm">Comprado?<br>
                         <select class="form-control" id="compra" name="compra">
                             <option value="">Todos</option>
-                            <option value="1">Sim</option>
-                            <option value="0">Não</option>
+                            <option value="true">Sim</option>
+                            <option value="false">Não</option>
                         </select>
                     </div>
                     <div class="col"><br>
@@ -84,7 +84,7 @@
                     <td style="text-align:left;">{{$saidamats->nomecat}}</td>
                     <td style="text-align:center;">{{$saidamats->nome}}</td>
                     <td style="text-align:center;">
-                    @if($saidamats->adquirido == 1)
+                    @if($saidamats->adquirido == true)
                         Sim
                     @else
                         Não
