@@ -23,8 +23,8 @@
                     <div class="col-2">Data cadastro:
                         <input class="form-control text-center" type="text" id="" name="data_cadastro" required="required" value="{{date( 'd/m/Y' , strtotime($itemmat[0]->data_cadastro))}}" placeholder="nome" readonly style="background:#f3f3f3; color:rgb(0, 0, 0);font-weight:bold;">
                     </div>
-                    <div class="col-2">Valor venda:
-                        <input class="form-control text-center" type="text" id="" name="valor_venda" required="required" value="{{number_format($itemmat[0]->valor_venda,' 2',',','')}}" placeholder="ID"readonly style="background:#f3f3f3; color:rgb(0, 0, 0);font-weight:bold;">
+                    <div class="col-2">Valor aquisição:
+                        <input class="form-control text-center" type="text" id="" name="valor_aquisicao" required="required" value="{{number_format($itemmat[0]->valor_aquisicao,' 2',',','')}}" placeholder="ID"readonly style="background:#f3f3f3; color:rgb(0, 0, 0);font-weight:bold;">
                     </div>
                 </div>
             </div>

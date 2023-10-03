@@ -152,7 +152,7 @@ class CadastroInicialController extends Controller
         else {
 
         $itemmat = DB::table('item_material AS im')
-                        ->select('im.id AS id_item', 'im.data_cadastro', 'im.valor_venda', 'icm.id AS id_item_cat', 'icm.id_categoria_material AS id_cat_item', 'icm.nome AS nome_item', 'tcm.nome AS nome_categ')
+                        ->select('im.id AS id_item', 'im.data_cadastro', 'im.valor_venda', 'im.valor_aquisicao', 'icm.id AS id_item_cat', 'icm.id_categoria_material AS id_cat_item', 'icm.nome AS nome_item', 'tcm.nome AS nome_categ')
                         ->leftJoin('item_catalogo_material AS icm', 'im.id_item_catalogo_material', 'icm.id' )
                         ->leftJoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material', 'tcm.id')
                         ->where('im.id',$id)
