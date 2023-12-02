@@ -37,10 +37,11 @@ Route::get('/logout', 'LexaAdmin@logout');
 // });
 
 Route::get('/', 'LoginController@index');
+Route::any('/login/home', 'LoginController@valida');
 Route::any('/login/valida', 'LoginController@validaUserLogado')->name('home.post');
 Route::get('/email/remessa-email', 'RecuperaSenhaController@index');
 Route::post('/email/remessa-email', 'RecuperaSenhaController@validar');
-Route::any('/login/home', 'LoginController@valida');
+
 
 
 //Route::view('/dashboard/index' , 'dashboard/index')->middleware('validaUsuario');
@@ -264,6 +265,7 @@ Route::name('relatorios')->middleware('validaUsuario')->group(function (){
   Route::get('/relatorio-entrada', 'RelatoriosController@entrada')->middleware('validaUsuario');
   Route::get('/relatorio-saidas', 'RelatoriosController@saida')->middleware('validaUsuario');
   Route::get('/inventarios', 'GerenciarInventariosController@index')->middleware('validaUsuario');
+  Route::get('/venda-valor', 'RelatoriosController@vendas')->middleware('validaUsuario');
 });
 
 Route::name('valor-avariado')->middleware('validaUsuario')->group(function () {

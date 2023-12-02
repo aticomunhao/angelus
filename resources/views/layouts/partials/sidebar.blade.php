@@ -170,6 +170,9 @@
                         <li>
                             <a href="/relatorio-saidas" class="waves-effect"><span>Relatório de Saídas</span></a>
                         </li>
+                        <li>
+                            <a href="/venda-valor" class="waves-effect"><span>Relatório Vendas por valor</span></a>
+                        </li>
                     </ul>
                 </li>
                 @endif

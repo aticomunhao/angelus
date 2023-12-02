@@ -174,10 +174,12 @@ class GerenciarpagamentoController extends Controller
                     ->where ('id_venda', '=', $id)
                     ->sum('valor');
 
-        $resto = ($total_preco - $desconto - $total_pago);
+        $resto = (($total_preco - $desconto) - $total_pago);
 
+        $novo_valor = number_format($request->valor, 2,'.','');
 
-        if ($resto >= $request['valor']) {
+//dd($novo_valor);
+        if ($resto > $novo_valor or $resto = $novo_valor ) {
 
                 DB::table('pagamento')->insert([
                     'id_venda' => ($id),

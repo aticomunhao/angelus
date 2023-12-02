@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') Relatório de vendas @endsection
+@section('title') Relatório de vendas por valor @endsection
 
 @section('content')
 
@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row" style="text-align: left;">
             <div class="col-12" style="background:#ffffff;">
-                <form action="/relatorio-vendas" class="form-horizontal mt-4" method="GET" >
+                <form action="/venda-valor" class="form-horizontal mt-4" method="GET" >
                     @csrf
                 <div class="row">
                     <div class="col">Início                        
@@ -18,18 +18,11 @@
                     <div class="col">Final                        
                         <input type="date" name="data_fim"  value="{{$data_fim}}">
                     </div>    
-                    <div class="col">Comprado?<br>
-                        <select class="form-control" id="" name="compra">
-                            <option value="">Todos</option>
-                            <option value="true">Sim</option>
-                            <option value="false">Não</option>
-                        </select>
-                    </div>              
                     <div class="col">
                         <input class="btn btn-info" type="submit" value="Pesquisar">
                     </div>
                     <div class="col">
-                        <a href="/relatorio-vendas">    
+                        <a href="/vendas-tipo-valor">    
                         <input class="btn btn-warning" type="button" value="Limpar">
                         </a>
                     </form>
@@ -52,45 +45,47 @@
 
     <hr>
     <div id='print' class='conteudo'>
-        <h4 class="card-title" class="card-title" style="font-size:15px; text-align: center; background: #088CFF; color: white;">RELATÓRIO DE VENDAS POR PERÍODO</h4>
+        <h4 class="card-title" class="card-title" style="font-size:15px; text-align: center; background: #088CFF; color: white;">RELATÓRIO DE VENDAS POR TIPO PAGAMENTO</h4>
         <h4 style="font-size: 12px; text-align: center; color:black;">O período do relatório é: {{ \Carbon\Carbon::parse("$data_inicio")->format('d/m/Y')}} até {{ \Carbon\Carbon::parse("$data_fim")->format('d/m/Y')}}</h4>
         <br>
         <div class="container" style="background:#ffffff;">
             <div class="row">
+                    @foreach ($rela as $ra)
                     <table class="table table-sm table-striped table-bordered">
                         <thead style='font-size:12px; background:#ffffff; text-align:center;vertical-align:middle'>
                             <tr>
                                 <th colspan="1">CÓDIGO</th>
                                 <th colspan="1">DATA</th>
                                 <th colspan="1">CLIENTE</th>
-                                <th colspan="1">VALOR ORIGINAL</th>
-                                <th colspan="1">VALOR DESCONTO</th>
                                 <th colspan="1">VALOR FINAL</th>
+                                <th colspan="1">TIPO PAGAMENTO</th>
+                                <th colspan="1">VALOR</th>
                             </tr>
                         </thead>
                         <tbody style='font-size:10px; text-align:center;vertical-align:middle'>
-                        @foreach($rela as $ra)
+                       
                             <tr>
                                 <td>{{$ra->idv}}</td>
-                                <td>{{ date( 'd/m/Y' , strtotime($ra->data))}}</td>
+                                <td>{{date( 'd/m/Y' , strtotime($ra->data))}}</td>
                                 <td>{{$ra->nomep}}</td>
-                                <td>{{number_format($ra->vlr_original,2,',','.')}}</td>
-                                <td>{{number_format($ra->desconto,2,',','.')}}</td>
                                 <td>{{number_format($ra->vlr_final,2,',','.')}}</td>
+                  
                             </tr>
-                        @endforeach
                         </tbody>
+                    </table>
+                    @endforeach
+                  
                         <tfoot style='background:#ffffff;'>
                             <tr>
-                                <th></th>
+                           
                                 <th></th>
                                 <th></th>
                                 <th style="text-align:right;font-size:12px;font-weight: bold;">TOTAL</th>
-                                <th style="text-align:center;font-size:12px;font-weight: bold;">{{number_format($total_desconto,2,',','.')}}</th>
                                 <td style="text-align:center;font-size:12px;font-weight: bold;">{{number_format($total1,2,',','.')}}</td>
                             </tr>
                         </tfoot>
                     </table>
+                   
 
             </div>
         </div>

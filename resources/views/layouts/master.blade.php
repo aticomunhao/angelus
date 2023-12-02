@@ -60,21 +60,21 @@
 
 
 
-                        @include('components/flash_alerts')
+                    @include('components/flash_alerts')
 
 
-
+                    
                         @yield('content')
 
 
 
 
-                    </div>
-
-
                 </div>
+
+
+        </div>
                 <!-- end main content-->
-            </div>
+    </div>
             <!-- END layout-wrapper -->
 
              @include('layouts/partials/rightbar')
@@ -88,8 +88,7 @@
             <script src="{{ URL::asset('/libs/simplebar/simplebar.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/node-waves/node-waves.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/jquery-sparkline/jquery-sparkline.min.js')}}"></script>
-            <link rel="stylesheet" href="css/bootstrap.min.css" />
-            <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+
 
 
 
@@ -97,8 +96,7 @@
             <!-- footerScript -->
              @yield('footerScript')
 
-            <!-- App js 
-            <script src="{{ URL::asset('/js/app.min.js')}}"></script> -->
+
 </body>
 
 </html>

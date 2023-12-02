@@ -39,15 +39,6 @@
                                         </select>
                                 </div>
                             </div>
-
-
-
-                            <!-- <div class="row mt-3">
-                                <label for="sigla" class="col-sm-2 col-form-label">Ativo</label>
-                                <div class="col-4">
-                                    <input class="" type="checkbox" id="ativo_marca" name="ativo_marca" checked="">
-                                </div>
-                            </div> -->
                         </div>
                         <div class="row">
                             <div class="col-6 mt-3" style="text-align: right;">
@@ -61,7 +52,6 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-
                                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
@@ -99,7 +89,6 @@
             </div>
         </div>
     </div>
-
     @include('cadastro-geral/popUp-alterar')
 @endsection
 

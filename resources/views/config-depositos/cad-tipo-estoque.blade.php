@@ -60,7 +60,7 @@
                 </div>
             </div>
         </div>
-        @include("cadastro-geral/popUp-alterar");
+        @include("cadastro-geral/popUp-alterar")
 @endsection
 
 @section('footerScript')

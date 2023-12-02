@@ -70,13 +70,8 @@
             <script src="{{ URL::asset('/libs/pdfmake/pdfmake.min.js')}}"></script>
 
             <!-- Datatable init js -->
-            <script src="{{ URL::asset('/js/pages/cad-tipo-material.init.js')}}"></script>
             <script src="{{ URL::asset('/js/pages/datatables.init.js')}}"></script>
-
-            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-            <script src="js/bootstrap.min.js"></script>
-            <script src="jquery.bsAlerts.js"></script>
-
-
-
+            <script src="{{ URL::asset('/js/pages/cad-tipo-material.init.js')}}"></script>
 @endsection
+
+
