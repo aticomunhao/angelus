@@ -86,6 +86,8 @@ class GerenciarpagamentoController extends Controller
         $total_pago = DB::table ('pagamento')
                 ->where ('id_venda', '=', $id)
                 ->sum('valor');
+        
+        $total_pago = round($total_pago,2);
 
         ///Cálculo do total de desconto
         $desconto = DB::table ('item_material')
@@ -101,7 +103,9 @@ class GerenciarpagamentoController extends Controller
          $nao_pago = ($total_original - $desconto) - $total_pago;
 
         ///Cálculo do total do preço da venda com desconto se houver
-        $total_preco = $total_venda - $desconto;
+        $total_preco = $total_original - $desconto;
+
+        $total_preco = round($total_preco,2);
 
         ///Cálculo de possível troco
         $troco = $total_pago - $total_preco;
@@ -139,6 +143,9 @@ class GerenciarpagamentoController extends Controller
                             where v.id=$id
                         ");
 
+                        //dd($total_pago < $total_preco);
+                        //dd($total_pago, $total_preco);
+
         return view ('vendas/gerenciar-pagamentos', compact('pagamentos','vendas','total_itens', 'total_preco', 'itens_compra',
         'tipos_pagamento', 'total_pago', 'troco', 'total_especie', 'devolver', 'desconto', 'total_original', 'nao_pago'));
 
@@ -161,39 +168,49 @@ class GerenciarpagamentoController extends Controller
                     ->where ('id_venda', '=', $id)
                     ->sum('item_material.valor_venda');
 
+       // dd($total_preco);
         ///Cálculo do total de desconto
         $desconto = DB::table ('item_material')
         ->leftjoin('venda_item_material', 'item_material.id', 'venda_item_material.id_item_material')
         ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
         ->where ('venda_item_material.id_venda', '=', $id)
         ->sum(DB::raw('item_material.valor_venda * item_material.valor_venda_promocional'));
-
+        //dd($desconto);
 
         ///Soma TOTAL dos pagamentos
         $total_pago = DB::table ('pagamento')
                     ->where ('id_venda', '=', $id)
                     ->sum('valor');
 
-        $resto = (($total_preco - $desconto) - $total_pago);
+        
 
-        $novo_valor = number_format($request->valor, 2,'.','');
+        strtolower($resto = (($total_preco - (number_format($desconto,2,'.',''))) - $total_pago));
 
-//dd($novo_valor);
-        if ($resto > $novo_valor or $resto = $novo_valor ) {
+//dd($resto);
+
+       $novo_valor = number_format($request->valor, 2,'.','');
+
+//dd($novo_valor <= $resto);
+
+        if ($novo_valor <= $resto ) {
 
                 DB::table('pagamento')->insert([
                     'id_venda' => ($id),
-                    'valor' => $request->input ('valor'),
+                    'valor' => $novo_valor,
                     'id_tipo_pagamento' => $request->input('forma')
                     ]);
-        } else{
+                
+                
+                return redirect()->back()
+                ->with('message', 'O valor foi incluído com sucesso.');
+
+        } elseif($novo_valor > $resto){
 
                 return redirect()->back()
-                ->with('warning', 'O valor selecionado ultrapassa a soma do valor dos itens.');
 
+                ->with('warning', 'O valor selecionado ultrapassa a soma do valor dos itens.');
         }
 
-        return redirect()->back();
 
     }
 

@@ -135,11 +135,11 @@
                             <div class="input-group mb-3">
                                 <table class="table table-bordered">
                                     <tbody style="color:#000; text-align:center;vertical-align:middle; font-size:15px;">
-                                        @if ($total_preco > $total_pago)
+                                        @if ($total_pago < $total_preco)
                                         <tr style="background-color: #ffcbd3; text-align:right;font-weight:bold;">
-                                        @elseif ($total_preco = $total_pago)
+                                        @elseif ($total_pago = $total_preco)
                                         <tr style="background-color:#a8ecbf; text-align:right;font-weight:bold;">
-                                            @endif
+                                        @endif
                                             
                                         <td style="text-align:left;">Falta pagar:</td><td style="text-align:left;">R$ {{number_format($nao_pago,2,',','.')}}</td></tr>
 
@@ -147,9 +147,9 @@
                                         </tr>
                                         <tr>
                                             <td style="text-align:left;">Total em descontos:</td><td style="text-align:left;">R$ {{number_format($desconto,2,',','.')}}</td></tr>
-                                        @if ($total_preco > $total_pago)
+                                        @if ($total_pago < $total_preco)
                                         <tr style="background-color: #ffcbd3; text-align:right;font-weight:bold;">
-                                        @elseif ($total_preco = $total_pago)
+                                        @elseif ($total_pago = $total_preco)
                                         <tr style="background-color:#a8ecbf; text-align:right;font-weight:bold;">
                                             @endif
 
