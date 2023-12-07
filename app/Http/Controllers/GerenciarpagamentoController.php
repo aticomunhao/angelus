@@ -184,13 +184,18 @@ class GerenciarpagamentoController extends Controller
 
         
 
-        strtolower($resto = (($total_preco - (number_format($desconto,2,'.',''))) - $total_pago));
+        $resto = (($total_preco - $desconto) - $total_pago);
+        
+        $resto =  round($resto, 2);
 
-//dd($resto);
 
-       $novo_valor = number_format($request->valor, 2,'.','');
+       $novo_valor = round($request->valor, 2);
 
-//dd($novo_valor <= $resto);
+      // $novo_valor =  round($novo_valor, 2);
+
+      // dd($request->valor);
+      //dd($novo_valor, $resto );
+//dd($novo_valor <= $resto );
 
         if ($novo_valor <= $resto ) {
 
