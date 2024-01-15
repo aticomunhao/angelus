@@ -14,10 +14,10 @@
                         @csrf
                     <div class="row align-items-center">
                         <div class="col">Início
-                            <input type="date"  style="height:35px;" name="data_inicio" value="{{$data_inicio}}">
+                            <input type="date" class="form-control"  style="height:35px;" name="data_inicio" value="{{$data_inicio}}">
                         </div>
                         <div class="col">Fim
-                            <input type="date" style="height:35px;" name="data_fim"  value="{{$data_fim}}">
+                            <input type="date" class="form-control" style="height:35px;" name="data_fim"  value="{{$data_fim}}">
                         </div>
                         <div class="col-5">Nome do cliente:
                             <input class="form-control" type="text" name="cliente" id="cliente" value=""/>

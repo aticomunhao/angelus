@@ -110,7 +110,7 @@ class PessoaController extends Controller
         $cpf = $request->input('cpf');
 
         $result =DB::table('pessoa')
-                                    ->where('nome', 'like' ,'%'.$nome.'%')
+                                    ->where('nome', 'ilike' ,'%'.$nome.'%')
                                     ->where('identidade', 'like' , '%'.$identidade.'%')
                                     ->where('cpf', 'like' , '%'.$cpf.'%')
                                     ->get();

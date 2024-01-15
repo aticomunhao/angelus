@@ -150,29 +150,33 @@
                     </ul>
                 </li>
 
-                {{-- Documentos --}}
+                {{-- Relatórios --}}
                 @if(!$perfil_vol)
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="mdi mdi-library-books"></i>
-                        <span>Documentos</span>
+                        <span>Relatórios</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="/inventarios" class="waves-effect"><span>Inventário de material</span></a>
+                            <a href="/relatorio-entrada" class="waves-effect"><span>Entradas Materiais</span></a>
                         </li>
                         <li>
-                            <a href="/relatorio-vendas" class="waves-effect"><span>Relatório de Vendas</span></a>
+                            <a href="/inventarios" class="waves-effect"><span>Inventário</span></a>
                         </li>
                         <li>
-                            <a href="/relatorio-entrada" class="waves-effect"><span>Relatório de Entradas</span></a>
+                            <a href="/relatorio-saidas" class="waves-effect"><span>Saídas Materiais</span></a>
                         </li>
                         <li>
-                            <a href="/relatorio-saidas" class="waves-effect"><span>Relatório de Saídas</span></a>
+                            <a href="/relatorio-vendas" class="waves-effect"><span>Vendas Cliente</span></a>
                         </li>
                         <li>
-                            <a href="/venda-valor" class="waves-effect"><span>Relatório Vendas por valor</span></a>
+                            <a href="/saida-categoria" class="waves-effect"><span>Vendas Categoria</span></a>
                         </li>
+                        <li>
+                            <a href="/venda-valor" class="waves-effect"><span>Vendas Tipo Pagamento</span></a>
+                        </li>
+                        
                     </ul>
                 </li>
                 @endif

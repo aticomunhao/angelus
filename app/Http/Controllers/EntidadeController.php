@@ -79,7 +79,7 @@ class EntidadeController extends Controller
         
         $result =DB::table('entidade')
                             ->where('cnpj', 'like' ,'%'.$cnpj.'%')
-                            ->where('nome_fantasia', 'like' , '%'.$nome_fantasia.'%')
+                            ->where('nome_fantasia', 'ilike' , '%'.$nome_fantasia.'%')
                             ->get();
         
         return view('/entidade/gerenciar-entidade',['result'=>$result]);

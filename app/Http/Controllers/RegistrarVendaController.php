@@ -85,7 +85,7 @@ class RegistrarVendaController extends Controller
 
         $result =DB::table('pessoa')
                                     ->where('id', 'like' ,'%'.$id.'%')
-                                    ->where('nome', 'like' ,'%'.$nome.'%')
+                                    ->where('nome', 'ilike' ,'%'.$nome.'%')
                                     ->where('cpf', 'like' , '%'.$cpf.'%')
                                     ->get();
 

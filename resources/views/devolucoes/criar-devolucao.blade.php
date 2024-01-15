@@ -26,7 +26,7 @@
                             </select>
                         </div>
                         <div class="col-2" style="text-align:center;">Data Venda
-                            <input type="date" name='data_venda'style="height:65%;" value="">
+                            <input type="date"  class="form-control" name='data_venda'style="height:65%;" value="">
                         </div>    
                         <div class="col">Código Venda
                             <select class="form-control select2" type="numeric" id="" name="id_venda">

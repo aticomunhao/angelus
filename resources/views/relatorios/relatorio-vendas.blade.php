@@ -13,10 +13,10 @@
                     @csrf
                 <div class="row">
                     <div class="col">Início                        
-                        <input type="date" name="data_inicio" value="{{$data_inicio}}">
+                        <input type="date" class="form-control" name="data_inicio" value="{{$data_inicio}}">
                     </div>
                     <div class="col">Final                        
-                        <input type="date" name="data_fim"  value="{{$data_fim}}">
+                        <input type="date" class="form-control" name="data_fim"  value="{{$data_fim}}">
                     </div>    
                     <div class="col">Comprado?<br>
                         <select class="form-control" id="" name="compra">

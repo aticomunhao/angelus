@@ -68,7 +68,7 @@ class GerenciarDevolucoesController extends Controller
         $cliente = $request->cliente;
 
         if($request->cliente){
-            $form->where('venda.id_pessoa','like' , "%$request->cliente%");
+            $form->where('venda.id_pessoa','ilike' , "%$request->cliente%");
         }
         
         $data_venda = $request->data_venda;

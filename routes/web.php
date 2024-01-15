@@ -266,6 +266,8 @@ Route::name('relatorios')->middleware('validaUsuario')->group(function (){
   Route::get('/relatorio-saidas', 'RelatoriosController@saida')->middleware('validaUsuario');
   Route::get('/inventarios', 'GerenciarInventariosController@index')->middleware('validaUsuario');
   Route::get('/venda-valor', 'RelatoriosController@vendas')->middleware('validaUsuario');
+  Route::get('/saida-categoria', 'RelatoriosController@saida_cat')->middleware('validaUsuario');
+
 });
 
 Route::name('valor-avariado')->middleware('validaUsuario')->group(function () {

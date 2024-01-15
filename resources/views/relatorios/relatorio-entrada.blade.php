@@ -13,10 +13,10 @@
             @csrf
                 <div class="row">
                     <div class="col">Início
-                        <input type="date" name='data_inicio' value="{{$data_inicio}}" default="$today = Carbon::today();">
+                        <input type="date" class="form-control" name='data_inicio'  value="{{$data_inicio}}" default="$today = Carbon::today();">
                     </div>
                     <div class="col">Fim
-                        <input type="date" name='data_fim' value="{{$data_fim}}" default="$today = Carbon::today();">
+                        <input type="date" class="form-control" name='data_fim' value="{{$data_fim}}" default="$today = Carbon::today();">
                     </div>
                     <div class="col-2">Categoria
                         <select class="form-control" id="cat" name="categoria" placeholder="categoria" >

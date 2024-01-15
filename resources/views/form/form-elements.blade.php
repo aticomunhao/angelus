@@ -82,7 +82,7 @@
                                     <div class="form-group row">
                                         <label for="example-date-input" class="col-sm-2 col-form-label">Date</label>
                                         <div class="col-sm-10">
-                                            <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                                            <input class="form-control" type="date" class="form-control" value="2011-08-19" id="example-date-input">
                                         </div>
                                     </div>
                                     <div class="form-group row">

@@ -78,12 +78,12 @@ class CadastroInicialController extends Controller
 
         $material = $request->material;
         if ($request->material){
-            $result->where('icm.nome', 'like', "%$request->material%");
+            $result->where('icm.nome', 'ilike', "%$request->material%");
         }
 
         $obs = $request->obs;
         if ($request->obs){
-            $result->where('im.observacao', 'like', "%$request->obs%");
+            $result->where('im.observacao', 'ilike', "%$request->obs%");
         }
 
         $ref_fab = $request->ref_fab;

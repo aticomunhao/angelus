@@ -36,12 +36,12 @@
                             </div>
                             <div class="col-3">Data Cadastro - De
 
-                                <input type="date" name='data_inicio' value="" >
+                                <input type="date" class="form-control" name='data_inicio' value="" >
                             </div>
 
                             <div class="col-3">Data Cadastro - Até
 
-                                <input type="date" name='data_fim' value="" >
+                                <input type="date" class="form-control" name='data_fim' value="" >
                             </div>
                         </div>
                         <div class="form-group row">
