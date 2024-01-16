@@ -34,14 +34,29 @@ class CatMaterialController extends Controller
 
     public function store(Request $request)
     {
-        $tipoMat = $request->input('tipoMat');
-        DB::insert('insert into tipo_categoria_material (nome) values (?)', [$tipoMat]);
+
+
+        $tipo_mat = mb_strtoupper($request->tipoMat, "utf-8");
+
+
+        $verifica = DB::table('tipo_categoria_material AS icm')->where('nome','ilike', $tipo_mat)->count();
+
+        if($verifica < 1){
+
+        DB::insert('insert into tipo_categoria_material (nome) values (?)', [$tipo_mat]);
         $result= $this->objTpMat->all();
 
         return redirect()
         ->route('cadcat.index')
         ->with('message', 'sucesso ao criar a categoria');
+        
+        }elseif($verifica > 0){
 
+            return redirect()
+            ->back()
+            ->with('danger', 'Não é permitido incluir nomes duplicados!');
+
+        }
     }
 
     public function show($id)

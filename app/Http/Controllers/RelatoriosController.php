@@ -42,17 +42,17 @@ class RelatoriosController extends Controller
 
         if ($request->data_inicio){
 
-            $rela->where('venda.data','>=' , $request->data_inicio);
+            $rela->where(DB::raw("DATE(venda.data)"),'>=' , $request->data_inicio);
 
-            $relb->where('venda.data','>=' , $request->data_inicio);
+            $relb->where(DB::raw("DATE(venda.data)"),'>=' , $request->data_inicio);
 
         }
 
         if ($request->data_fim){
 
-            $rela->where('venda.data','<=' , $request->data_fim);
+            $rela->where(DB::raw("DATE(venda.data)"),'<=' , $request->data_fim);
 
-            $relb->where('venda.data','<=' , $request->data_fim);
+            $relb->where(DB::raw("DATE(venda.data)"),'<=' , $request->data_fim);
 
         }
 
@@ -118,13 +118,13 @@ class RelatoriosController extends Controller
 
         if ($request->data_inicio){
 
-        $entmat->where('item_material.data_cadastro','>=' , $request->data_inicio);
+        $entmat->where(DB::raw("DATE(item_material.data_cadastro"),'>=' , $request->data_inicio);
 
         }
 
         if ($request->data_fim){
 
-            $entmat->where('item_material.data_cadastro','<=' , $request->data_fim);
+            $entmat->where(DB::raw("DATE(item_material.data_cadastro"),'<=' , $request->data_fim);
         }
 
         if ($request->categoria){

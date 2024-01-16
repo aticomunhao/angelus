@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ModelItemCatalogo;
 use App\Models\ModelCatMaterial;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 class ItemCatalogoController extends Controller
 {
@@ -51,8 +52,27 @@ class ItemCatalogoController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(Request $request)   
     {
+
+        // $validator = Validator::make($request->all(), [
+        //     'nome' => 'required|unique:item_catalogo_material',
+        //     // Outras regras de validação, se necessário
+        // ]);
+    
+        // dd($validator);
+        // // Verifica se a validação falhou
+        // if ($validator->fails()) {
+        //     return redirect('gerenciar-item-catalogo')
+        //                 ->withErrors($validator)
+        //                 ->withInput();
+        // }
+        $nome_item = $request->nome_item;
+
+       $verifica = DB::table('item_catalogo_material AS icm')->where('nome', $nome_item)->count();
+
+       if ($verifica < 1){
+
         $ativo = isset($request->ativo) ? 1 : 0;
         $composicao = isset($request->composicao) ? 1 : 0;
 
@@ -69,10 +89,24 @@ class ItemCatalogoController extends Controller
             'ativo' => $ativo,
         ]);
 
-
-
         $result= $result= $this->getListaItemMatAll();
+
+        return redirect()
+                    ->action('ItemCatalogoController@index')
+                    ->with('message', 'O nome foi inserido no catálogo com sucesso!');  
+
         return view('catalogo/gerenciar-item-catalogo',['result'=>$result]);
+
+        }elseif($verifica > 0){
+
+
+            return redirect()
+                    ->back()
+                    ->with('danger', 'Este nome está duplicado!');            
+
+        }
+
+       
     }
 
 

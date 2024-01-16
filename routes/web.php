@@ -103,7 +103,7 @@ Route::post('/usuario/gravaSenha', 'UsuarioController@gravaSenha');
 Route::get('/usuario/alterar-senha', 'UsuarioController@alteraSenha');
 
 
-Route::get('gerenciar-item-catalogo', 'ItemCatalogoController@index')->middleware('validaUsuario');
+Route::get('gerenciar-item-catalogo', 'ItemCatalogoController@index')->middleware('validaUsuario')->name('gercat');
 Route::get('item-catalogo-incluir', 'ItemCatalogoController@create')->middleware('validaUsuario');
 Route::post('cad-item-material/inserir', 'ItemCatalogoController@store')->middleware('validaUsuario');
 Route::get('/item-catalogo/alterar/{id}', 'ItemCatalogoController@edit')->middleware('validaUsuario');
