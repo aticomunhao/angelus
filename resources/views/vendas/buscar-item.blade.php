@@ -8,7 +8,7 @@
                                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th>Id</th>
+                                                <th>Código</th>
                                                 <th>Nome</th>
                                                 <th>marca</th>
                                                 <th>tamanho</th>

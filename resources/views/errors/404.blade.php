@@ -11,11 +11,11 @@
                         <div class="card-body pt-0">
 
                             <div class="ex-page-content text-center">
-                                <h1 class="text-dark">404!</h1>
-                                <h3 class="">Sorry, page not found</h3>
+                                <h1 class text-dark style="font-size:40px;">Não Autorizado!</h1>
+                                <h6 class="">Você não está autorizado à acessar esta área</h6>
                                 <br>
 
-                                <a class="btn btn-info mb-4 waves-effect waves-light" href="/dashboard/index"><i class="mdi mdi-home"></i> Back to Dashboard</a>
+                                <a class="btn btn-info mb-4 waves-effect waves-light" href="/login/valida"><i class="mdi mdi-home"></i>Voltar ao início</a>
                             </div>
 
                         </div>

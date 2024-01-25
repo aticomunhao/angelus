@@ -305,9 +305,8 @@ class RelatoriosController extends Controller
                         ->leftjoin('tipo_categoria_material', 'tipo_categoria_material.id','item_catalogo_material.id_categoria_material')
                         ->leftjoin('venda_item_material', 'item_material.id', 'id_item_material')
                         ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
-                        ->leftJoin('pagamento AS p', 'venda.id', 'p.id_venda')
                         ->where('item_material.id_tipo_situacao', '2')
-                        ->whereIn('p.id_tipo_pagamento', [2,3,4,5])
+                        //->whereIn('p.id_tipo_pagamento', [2,3,4,5])
                         ->groupby('item_material.adquirido', 'tipo_categoria_material.nome')
                         ->orderby('tipo_categoria_material.nome');
 
@@ -318,7 +317,7 @@ class RelatoriosController extends Controller
                             ->leftjoin('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                             ->leftjoin('item_material', 'venda_item_material.id_item_material', 'item_material.id')
                             ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
-                            ->whereIn('pagamento.id_tipo_pagamento', [2,3,4,5])
+                           // ->whereIn('pagamento.id_tipo_pagamento', [2,3,4,5])
                             ->groupby('venda.data', 'pagamento.id', 'tipo_pagamento.id', 'tipo_pagamento.nome', 'pagamento.valor', 'pagamento.id_venda');
 
 
@@ -370,14 +369,14 @@ class RelatoriosController extends Controller
         $total_desconto = $saidacat1->sum('desconto');
 
         $total_din = $saidacat2->where('tpid', '1')->sum('valor_p');
+
         $total_deb = $saidacat2->where('tpid', '2')->sum('valor_p');
         $total_cre = $saidacat2->where('tpid', '3')->sum('valor_p');
         $total_che = $saidacat2->where('tpid', '4')->sum('valor_p');
         $total_pix = $saidacat2->where('tpid', '5')->sum('valor_p');
 
         $total2 = $saidacat2->sum("valor_p");
-
-      //dd($total_deb);
+      //dd($total2);
 
         $result = DB::select('select id, nome from tipo_categoria_material order by nome');
 
