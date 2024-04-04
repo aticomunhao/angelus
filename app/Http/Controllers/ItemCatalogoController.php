@@ -68,8 +68,12 @@ class ItemCatalogoController extends Controller
         //                 ->withInput();
         // }
         $nome_item = $request->nome_item;
+        $categoria_item = $request->categoria_item;
 
-       $verifica = DB::table('item_catalogo_material AS icm')->where('nome', $nome_item)->count();
+       $verifica = DB::table('item_catalogo_material AS icm')
+                        ->where('nome', $nome_item)
+                        ->where('id_categoria_material', $categoria_item)
+                        ->count();
 
        if ($verifica < 1){
 
