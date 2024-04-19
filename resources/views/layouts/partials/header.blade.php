@@ -216,14 +216,22 @@
                             </div> -->
                         </div>
                     </div>
+                    <div class="col">
 
+                    </div>
 
-                    <div class="dropdown d-inline-block">
-                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="rounded-circle header-profile-user" src="{{ URL::asset('/images/users/ico_usuario.png')}}"
-                                alt="Header Avatar">
-                        </button>
+                    <div class="col" style="text-align: left;">
+                                
+                            </br>
+                    
+                            </div>
+                        <div class="dropdown d-inline-block">
+                            
+                            <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="rounded-circle header-profile-user" src="{{ URL::asset('/images/users/ico_usuario.png')}}"
+                                    alt="Header Avatar">
+                            </button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <!-- item-->
                             <!-- <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle font-size-17 text-muted align-middle mr-1"></i> Profile</a> -->

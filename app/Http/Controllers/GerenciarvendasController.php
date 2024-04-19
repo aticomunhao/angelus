@@ -26,13 +26,18 @@ class GerenciarVendasController extends Controller
 
         $resultSitVenda = DB::select ('select id, nome from tipo_situacao_venda');
 
+        $sessao = session()->get('usuario.depositos');
+
+        $array_sessao = explode(",", $sessao);
 
         $result = DB::table('venda AS v')
         ->select ('v.id', 'v.data', 'v.id_pessoa', 'v.id_usuario', 'v.id_tp_situacao_venda', 'p.nome AS nome_cliente', 'pu.nome AS nome_usuario',  'v.valor', 't.nome as sit_venda', 't.id AS idt')
         ->leftjoin ('pessoa AS p',  'v.id_pessoa', '=', 'p.id')
         ->leftjoin ('usuario AS u',  'u.id', '=', 'v.id_usuario')
+        ->leftjoin ('usuario_deposito AS ud',  'u.id', '=', 'ud.id_usuario')
         ->leftjoin ('pessoa AS pu', 'u.id_pessoa', '=', 'pu.id')
-        ->leftjoin ('tipo_situacao_venda AS t', 't.id', '=', 'v.id_tp_situacao_venda');
+        ->leftjoin ('tipo_situacao_venda AS t', 't.id', '=', 'v.id_tp_situacao_venda')
+        ->where('ud.id_deposito', $array_sessao);
 
 
 

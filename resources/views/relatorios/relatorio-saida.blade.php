@@ -26,24 +26,24 @@
                         @endForeach
                         </select>
                     </div>
-                    <div class="col-sm">Comprado?<br>
+                    <div class="col">Comprado?<br>
                         <select class="form-control" id="compra" name="compra">
                             <option value="">Todos</option>
                             <option value="true">Sim</option>
                             <option value="false">Não</option>
                         </select>
                     </div>
-                    <div class="col"><br>
+                    <div class="col-1"><br>
                         <input class="btn btn-info" type="submit" value="Pesquisar">
                     </div>
-                    <div class="col"><br>
+                    </form>
+                    <div class="col-1"><br>
                         <a href="/relatorio-saidas"><input class="btn btn-warning" type="button" value="Limpar"></a>
-                    </div>
-                </form>
-                    <div class="col"><br>
+                    </div>                
+                    <div class="col-1"><br>
                         <a href="/gerenciar-vendas"><input class="btn btn-danger" type="button" value="Cancelar"></a>
                     </div>
-                    <div class="col"><br>
+                    <div class="col-1"><br>
                         <a href=""><input class="btn btn-success" onclick="cont();" type="button" value="Imprimir"></a>
                     </div>
                 </div>

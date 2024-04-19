@@ -36,6 +36,11 @@ class RegistrarVendaController extends Controller
     }
 
     private function getListaItens(){
+
+        $sessao = session()->get('usuario.depositos');
+
+        $array_sessao = explode(",", $sessao);
+
         $lista = DB::select("
             select
                 im.id,
@@ -56,7 +61,8 @@ class RegistrarVendaController extends Controller
             left join cor c on (im.id_cor = c.id)
             left join tipo_material tm on (im.id_tipo_material = tm.id)
             where im.id_tipo_situacao = 1
-        ");
+            and im.id_deposito IN (" . implode(",", $array_sessao) . ")");
+
         return $lista;
     }
 
@@ -107,7 +113,9 @@ class RegistrarVendaController extends Controller
 
     public function getItem($id)
     {
+        $sessao = session()->get('usuario.depositos');
 
+        $array_sessao = explode(",", $sessao);
 
        $item = DB::select("
             select
@@ -129,7 +137,8 @@ class RegistrarVendaController extends Controller
             left join cor c on (im.id_cor = c.id)
             left join tipo_material tm on (im.id_tipo_material = tm.id)
             where im.id = $id and im.id_tipo_situacao = 1
-        ");
+            and im.id_deposito IN (" . implode(",", $array_sessao) . ")"
+        );
         if ($item){
              return view('vendas/area-confirmacao', compact('item'));
         }

@@ -58,7 +58,10 @@ class UsuarioController extends Controller
     public function create()
     {
         $pessoa = new ModelPessoa();
-        $result = $pessoa->all();
+        $user = $this->getUsuarios();
+        //dd($user);
+        $idPessoas = array_column($user, 'id_pessoa');
+        $result = $pessoa->all()->whereNotIn('id', $idPessoas);
 
         return view('usuario/incluir-usuario', compact('result'));
     }

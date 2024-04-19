@@ -23,6 +23,7 @@ class CadastroInicialController extends Controller
     }
 
     private function getListaItens(){
+
         $lista = DB::select("
             select
                 im.id,
@@ -51,6 +52,12 @@ class CadastroInicialController extends Controller
     public function index(Request $request)
     {        
 
+        $sessao = session()->get('usuario.depositos');
+
+        $array_sessao = explode(",", $sessao);
+
+        //dd($array_sessao);
+
         $resultCat = DB::select ('select id, nome from tipo_categoria_material order by nome');
 
         //$result = $this->getListaItens();
@@ -61,7 +68,8 @@ class CadastroInicialController extends Controller
                             ->leftjoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material' , '=', 'tcm.id')
                             ->leftjoin('marca AS m', 'm.id' , '=', 'im.id_marca')
                             ->leftjoin('tamanho AS t', 't.id' , '=', 'im.id_tamanho')
-                            ->leftjoin('cor AS c', 'c.id', '=', 'im.id_cor');
+                            ->leftjoin('cor AS c', 'c.id', '=', 'im.id_cor')
+                            ->whereIn('id_deposito', $array_sessao);
         //$resultCategoria = DB::select ('select id, nome from tipo_categoria_material');
         //$resultSitMat = DB::select ('select id, nome from tipo_situacao_item_material');
 
@@ -313,9 +321,16 @@ class CadastroInicialController extends Controller
 
     public function getFormCadastro(Request $request, $id){
 
-        $sql8 = "select d.id, d.nome||' / '||e.nome nome
+        $sessao = session()->get('usuario.depositos');
+
+        $array_sessao = explode(",", $sessao);
+
+
+       $sql8 = "select d.id, d.nome||' / '||e.nome nome
                 from deposito d left join
-                tipo_estoque e on e.id = d.id_tp_estoque";
+                tipo_estoque e on e.id = d.id_tp_estoque
+                where d.id IN (" . implode(",", $array_sessao) . ")";
+
         $result8 = DB::select($sql8);
 
         $sql9 = "Select id, nome from tipo_embalagem";
@@ -324,6 +339,8 @@ class CadastroInicialController extends Controller
         $sql10 = "Select id, nome from tipo_unidade_medida";
         $result10 = DB::select($sql10);
 
+        
+
         $html='<div class="table-responsive">';
         $html.='<table class="table table-bordered table-striped mb-0">';
         $html.='<tr><td>Deposito *</td> <td>'.getCombo($result8,'deposito', 1).'</td></tr>';
@@ -331,22 +348,17 @@ class CadastroInicialController extends Controller
         $html.='<tr><td>Qtd Embalagem</td> <td><input type="text" name="qtdEmb" id="qtdEmb"></td></tr>';
         $html.='<tr><td>Código Fabricante</td> <td><input type="text" name="ref_fab" id="ref_fab"></td></tr>';
         $html.='<tr><td>Unidade Medida </td> <td>'.getCombo($result10,'und_med', 0).'</td></tr>';
-        $html.='<tr><td>Comprado</td><td><input type="checkbox" id="checkAdq" name="checkAdq" switch="bool" class="valCheck"/><label for="checkAdq" data-on-label="Sim" data-off-label="Não"></label></td>';
+        $html.='<tr><td>Comprado</td><td><input type="checkbox" id="checkAdq" name="checkAdq" switch="bool" class="compraCheck"/><label for="checkAdq" data-on-label="Sim" data-off-label="Não"></label></td>';
 
-        //dd($_REQUEST);
 
-        if($_REQUEST['adquirido'] = 'true'){
+        if(isset($_REQUEST['checkAdq']) && $_REQUEST['checkAdq'] == 'true'){
 
-            $html.='<tr><td>Valor aquisição</td><td><input value="0.00" type="number" step="0.01" id="vlr_aqs" name="vlr_aqs" required></td></tr>';
+        $html.='<tr><td>Valor aquisição</td><td><input value="0.00" type="number" step="0.01" id="vlr_aqs" name="vlr_aqs"></td></tr>';   
+
+        }
+        
             $html.='</table>';
             $html.='</div>';
-        }
-        else if ($_REQUEST['adquirido'] = 'false'){
-
-           $html.='</table>';
-           $html.='</div>';
-        }
-
 
         return $html;
     }
@@ -382,6 +394,7 @@ class CadastroInicialController extends Controller
     }
 
     public function getValorVariado($id){
+
 
         if($_REQUEST['listaValor'] == 'true' && $_REQUEST['avariado'] =='false' ){
 

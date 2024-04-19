@@ -17,7 +17,7 @@
                         <p>EMAIL: <strong> {{$result[0]->email}}</strong> </p>
                     </div>
 
-                <form class="form-horizontal mt-4" method="POST" action="/cad-usuario/inserir">
+                <form id="meuFormulario"  class="form-horizontal mt-4" method="POST" action="/cad-usuario/inserir">
                 @csrf
                 <input type="hidden" name="idPessoa" value="{{$result[0]->id}}">
                     <div class="table-responsive">
@@ -65,13 +65,13 @@
                                         {{$resultPerfils->nome}}
                                     </td>
                                     <td>
-                                        <input type="checkbox" id="{{$resultPerfils->nome}}" name="{{$resultPerfils->nome}}" value="{{$resultPerfils->id}}" />
+                                        <input type="checkbox" class="perfil" id="{{$resultPerfils->nome}}" name="{{$resultPerfils->nome}}" value="{{$resultPerfils->id}}" />
                                     </td>
                                 </tr>
                                 @endforeach
                             </table>
                         </div><br><br>
-                        <h4 class="card-title" style="color: rgb(255, 0, 0)">Selecionar Estoque <i class="ti-unlock" ></i> </h4>
+                        <h4 class="card-title" style="color: rgb(255, 0, 0)">Selecionar Depósito <i class="ti-unlock" ></i> </h4>
                         <hr>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped mb-0">
@@ -81,7 +81,7 @@
                                             {{$resultDepositos->nome}}
                                         </td>
                                         <td>
-                                            <input type="checkbox" id="{{$resultDepositos->nome}}" name="{{$resultDepositos->nome}}" value="{{$resultDepositos->id}}">
+                                            <input type="checkbox" class="dep" id="{{$resultDepositos->nome}}" name="{{$resultDepositos->nome}}" value="{{$resultDepositos->id}}">
                                         </td>
                                     </tr>
                                     @endforeach
@@ -103,6 +103,29 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+    document.getElementById('meuFormulario').addEventListener('submit', function(event) {
+        var checkboxes = document.querySelectorAll('input[class="dep"]:checked');
+
+        if (checkboxes.length === 0) {
+            alert('Por favor, selecione pelo menos um depósito.');
+            event.preventDefault(); // Evita o envio do formulário
+        }
+    });
+
+    document.getElementById('meuFormulario').addEventListener('submit', function(event) {
+        var checkboxes = document.querySelectorAll('input[class="perfil"]:checked');
+
+        if (checkboxes.length === 0) {
+            alert('Por favor, selecione pelo menos um perfil.');
+            event.preventDefault(); // Evita o envio do formulário
+        }
+    });
+
+</script>
+
 @endsection
 
 @section('footerScript')

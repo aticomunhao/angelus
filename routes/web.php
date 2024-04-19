@@ -42,8 +42,6 @@ Route::any('/login/valida', 'LoginController@validaUserLogado')->name('home.post
 Route::get('/email/remessa-email', 'RecuperaSenhaController@index');
 Route::post('/email/remessa-email', 'RecuperaSenhaController@validar');
 
-
-
 //Route::view('/dashboard/index' , 'dashboard/index')->middleware('validaUsuario');
 
 Route::name('estoque')->middleware('validaUsuario')->group(function () {
@@ -292,5 +290,10 @@ Route::name('descontos')->middleware('validaUsuario')->group(function () {
 
 Route::get('/calculos/Calculadora/{id}', 'CalculadoraController@calcular');
 
+Route::get('/gerarXml/{id}', 'NotaFiscalController@gerarXml');
 
+
+Route::get('/novo', 'EmitenteController@index');
+
+Route::post('/save', 'EmitenteController@save');
 

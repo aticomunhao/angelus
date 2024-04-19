@@ -15,20 +15,23 @@ class RelatoriosController extends Controller
 
     public function index(Request $request)
     {
-
+        $sessao = session()->get('usuario.depositos');
         //AQUI TODAS AS REGRAS DE FILTROS DE PESQUISA
 
         $rela = ModelVendas::select('venda.data','venda.id as idv', 'pessoa.nome as nomep', DB::raw('sum(item_material.valor_venda * item_material.valor_venda_promocional) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - sum(item_material.valor_venda * item_material.valor_venda_promocional) as vlr_final'))
                                 ->join('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                                 ->join('item_material', 'venda_item_material.id_item_material', 'item_material.id')
                                 ->join('pessoa', 'venda.id_pessoa', 'pessoa.id')
+                                ->where('item_material.id_deposito', $sessao)
                                 ->groupby('venda.data','venda.id', 'pessoa.nome');
+
 
         $relb = ModelPagamentos::select('venda.data', 'pagamento.id as pid', 'tipo_pagamento.id as tpid', 'tipo_pagamento.nome as nomepg', 'pagamento.valor as valor_p', 'pagamento.id_venda')
                             ->join('venda', 'pagamento.id_venda', 'venda.id')
                             ->join('tipo_pagamento', 'pagamento.id_tipo_pagamento', 'tipo_pagamento.id')
                             ->join('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                             ->join('item_material', 'venda_item_material.id_item_material', 'item_material.id')
+                            ->where('item_material.id_deposito', $sessao)
                             ->groupby('venda.data', 'pagamento.id', 'tipo_pagamento.id', 'tipo_pagamento.nome', 'pagamento.valor', 'pagamento.id_venda');
 
 
@@ -213,6 +216,7 @@ class RelatoriosController extends Controller
 
     public function vendas(Request $request)
     {
+        $sessao = session()->get('usuario.depositos');
 
         //AQUI TODAS AS REGRAS DE FILTROS DE PESQUISA
 
@@ -220,6 +224,9 @@ class RelatoriosController extends Controller
                             ->join('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                             ->join('item_material', 'venda_item_material.id_item_material', 'item_material.id')
                             ->join('pessoa', 'venda.id_pessoa', 'pessoa.id')
+                            ->join ('usuario AS u',  'u.id', '=', 'v.id_usuario')                            
+                            ->join ('usuario_deposito AS ud',  'u.id', '=', 'ud.id_usuario')
+                            ->where('ud.id_deposito', $sessao)
                             ->groupby('venda.id', 'pessoa.nome','venda.data');
 
         //$rel = ModelVendas::select('venda.data','venda.id as idv','tipo_pagamento.nome as nome_tp', 'pagamento.valor as vlr_tp' )
@@ -234,6 +241,7 @@ class RelatoriosController extends Controller
                             ->join('tipo_pagamento', 'pagamento.id_tipo_pagamento', 'tipo_pagamento.id')
                             ->join('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                             ->join('item_material', 'venda_item_material.id_item_material', 'item_material.id')
+                            ->where('im.id_deposito', $sessao)
                             ->groupBy('venda.id','venda.data', 'tipo_pagamento.nome', 'pagamento.valor');
 
 

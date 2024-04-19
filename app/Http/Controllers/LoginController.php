@@ -26,11 +26,8 @@ class LoginController extends Controller
 
         //dd($senha);
 
-        // $result=DB::table('usuario')->
-        //             join('pessoa', 'usuario.id_pessoa', '=', 'pessoa.id')->
-        //            where('pessoa.email',$email)->
-        //            where('ativo',true)->
-        //            get();
+       
+
 
         $result=DB::select("
                         select
@@ -89,6 +86,15 @@ class LoginController extends Controller
 
         $cpf = session()->get('usuario.cpf');
 
+  //      $perfil = DB::table('usuario AS u')
+    //    ->select(DB::raw("SPLIT_PART(p.nome, ' ', 1) AS p_nome"), 'tp.nome AS tnome')
+      //  ->leftJoin('pessoa AS p', 'u.id_pessoa', 'p.id')
+        //->leftJoin('usuario_perfil AS up', 'u.id', 'up.id_usuario' )
+        //->leftJoin('tipo_perfil AS tp', 'up.id_tp_perfil', 'tp.id' )
+       // ->where('p.cpf',$cpf)
+       // ->get();
+
+//dd($perfil);
         $result=DB::select("
         select
         u.id id_usuario,

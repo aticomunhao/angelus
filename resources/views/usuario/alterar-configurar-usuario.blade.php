@@ -18,7 +18,7 @@
                         <p>Email: <strong> {{$result[0]->email}}</strong> </p>
                     </div>
 
-                <form class="form-horizontal mt-4" method="POST" action="/usuario-atualizar/{{$resultUsuario[0]->id}}">
+                <form class="form-horizontal mt-4" id="meuFormulario" method="POST" action="/usuario-atualizar/{{$resultUsuario[0]->id}}">
                  @method('PUT')
                  @csrf
                 <input type="hidden" name="idPessoa" value="{{$result[0]->id}}">
@@ -70,7 +70,7 @@
                                     </td>
                                     <td>
 
-                                        <input type="checkbox" id="{{$resultPerfils->nome}}" name="{{$resultPerfils->nome}}" value="{{$resultPerfils->id}}"  {{in_array($resultPerfils->id,$resultPerfisUsuarioArray) ? 'checked' : ''}}/>
+                                        <input type="checkbox" class="perfil" id="{{$resultPerfils->nome}}" name="{{$resultPerfils->nome}}" value="{{$resultPerfils->id}}"  {{in_array($resultPerfils->id,$resultPerfisUsuarioArray) ? 'checked' : ''}}/>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -87,7 +87,7 @@
                                         {{$resultDepositos->nome}}
                                     </td>
                                     <td>
-                                        <input type="checkbox" id="{{$resultDepositos->nome}}" name="{{$resultDepositos->nome}}" value="{{$resultDepositos->id}}" {{in_array($resultDepositos->id,$resultDepositoUsuarioArray) ? 'checked' : ''}}>
+                                        <input type="checkbox" class="dep" id="{{$resultDepositos->nome}}" name="{{$resultDepositos->nome}}" value="{{$resultDepositos->id}}" {{in_array($resultDepositos->id,$resultDepositoUsuarioArray) ? 'checked' : ''}}>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -108,6 +108,29 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+    document.getElementById('meuFormulario').addEventListener('submit', function(event) {
+        var checkboxes = document.querySelectorAll('input[class="dep"]:checked');
+
+        if (checkboxes.length === 0) {
+            alert('Por favor, selecione pelo menos um depósito.');
+            event.preventDefault(); // Evita o envio do formulário
+        }
+    });
+
+    document.getElementById('meuFormulario').addEventListener('submit', function(event) {
+        var checkboxes = document.querySelectorAll('input[class="perfil"]:checked');
+
+        if (checkboxes.length === 0) {
+            alert('Por favor, selecione pelo menos um perfil.');
+            event.preventDefault(); // Evita o envio do formulário
+        }
+    });
+
+</script>
+
 @endsection
 
 @section('footerScript')

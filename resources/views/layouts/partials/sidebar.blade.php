@@ -151,13 +151,14 @@
                 </li>
 
                 {{-- Relatórios --}}
-                @if(!$perfil_vol)
+                
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="mdi mdi-library-books"></i>
                         <span>Relatórios</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
+                        @if(!$perfil_vol)
                         <li>
                             <a href="/relatorio-entrada" class="waves-effect"><span>Entradas Materiais</span></a>
                         </li>
@@ -173,13 +174,15 @@
                         <li>
                             <a href="/saida-categoria" class="waves-effect"><span>Vendas Categoria</span></a>
                         </li>
+                        @endif
+                        @if($perfil_adm)
                         <li>
                             <a href="/venda-valor" class="waves-effect"><span>Vendas Tipo Pagamento</span></a>
                         </li>
-                        
+                        @endif
                     </ul>
                 </li>
-                @endif
+                
                 <!-- <li>
                     <a href="/cadastro/usuario" class="waves-effect">
                         <i class="mdi mdi-account-multiple-plus-outline"></i><span class="badge badge-pill badge-primary float-right"></span>
