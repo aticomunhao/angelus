@@ -14,6 +14,7 @@ use App\Models\ModelTamanho;
 use App\Models\ModelMarca;
 
 class CadastroInicialController extends Controller
+
 {
 
    private $objItemMaterial;
@@ -323,6 +324,8 @@ class CadastroInicialController extends Controller
 
     public function getFormCadastro(Request $request, $id){
 
+
+
         $sessao = session()->get('usuario.depositos');
 
         $array_sessao = explode(",", $sessao);
@@ -341,7 +344,7 @@ class CadastroInicialController extends Controller
         $sql10 = "Select id, nome from tipo_unidade_medida";
         $result10 = DB::select($sql10);
 
-        
+       
 
         $html='<div class="table-responsive">';
         $html.='<table class="table table-bordered table-striped mb-0">';
@@ -352,11 +355,10 @@ class CadastroInicialController extends Controller
         $html.='<tr><td>Unidade Medida </td> <td>'.getCombo($result10,'und_med', 0).'</td></tr>';
         $html.='<tr><td>Comprado</td><td><input type="checkbox" id="checkAdq" name="checkAdq" switch="bool" class="compraCheck"/><label for="checkAdq" data-on-label="Sim" data-off-label="Não"></label></td>';
 
-
         if ($request->has('checkAdq') && $request->input('checkAdq') == 'true') {
-            $html .= '<tr><td>Valor aquisição</td><td><input value="0.00" type="numeric" step="0.01" id="vlr_aqs" name="vlr_aqs"></td></tr>';
+            $html .= '<tr><td>Valor aquisição</td><td><input value="0.00" type="number" step="0.01" id="vlr_aqs" name="vlr_aqs"></td></tr>';
         } elseif ($request->has('checkAdq') && $request->input('checkAdq') == 'false') {
-            $html .= '<tr><td>Valor aquisição</td><td><input value="0.00" type="numeric" step="0.01" id="vlr_aqs" name="vlr_aqs" style="display:none;"></td></tr>';
+            $html .= '<tr><td>Valor aquisição</td><td><input value="0.00" type="number" step="0.01" id="vlr_aqs" name="vlr_aqs" style="display:none;"></td></tr>';
         }
         
             $html.='</table>';
@@ -481,6 +483,13 @@ class CadastroInicialController extends Controller
     public function store(Request $request)
     {
 
+        $data = $request->all();
+
+         // Verifica se o campo está vazio e preenche com 0
+         if (empty($data['vlr_aqs'])) {
+            $data['vlr_aqs'] = 0;
+        }
+
             $Adquirido = isset($request->checkAdq) ? 1 : 0;
             
             $Avariado = isset($request->checkAvariado) ? 1 : 0;
@@ -505,7 +514,7 @@ class CadastroInicialController extends Controller
             'id_fase_etaria' => $request->input('fase_etaria'),
             'id_tp_sexo' => $request->input('sexo'),
             'id_deposito' => $request->input('deposito'),
-            'valor_aquisicao' => $request->input ('vlr_aqs'),
+            'valor_aquisicao' => $data['vlr_aqs'],
             'ref_fabricante' => $request->input ('ref_fab'),
             'avariado' => $Avariado,
             'data_validade' => $request->input('dt_validade'),
