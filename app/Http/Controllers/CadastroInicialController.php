@@ -54,6 +54,8 @@ class CadastroInicialController extends Controller
 
         $sessao = session()->get('usuario.depositos');
 
+        //dd($sessao);
+
         $array_sessao = explode(",", $sessao);
 
         //dd($array_sessao);
@@ -72,7 +74,7 @@ class CadastroInicialController extends Controller
                             ->whereIn('id_deposito', $array_sessao);
         //$resultCategoria = DB::select ('select id, nome from tipo_categoria_material');
         //$resultSitMat = DB::select ('select id, nome from tipo_situacao_item_material');
-
+//dd($result);
 
         $data_inicio = $request->data_inicio;
         $data_fim = $request->data_fim;
@@ -351,10 +353,10 @@ class CadastroInicialController extends Controller
         $html.='<tr><td>Comprado</td><td><input type="checkbox" id="checkAdq" name="checkAdq" switch="bool" class="compraCheck"/><label for="checkAdq" data-on-label="Sim" data-off-label="Não"></label></td>';
 
 
-        if(isset($_REQUEST['checkAdq']) && $_REQUEST['checkAdq'] == 'true'){
-
-        $html.='<tr><td>Valor aquisição</td><td><input value="0.00" type="number" step="0.01" id="vlr_aqs" name="vlr_aqs"></td></tr>';   
-
+        if ($request->has('checkAdq') && $request->input('checkAdq') == 'true') {
+            $html .= '<tr><td>Valor aquisição</td><td><input value="0.00" type="numeric" step="0.01" id="vlr_aqs" name="vlr_aqs"></td></tr>';
+        } elseif ($request->has('checkAdq') && $request->input('checkAdq') == 'false') {
+            $html .= '<tr><td>Valor aquisição</td><td><input value="0.00" type="numeric" step="0.01" id="vlr_aqs" name="vlr_aqs" style="display:none;"></td></tr>';
         }
         
             $html.='</table>';
@@ -480,6 +482,7 @@ class CadastroInicialController extends Controller
     {
 
             $Adquirido = isset($request->checkAdq) ? 1 : 0;
+            
             $Avariado = isset($request->checkAvariado) ? 1 : 0;
 
             for ($i=0; $i < $request->input('qtdItens'); $i++){
