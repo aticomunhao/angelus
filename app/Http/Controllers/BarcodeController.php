@@ -13,6 +13,11 @@ class BarcodeController extends Controller
    public function show($id)
     {
      //$itens = DB::table ('item_material')->get();
+
+     $sessao = session()->get('usuario.depositos');
+
+    $array_sessao = explode(",", $sessao);
+
      $itens = DB::select ("
      select
      im.id,
@@ -23,8 +28,8 @@ class BarcodeController extends Controller
      from item_material im
      left join item_catalogo_material c on (c.id = im.id_item_catalogo_material)
      left join marca m on (im.id_marca = m.id)
-     
-     where im.id = $id");
+     where im.id = $id
+     and id_deposito IN (" . implode(",", $array_sessao) . ")");
      //return view ('item_material', ['item_material' => $itens]);
      return view ('item_material', compact('itens'));
     }
@@ -32,6 +37,12 @@ class BarcodeController extends Controller
 
     public function index (Request $request)
     {
+
+            $sessao = session()->get('usuario.depositos');
+
+            $array_sessao = explode(",", $sessao);
+
+
             $resultCat = DB::select ('select id, nome from tipo_categoria_material');
                
             $lista = DB::table('item_material AS im')
@@ -41,7 +52,8 @@ class BarcodeController extends Controller
             ->leftjoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material' , '=', 'tcm.id')
             ->leftjoin('marca AS m', 'm.id' , '=', 'im.id_marca')
             ->leftjoin('tamanho AS t', 't.id' , '=', 'im.id_tamanho')
-            ->leftjoin('cor AS c', 'c.id', '=', 'im.id_cor');
+            ->leftjoin('cor AS c', 'c.id', '=', 'im.id_cor')
+            ->whereIn('id_deposito', $array_sessao);;
 
 
 
@@ -57,12 +69,12 @@ class BarcodeController extends Controller
 
             $material = $request->material;
             if ($request->material){
-            $lista->where('icm.nome', 'like', "%$request->material%");
+            $lista->where('icm.nome', 'ilike', "%$request->material%");
             }
 
             $obs = $request->obs;
             if ($request->obs){
-            $lista->where('im.observacao', 'like', "%$request->obs%");
+            $lista->where('im.observacao', 'ilike', "%$request->obs%");
             }
 
             $ref_fab = $request->ref_fab;
@@ -89,7 +101,7 @@ class BarcodeController extends Controller
 
  
 
-        return view('/barcode', compact('lista', 'resultCat'));
+        return view('/barcode', compact('lista'));
     
 
     }

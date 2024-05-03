@@ -12,7 +12,19 @@
             <input class="btn btn-success" onclick="cont();" type="button" value="Imprimir">
         </a>
     </div>
-        <script>
+        
+    <div id='print' class='conteudo'>
+        @foreach($lista as $listas)
+        <div class="col" style="font-size: 14px; color:#000; text-align: center; font-weight:bold;">
+                    {!! DNS1D::getBarcodeSVG($listas->id_item, 'C128', 2, 40)!!}
+                    {{$listas->n1}} {{$listas->n2}} {{$listas->obs}}<br>
+                    {{number_format($listas->valor_venda, 2,',','.')}}            
+        </div>
+        @endforeach
+    </div>
+    @endsection
+
+    <script>
             function cont(){
                var conteudo = document.getElementById('print').innerHTML;
                tela_impressao = window.open('about:blank');
@@ -21,16 +33,6 @@
                tela_impressao.window.close();
             }
         </script>
-    <div id='print' class='conteudo'>
-    @foreach($lista as $listas)
-        <div class="Col" style="font-size: 14px; color:#000; text-align: center; font-weight:bold;">
-                    {!! DNS1D::getBarcodeSVG($listas->id_item, 'C128', 2, 40)!!}
-                    {{$listas->n1}} {{$listas->n2}} {{$listas->obs}}<br>
-                    {{number_format($listas->valor_venda, 2,',','.')}}            
-        </div>
-        @endforeach
-    </div>
-    @endsection
 
 {{--
  <div class="container text-center" style="margin-top: 50px;">

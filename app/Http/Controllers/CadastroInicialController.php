@@ -116,7 +116,7 @@ class CadastroInicialController extends Controller
         
         $result = $result->orderBy('im.id', 'DESC')->paginate(500);
 
-        
+        //dd($result);
 
         
 
