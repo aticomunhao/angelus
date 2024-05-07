@@ -72,6 +72,7 @@
                 <td>NOME</td>
                 <td>CATEGORIA</td>
                 <td>COMPRADO?</td>
+                <td>QUANTIDADE</td>
                 <td>VALOR</td>
                 <td style="text-align:center;">DATA ENTRADA</td>
                 </tr>
@@ -88,6 +89,7 @@
                         Sim
                         @endif
                     </td>
+                    <td style="text-align:center;">{{$entmats->total}}</td>
                     <td>{{number_format($entmats->valor_venda,2,',','.')}}</td>
                     <td style="text-align:center;">{{ date( 'd/m/Y' , strtotime($entmats->data_cadastro))}}</td>
                     </tr>
@@ -99,8 +101,8 @@
                     <td></td>
                     <td></td>
                     <td>Soma total de entradas</td>
+                    <td>{{$somait}}</td>
                     <td>{{number_format($somaent,2,',','.')}}</td>
-                    <td></td>
                     <td></td>
                 </tr>
             </tfoot>

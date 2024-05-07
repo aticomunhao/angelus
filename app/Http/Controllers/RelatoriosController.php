@@ -15,14 +15,17 @@ class RelatoriosController extends Controller
 
     public function index(Request $request)
     {
+
         $sessao = session()->get('usuario.depositos');
+
+        $array_sessao = explode(",", $sessao);
         //AQUI TODAS AS REGRAS DE FILTROS DE PESQUISA
 
         $rela = ModelVendas::select('venda.data','venda.id as idv', 'pessoa.nome as nomep', DB::raw('sum(item_material.valor_venda * item_material.valor_venda_promocional) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - sum(item_material.valor_venda * item_material.valor_venda_promocional) as vlr_final'))
                                 ->join('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                                 ->join('item_material', 'venda_item_material.id_item_material', 'item_material.id')
                                 ->join('pessoa', 'venda.id_pessoa', 'pessoa.id')
-                                ->where('item_material.id_deposito', $sessao)
+                                ->where('item_material.id_deposito', $array_sessao)
                                 ->groupby('venda.data','venda.id', 'pessoa.nome');
 
 
@@ -31,7 +34,7 @@ class RelatoriosController extends Controller
                             ->join('tipo_pagamento', 'pagamento.id_tipo_pagamento', 'tipo_pagamento.id')
                             ->join('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                             ->join('item_material', 'venda_item_material.id_item_material', 'item_material.id')
-                            ->where('item_material.id_deposito', $sessao)
+                            ->where('item_material.id_deposito', $array_sessao)
                             ->groupby('venda.data', 'pagamento.id', 'tipo_pagamento.id', 'tipo_pagamento.nome', 'pagamento.valor', 'pagamento.id_venda');
 
 
@@ -94,6 +97,7 @@ class RelatoriosController extends Controller
     }
 
     public function show($id){
+
         $total_preco = DB::table ('venda')
         ->leftjoin('venda_item_material', 'venda.id', '=', 'venda_item_material.id_venda')
         ->leftjoin('item_material', 'venda_item_material.id_item_material', '=', 'item_material.id')
@@ -106,14 +110,19 @@ class RelatoriosController extends Controller
 
     public function entrada(Request $request) {
 
+        $sessao = session()->get('usuario.depositos');
+
+        $array_sessao = explode(",", $sessao);
+
         $nr_ordem = 1;
 
-        $entmat = ModelItemMaterial::leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
-                        ->leftjoin('tipo_categoria_material', 'item_catalogo_material.id_categoria_material', 'tipo_categoria_material.id')
-                        ->select(DB::raw('count(*) as total'))
-                        ->select('item_material.adquirido','item_catalogo_material.nome','tipo_categoria_material.nome AS nomecat', 'item_material.data_cadastro', 'item_material.valor_venda', DB::raw('SUM(item_material.valor_venda) as vlr_venda'))
-                        ->groupby('item_material.adquirido','item_catalogo_material.nome','tipo_categoria_material.nome', 'item_material.data_cadastro', 'item_material.valor_venda');
+        $entmat = ModelItemMaterial::leftJoin('item_catalogo_material', 'item_material.id_item_catalogo_material', '=', 'item_catalogo_material.id')
+                                ->leftJoin('tipo_categoria_material', 'item_catalogo_material.id_categoria_material', '=', 'tipo_categoria_material.id')
+                                ->select('item_material.adquirido', 'item_catalogo_material.nome', 'tipo_categoria_material.nome AS nomecat', 'item_material.data_cadastro', 'item_material.valor_venda', DB::raw('COUNT(item_material.id_item_catalogo_material) as total'), DB::raw('SUM(item_material.valor_venda) as vlr_venda'))
+                                ->where('item_material.id_deposito', $array_sessao)
+                                ->groupBy('item_material.adquirido', 'item_catalogo_material.nome', 'tipo_categoria_material.nome', 'item_material.data_cadastro', 'item_material.valor_venda');
 
+                        //dd($entmat->get());
         $data_inicio = $request->data_inicio;
         $data_fim = $request->data_fim;
         $categoria = $request->categoria;
@@ -146,16 +155,22 @@ class RelatoriosController extends Controller
 
         $somaent = $entmat->sum('vlr_venda');
 
+        $somait = $entmat->sum('total');
+
         //dd($somaent);
 
         $result = DB::select('select id, nome from tipo_categoria_material order by nome');
 
 
-        return view('relatorios/relatorio-entrada', compact('entmat','somaent','result', 'nr_ordem', 'data_inicio', 'data_fim'));
+        return view('relatorios/relatorio-entrada', compact('entmat','somaent','result', 'nr_ordem', 'data_inicio', 'data_fim', 'somait'));
 
     }
 
     public function saida(Request $request) {
+
+        $sessao = session()->get('usuario.depositos');
+
+        $array_sessao = explode(",", $sessao);
 
         $nr_ordem = 1;
 
@@ -168,6 +183,7 @@ class RelatoriosController extends Controller
                         ->select(DB::raw('count(*) as total'))
                         ->select('item_material.adquirido', 'item_catalogo_material.nome','item_material.valor_venda','tipo_categoria_material.nome AS nomecat', 'venda.data', 'valor_venda', DB::raw('sum(item_material.valor_venda) as vlr_venda'))
                         ->where('item_material.id_tipo_situacao', '>', '1')
+                        ->where('item_material.id_deposito', $array_sessao)
                         ->groupby('item_material.adquirido', 'item_catalogo_material.nome', 'item_material.valor_venda', 'tipo_categoria_material.nome', 'venda.data');
                         //->get();
                         //dd($saidamat);
@@ -218,6 +234,8 @@ class RelatoriosController extends Controller
     {
         $sessao = session()->get('usuario.depositos');
 
+        $array_sessao = explode(",", $sessao);
+
         //AQUI TODAS AS REGRAS DE FILTROS DE PESQUISA
 
         $rela = ModelVendas::select('venda.data','venda.id as idv',  'pessoa.nome as nomep', DB::raw('sum(item_material.valor_venda * item_material.valor_venda_promocional) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - sum(item_material.valor_venda * item_material.valor_venda_promocional) as vlr_final') )
@@ -226,7 +244,7 @@ class RelatoriosController extends Controller
                             ->join('pessoa', 'venda.id_pessoa', 'pessoa.id')
                             ->join ('usuario AS u',  'u.id', '=', 'v.id_usuario')                            
                             ->join ('usuario_deposito AS ud',  'u.id', '=', 'ud.id_usuario')
-                            ->where('ud.id_deposito', $sessao)
+                            ->where('ud.id_deposito', $array_sessao)
                             ->groupby('venda.id', 'pessoa.nome','venda.data');
 
         //$rel = ModelVendas::select('venda.data','venda.id as idv','tipo_pagamento.nome as nome_tp', 'pagamento.valor as vlr_tp' )
@@ -241,7 +259,7 @@ class RelatoriosController extends Controller
                             ->join('tipo_pagamento', 'pagamento.id_tipo_pagamento', 'tipo_pagamento.id')
                             ->join('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                             ->join('item_material', 'venda_item_material.id_item_material', 'item_material.id')
-                            ->where('im.id_deposito', $sessao)
+                            ->where('im.id_deposito', $array_sessao)
                             ->groupBy('venda.id','venda.data', 'tipo_pagamento.nome', 'pagamento.valor');
 
 
@@ -306,6 +324,10 @@ class RelatoriosController extends Controller
 
     public function saida_cat(Request $request) {
 
+        $sessao = session()->get('usuario.depositos');
+
+        $array_sessao = explode(",", $sessao);
+
         $nr_ordem = 1;
 
          $saidacat1 = ModelItemMaterial::select('item_material.adquirido', 'tipo_categoria_material.nome AS nome_cat',  DB::raw('sum(item_material.valor_venda * item_material.valor_venda_promocional) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('(sum(item_material.valor_venda) - sum(item_material.valor_venda * item_material.valor_venda_promocional)) as vlr_final'), DB::raw('count(item_material.id) as qnt_cat'))
@@ -314,6 +336,7 @@ class RelatoriosController extends Controller
                         ->leftjoin('venda_item_material', 'item_material.id', 'id_item_material')
                         ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
                         ->where('item_material.id_tipo_situacao', '2')
+                        ->where('im.id_deposito', $array_sessao)
                         //->whereIn('p.id_tipo_pagamento', [2,3,4,5])
                         ->groupby('item_material.adquirido', 'tipo_categoria_material.nome')
                         ->orderby('tipo_categoria_material.nome');
@@ -325,6 +348,7 @@ class RelatoriosController extends Controller
                             ->leftjoin('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                             ->leftjoin('item_material', 'venda_item_material.id_item_material', 'item_material.id')
                             ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
+                            ->where('im.id_deposito', $array_sessao)
                            // ->whereIn('pagamento.id_tipo_pagamento', [2,3,4,5])
                             ->groupby('venda.data', 'pagamento.id', 'tipo_pagamento.id', 'tipo_pagamento.nome', 'pagamento.valor', 'pagamento.id_venda');
 

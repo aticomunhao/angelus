@@ -20,6 +20,8 @@ class GerenciarInventariosController extends Controller{
     //$request->session()->put('data', "2022-03-10");
     $sessao = session()->get('usuario.depositos');
 
+    $array_sessao = explode(",", $sessao);
+
     $data_atual = (\Carbon\carbon::now()->toDateTimeString());
 
     $nr_ordem = 1;
@@ -36,7 +38,7 @@ class GerenciarInventariosController extends Controller{
                                     ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material','=','item_catalogo_material.id')
                                     ->leftjoin('venda_item_material','item_material.id','venda_item_material.id_item_material')
                                     ->leftjoin('venda','venda_item_material.id_venda', 'venda.id')
-                                    ->where('item_material.id_deposito', $sessao)
+                                    ->where('item_material.id_deposito', $array_sessao)
                                     ->groupBy('item_material.id','venda.data', 'item_material.data_cadastro', 'item_catalogo_material.nome', 'item_material.valor_venda');
 
 
