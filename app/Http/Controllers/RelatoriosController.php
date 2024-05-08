@@ -118,30 +118,35 @@ class RelatoriosController extends Controller
 
         $entmat = ModelItemMaterial::leftJoin('item_catalogo_material', 'item_material.id_item_catalogo_material', '=', 'item_catalogo_material.id')
                                 ->leftJoin('tipo_categoria_material', 'item_catalogo_material.id_categoria_material', '=', 'tipo_categoria_material.id')
-                                ->select('item_material.adquirido', 'item_catalogo_material.nome', 'tipo_categoria_material.nome AS nomecat', 'item_material.data_cadastro', 'item_material.valor_venda', DB::raw('COUNT(item_material.id_item_catalogo_material) as total'), DB::raw('SUM(item_material.valor_venda) as vlr_venda'))
+                                ->select('item_material.adquirido', 'item_material.data_cadastro','item_catalogo_material.nome', 'tipo_categoria_material.nome AS nomecat',  'item_material.valor_venda', DB::raw('COUNT(item_material.id_item_catalogo_material) as total'), DB::raw('SUM(item_material.valor_venda) as vlr_venda'))
                                 ->where('item_material.id_deposito', $array_sessao)
-                                ->groupBy('item_material.adquirido', 'item_catalogo_material.nome', 'tipo_categoria_material.nome', 'item_material.data_cadastro', 'item_material.valor_venda');
+                                ->groupBy('item_material.adquirido', 'item_material.data_cadastro', 'item_catalogo_material.nome', 'tipo_categoria_material.nome',  'item_material.valor_venda');
 
                         //dd($entmat->get());
         $data_inicio = $request->data_inicio;
         $data_fim = $request->data_fim;
         $categoria = $request->categoria;
         $compra = $request->compra;
+        $nomeitem = $request->nomeitem;
 
         if ($request->data_inicio){
 
-        $entmat->where(DB::raw("DATE(item_material.data_cadastro"),'>=' , $request->data_inicio);
+        $entmat->where(DB::raw("DATE(item_material.data_cadastro)"),'>=' , $request->data_inicio);
 
         }
 
         if ($request->data_fim){
 
-            $entmat->where(DB::raw("DATE(item_material.data_cadastro"),'<=' , $request->data_fim);
+            $entmat->where(DB::raw("DATE(item_material.data_cadastro)"),'<=' , $request->data_fim);
         }
 
         if ($request->categoria){
 
             $entmat->where('item_catalogo_material.id_categoria_material','=' , $request->categoria);
+        }
+        if ($request->nomeitem){
+
+            $entmat->where('item_catalogo_material.id','=' , $request->nomeitem);
         }
 
         if ($request->compra){
@@ -160,9 +165,10 @@ class RelatoriosController extends Controller
         //dd($somaent);
 
         $result = DB::select('select id, nome from tipo_categoria_material order by nome');
+        $itemmaterial = DB::select ("select distinct(icm.nome), id, nome from item_catalogo_material icm order by nome"); 
 
 
-        return view('relatorios/relatorio-entrada', compact('entmat','somaent','result', 'nr_ordem', 'data_inicio', 'data_fim', 'somait'));
+        return view('relatorios/relatorio-entrada', compact('entmat','somaent','result', 'nr_ordem', 'data_inicio', 'data_fim', 'somait', 'itemmaterial'));
 
     }
 
@@ -175,23 +181,21 @@ class RelatoriosController extends Controller
         $nr_ordem = 1;
 
         $saidamat = DB::table('item_material')
-        ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
-        //$saidamat = ModelItemMaterial::leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
+                        ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
                         ->leftjoin('tipo_categoria_material', 'tipo_categoria_material.id','item_catalogo_material.id_categoria_material')
                         ->leftjoin('venda_item_material', 'item_material.id', 'id_item_material')
                         ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
-                        ->select(DB::raw('count(*) as total'))
-                        ->select('item_material.adquirido', 'item_catalogo_material.nome','item_material.valor_venda','tipo_categoria_material.nome AS nomecat', 'venda.data', 'valor_venda', DB::raw('sum(item_material.valor_venda) as vlr_venda'))
+                        ->select('item_catalogo_material.nome AS nomemat', 'item_material.valor_venda','tipo_categoria_material.nome AS nomecat', 'venda.data', DB::raw('sum(item_material.valor_venda) as vlr_venda'), DB::raw('COUNT(item_material.id_item_catalogo_material) as qtdsaida'), 'item_material.adquirido')
                         ->where('item_material.id_tipo_situacao', '>', '1')
                         ->where('item_material.id_deposito', $array_sessao)
-                        ->groupby('item_material.adquirido', 'item_catalogo_material.nome', 'item_material.valor_venda', 'tipo_categoria_material.nome', 'venda.data');
-                        //->get();
-                        //dd($saidamat);
+                        ->groupby('item_catalogo_material.nome', 'item_material.valor_venda', 'tipo_categoria_material.nome', 'venda.data', 'item_material.adquirido');
+                        //dd($saidamat->get());
 
         $data_inicio = $request->data_inicio;
         $data_fim = $request->data_fim;
         $categoria = $request->categoria;
         $compra = $request->compra;
+        $nomeitem = $request->nomeitem;
 
 
 
@@ -210,23 +214,31 @@ class RelatoriosController extends Controller
             $saidamat->where('item_catalogo_material.id_categoria_material','=' , $request->categoria);
         }
 
+        if ($request->nomeitem){
+
+            $saidamat->where('item_catalogo_material.id','=' , $request->nomeitem);
+        }
+
         if ($request->compra){
 
             $saidamat->where('item_material.adquirido', '=', $request->compra);
         }
 
-        $saidamat = $saidamat->get();
+        $saidamat = $saidamat->orderBy('venda.data','ASC')->get();
 
        //dd($saidamat);
 
         $somasai = $saidamat->sum('vlr_venda');
+        $somaqtd = $saidamat->sum('qtdsaida');
 
         $result = DB::select('select id, nome from tipo_categoria_material order by nome');
+        
+        $itemmaterial = DB::select ("select distinct(icm.nome), id, nome from item_catalogo_material icm order by nome"); 
 
 
 
 
-        return view('relatorios/relatorio-saida', compact('saidamat', 'result', 'somasai','nr_ordem', 'data_inicio', 'data_fim'));
+        return view('relatorios/relatorio-saida', compact('saidamat', 'result', 'somasai','nr_ordem', 'data_inicio', 'data_fim', 'somaqtd', 'itemmaterial'));
 
     }
 
@@ -336,7 +348,7 @@ class RelatoriosController extends Controller
                         ->leftjoin('venda_item_material', 'item_material.id', 'id_item_material')
                         ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
                         ->where('item_material.id_tipo_situacao', '2')
-                        ->where('im.id_deposito', $array_sessao)
+                        ->where('item_material.id_deposito', $array_sessao)
                         //->whereIn('p.id_tipo_pagamento', [2,3,4,5])
                         ->groupby('item_material.adquirido', 'tipo_categoria_material.nome')
                         ->orderby('tipo_categoria_material.nome');
@@ -348,7 +360,7 @@ class RelatoriosController extends Controller
                             ->leftjoin('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                             ->leftjoin('item_material', 'venda_item_material.id_item_material', 'item_material.id')
                             ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
-                            ->where('im.id_deposito', $array_sessao)
+                            ->where('item_material.id_deposito', $array_sessao)
                            // ->whereIn('pagamento.id_tipo_pagamento', [2,3,4,5])
                             ->groupby('venda.data', 'pagamento.id', 'tipo_pagamento.id', 'tipo_pagamento.nome', 'pagamento.valor', 'pagamento.id_venda');
 

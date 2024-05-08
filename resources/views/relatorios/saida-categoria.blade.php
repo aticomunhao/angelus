@@ -4,7 +4,8 @@
 
 @section('content')
 
-
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <div class="row">
     <div class="col">
         <div class="card">
@@ -19,7 +20,7 @@
                         <input type="date" class="form-control" name='data_fim' value="{{$data_fim}}" default="$today = Carbon::today();">
                     </div>
                     <div class="col">Categoria
-                        <select class="form-control" id="cat" name="categoria" placeholder="categoria" >
+                        <select class="form-control select2" id="cat" name="categoria" placeholder="categoria" multiple="multiple" >
                         <option value="">Todos</option>
                         @Foreach($result as $results)
                         <option value="{{$results->id}}">{{$results->nome}}</option>
@@ -41,7 +42,7 @@
                     </div>
                 </form>                    
                     <div class="col"><br>
-                        <a href=""><input class="btn btn-light" onclick="cont();" type="button" style="font-weight:bold; font-size:15px; box-shadow: 1px 2px 5px #000000; margin:5px;" value="Imprimir"></a>
+                        <a href=""><input class="btn btn-info" onclick="cont();" type="button" style="font-weight:bold; font-size:15px; box-shadow: 1px 2px 5px #000000; margin:5px;" value="Imprimir"></a>
                     </div>
                 </div>            
             </div>

@@ -5,7 +5,10 @@
 @section('content')
 
 
-<div class="col12" style="background:#ffffff;">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<div class="col-12" style="background:#ffffff;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-12">
@@ -18,11 +21,19 @@
                     <div class="col">Fim
                         <input type="date" class="form-control" name='data_fim' value="{{$data_fim}}" default="$today = Carbon::today();">
                     </div>
-                    <div class="col-2">Categoria
-                        <select class="form-control" id="cat" name="categoria" placeholder="categoria" >
+                    <div class="col">Categoria
+                        <select class="form-control select2" id="lista1" name="categoria" placeholder="categoria" onchange="toggleLista('lista1')" multiple="multiple">
                         <option value="">Todos</option>
                         @Foreach($result as $results)
                         <option value="{{$results->id}}">{{$results->nome}}</option>
+                        @endForeach
+                        </select>
+                    </div>
+                    <div class="col">Item nome
+                        <select class="form-control select2" id="lista2" name="nomeitem" placeholder="nomeitem" onchange="toggleLista('lista2')" multiple="multiple">
+                        <option value=" ">Todos</option>
+                        @Foreach($itemmaterial as $itemmat)
+                        <option value="{{$itemmat->id}}">{{$itemmat->nome}}</option>
                         @endForeach
                         </select>
                     </div>
@@ -33,17 +44,12 @@
                             <option value="0">Não</option>
                         </select>
                     </div>
-                    <div class="col">
-                            <input class="btn btn-info" type="submit" value="Pesquisar">
-                    </div>
-                    <div class="col">
-                        <a href="/relatorio-entrada"><input class="btn btn-warning" type="button" value="Limpar"></a>
-                    </div>
-                    <div class="col">
-                        <a href="/gerenciar-vendas"><input class="btn btn-danger" type="button" value="Cancelar"></a>
-                    </div>
-                    <div class="col">
-                        <a href=""><input class="btn btn-success" onclick="cont();" type="button" value="Imprimir"></a>
+                    <div class="col-3">
+                            <input class="btn btn-light" type="submit" value="Pesquisar" style="box-shadow: 1px 2px 5px #000000; margin-top:20px;">
+                   
+                        <a href="/relatorio-entrada"><input class="btn btn-light" type="button" value="Limpar" style="box-shadow: 1px 2px 5px #000000;margin-top:20px;"></a>
+                  
+                        <a href=""><input class="btn btn-info" onclick="cont();" type="button" value="Imprimir" style="margin-top:20px;"></a>
                     </div>
                 </div>
             </form>
@@ -110,6 +116,19 @@
 
     </div>
 </div>
+<script>
+    function toggleLista(id) {
+            var listaAtual = document.getElementById(id);
+            var outrasListaId = (id === 'lista1') ? 'lista2' : 'lista1';
+            var outrasLista = document.getElementById(outrasListaId);
+
+            if (listaAtual.value !== '') {
+                outrasLista.disabled = true;
+            } else {
+                outrasLista.disabled = false;
+            }
+        }
+</script>
 
 @endsection
 
