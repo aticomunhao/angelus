@@ -97,37 +97,14 @@
         </div>
     </div>
 </div>
-        <!-- end col -->
-<!--
-    **********************************************************************************************************************************
-    * MODAL
-    **********************************************************************************************************************************
-   
-    <div class="modal" id="modalExemplo" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Excluir venda</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>A venda foi excluida com sucesso.</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-            </div>
-          </div>
-        </div>
-      </div> -->
+
 @endsection
 @section('footerScript')
 
             <script src="{{ URL::asset('/libs/jszip/jszip.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/pdfmake/pdfmake.min.js')}}"></script>
             <!-- Datatable init js -->
-            <script src="{{ URL::asset('/js/pages/datatables.init.js')}}"></script>
+           <!-- <script src="{{ URL::asset('/js/pages/datatables.init.js')}}"></script>-->
             <script src="{{ URL::asset('/libs/select2/select2.min.js')}}"></script>
             <script src="{{ URL::asset('/js/pages/form-advanced.init.js')}}"></script>
             

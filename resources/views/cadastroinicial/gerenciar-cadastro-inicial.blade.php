@@ -67,9 +67,9 @@
                 <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">RELAÇÃO DE CADASTROS INICIAIS</h4>
                     <div class="card">
                         <div class="card-body">Quantidade filtrada: {{$contar}}
-                            <table id="datatable" class="table-resposive-lg table-bordered table-striped table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead style="font-size:17px;">
-                                    <tr style="text-align:center; background-color:#c6e6ce">
+                            <table id="datatable" class="display table-resposive-lg table-bordered table-striped table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                    <tr style="font-size:15px; text-align:center; background-color:#c6e6ce">
                                         <th>CÓDIGO</th>
                                         <th>CATEGORIA</th>
                                         <th>NOME</th>
@@ -123,13 +123,13 @@
         </div>
     </div>
 
-<!--<script>
+<script>
     $(document).ready( function () {
         $('#datatable').DataTable({
            
         });
     } );
-</script>-->
+</script>
 
 @endsection
 

@@ -443,7 +443,7 @@ class RelatoriosController extends Controller
         //dd($saidacat2);
 
         $total1 = floor($saidacat1->sum('vlr_final'));
-        $total3 = floor($saidacat1->sum('qnt_cat'));
+        $total3 = $saidacat1->sum('qnt_cat');
         $total_desconto = floor($saidacat1->sum('desconto'));
 
         $total_din = $saidacat2->where('tpid', '1')->sum('valor_p');
