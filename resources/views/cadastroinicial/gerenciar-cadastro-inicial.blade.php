@@ -123,13 +123,13 @@
         </div>
     </div>
 
-<script>
+<!--<script>
     $(document).ready( function () {
         $('#datatable').DataTable({
            
         });
     } );
-</script>
+</script>-->
 
 @endsection
 
