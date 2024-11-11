@@ -174,7 +174,7 @@ class GerenciarVendasController extends Controller
 
         //dd($valor);
 
-        $valor = $valor);
+        $valor = $valor;
 
         $pago =  DB::table ('venda')
         ->leftjoin('pagamento', 'venda.id', 'pagamento.id_venda' )
