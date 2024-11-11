@@ -91,8 +91,8 @@ class RelatoriosController extends Controller
         $rela = $rela->where('venda.id_tp_situacao_venda', '3')->get();
         $relb = $relb->where('venda.id_tp_situacao_venda', '3')->get();
 
-        $total1 = floor($rela->sum('vlr_final'));
-        $total_desconto = floor($rela->sum('desconto'));
+        $total1 = round($rela->sum('vlr_final'));
+        $total_desconto = round($rela->sum('desconto'));
 //dd($total1);
 
         $total_din = $relb->where('tpid', '1')->sum('valor_p');
@@ -101,7 +101,7 @@ class RelatoriosController extends Controller
         $total_che = $relb->where('tpid', '4')->sum('valor_p');
         $total_pix = $relb->where('tpid', '5')->sum('valor_p');
 
-        $total_pag = floor($relb->sum("valor_p"));
+        $total_pag = round($relb->sum("valor_p"));
 
         //dd($total_cre);
         $deposito = DB::table('deposito')->select('id as iddep', 'nome')->whereIn('id', $array_sessao)->get();
@@ -442,9 +442,9 @@ class RelatoriosController extends Controller
 
         //dd($saidacat2);
 
-        $total1 = floor($saidacat1->sum('vlr_final'));
+        $total1 = round($saidacat1->sum('vlr_final'));
         $total3 = $saidacat1->sum('qnt_cat');
-        $total_desconto = floor($saidacat1->sum('desconto'));
+        $total_desconto = round($saidacat1->sum('desconto'));
 
         $total_din = $saidacat2->where('tpid', '1')->sum('valor_p');
         $total_deb = $saidacat2->where('tpid', '2')->sum('valor_p');
@@ -452,7 +452,7 @@ class RelatoriosController extends Controller
         $total_che = $saidacat2->where('tpid', '4')->sum('valor_p');
         $total_pix = $saidacat2->where('tpid', '5')->sum('valor_p');
 
-        $total2 = floor($saidacat2->sum("valor_p"));
+        $total2 = round($saidacat2->sum("valor_p"));
       //dd($total2);
 
         $result = DB::select('select id, nome from tipo_categoria_material order by nome');

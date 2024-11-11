@@ -156,7 +156,7 @@ class GerenciarVendasController extends Controller
                 ->where ('venda_item_material.id_venda', '=', $id)
                 ->sum(DB::raw('item_material.valor_venda * item_material.valor_venda_promocional'));
 
-        $desconto = floor($desconto);
+        $desconto = round($desconto);
 
  
 
@@ -166,7 +166,7 @@ class GerenciarVendasController extends Controller
         ->where ('id_venda', '=', $id)
         ->sum('item_material.valor_venda');
 
-        $total_preco =  floor($total_preco); 
+        $total_preco =  round($total_preco); 
 
         //dd($total_preco);
 
@@ -174,14 +174,14 @@ class GerenciarVendasController extends Controller
 
         //dd($valor);
 
-        $valor = floor($valor);
+        $valor = round($valor);
 
         $pago =  DB::table ('venda')
         ->leftjoin('pagamento', 'venda.id', 'pagamento.id_venda' )
         ->where ('pagamento.id_venda', $id)
         ->sum('pagamento.valor');
 
-        $pago = floor($pago);
+        $pago = round($pago);
 
 
         //dd($valor == $pago );

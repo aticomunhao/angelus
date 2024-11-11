@@ -96,7 +96,7 @@ class GerenciarpagamentoController extends Controller
                 ->where ('venda_item_material.id_venda', '=', $id)
                 ->sum(DB::raw('item_material.valor_venda * item_material.valor_venda_promocional'));
         
-        $desconto = floor($desconto);
+        $desconto = round($desconto);
 
         ///Cálculo do total do preço da venda com desconto se houver
         $total_original = $total_venda;
