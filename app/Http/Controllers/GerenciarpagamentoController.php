@@ -87,7 +87,7 @@ class GerenciarpagamentoController extends Controller
                 ->where ('id_venda', '=', $id)
                 ->sum('valor');
         
-        $total_pago = round($total_pago,2);
+        $total_pago = floor($total_pago);
 
         ///Cálculo do total de desconto
         $desconto = DB::table ('item_material')
@@ -96,12 +96,12 @@ class GerenciarpagamentoController extends Controller
                 ->where ('venda_item_material.id_venda', '=', $id)
                 ->sum(DB::raw('item_material.valor_venda * item_material.valor_venda_promocional'));
         
-        $desconto = round($desconto, 2);
+        $desconto = floor($desconto);
 
         ///Cálculo do total do preço da venda com desconto se houver
         $total_original = $total_venda;
 
-        $total_original = round($total_original, 2);
+        $total_original = floor($total_original);
 
          ///Cálculo do valor ainda não pago
          $nao_pago = ($total_original - $desconto) - $total_pago;
@@ -109,7 +109,7 @@ class GerenciarpagamentoController extends Controller
         ///Cálculo do total do preço da venda com desconto se houver
         $total_preco = $total_original - $desconto;
 
-        $total_preco = round($total_preco,2);
+        $total_preco = floor($total_preco);
 
         //dd($total_preco);
 
@@ -192,10 +192,10 @@ class GerenciarpagamentoController extends Controller
 
         $resto = (($total_preco - $desconto) - $total_pago);
         
-        $resto =  round($resto, 2);
+        $resto =  floor($resto);
 
 
-       $novo_valor = round($request->valor, 2);
+       $novo_valor = floor($request->valor);
 
       // $novo_valor =  round($novo_valor, 2);
 

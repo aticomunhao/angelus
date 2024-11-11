@@ -19,10 +19,18 @@
                         <input type="date" class="form-control" name="data_fim"  value="{{$data_fim}}">
                     </div>    
                     <div class="col">Comprado?<br>
-                        <select class="form-control" id="" name="compra">
-                            <option value="">Todos</option>
-                            <option value="true">Sim</option>
-                            <option value="false">Não</option>
+                        <select class="form-control" id="compra" name="compra">
+                            <option value="" {{ $compra === null ? 'selected' : '' }}>Todos</option>
+                            <option value="true" {{ $compra === 'true' ? 'selected' : '' }}>Sim</option>
+                            <option value="false" {{ $compra === 'false' ? 'selected' : '' }}>Não</option>
+                        </select>
+                    </div>     
+                    <div class="col">Depósito:
+                        <select class="form-control" id="" name="deposito">
+                            <option value="">Todos</option>    
+                            @foreach($deposito as $dep)
+                            <option value="{{$dep->iddep}}" {{request('deposito') == $dep->iddep ? 'selected' : ''}}>{{$dep->nome}}</option>
+                            @endforeach
                         </select>
                     </div>              
                     <div class="col">

@@ -19,17 +19,18 @@
                         <input type="date" class="form-control" name="data_fim"  value="{{$data_fim}}">
                     </div>
                     <div class="col-2">Situação:
-                        <select class="form-control"id="sit" name="situacao" ><option></option>
+                        <select class="form-control"id="sit" name="situacao" >
+                            <option value="">Todos</option>
                         @Foreach($resultSitVenda as $resultSitVendas)
                             <option value="{{$resultSitVendas->id}}" {{$resultSitVendas->id == $situacao ? 'selected' : ''}}>{{$resultSitVendas->nome}}</option>
                         @endForeach
                         </select>
                     </div>
                     <div class="col-4">Nome do cliente:
-                        <input class="form-control" type="text" name="cliente" id="cliente" value="{{$cliente}}"/>
+                        <input class="form-control" type="text" name="cliente" id="cliente" value="{{request('cliente')}}"/>
                     </div>
                     <div class="col-3">ID venda:
-                        <input class="form-control" type="numeric" name="id_venda" id="id_venda" value=""/>
+                        <input class="form-control" type="number" name="id_venda" id="id_venda" value="{{request('id_venda')}}"/>
                     </div>
                 </div>
                 <br>
@@ -79,8 +80,8 @@
                                         <a href="/gerenciar-vendas/excluir/{{$results->id}}"><input class="btn btn-danger btn-sm" type="button" style="font-size:11px;" value="Excluir" data-toggle="modal" data-target="#modalExemplo"></a>
                                         <a href="/gerenciar-pagamentos/{{$results->id}}"><input class="btn btn-success btn-sm" type="button" style="font-size:11px;" value="Pagar"></a>
                                         <a href="/demonstrativo/{{$results->id}}"  type="button" style="font-size:11px;" class="btn btn-info btn-sm">Recibo</a>
-                                        <a href="/gerarXml/{{$results->id}}"  type="button" style="font-size:11px;" class="btn btn-dark btn-sm">Nota</a>
-                                        <a href="/novo"  type="button" style="font-size:11px;" class="btn btn-secondary btn-sm">Novo</a>
+                                        <!--<a href="/gerarXml/{{$results->id}}"  type="button" style="font-size:11px;" class="btn btn-dark btn-sm">Nota</a>
+                                        <a href="/novo"  type="button" style="font-size:11px;" class="btn btn-secondary btn-sm">Novo</a>-->
                                         @endif
 
                                         @endforeach

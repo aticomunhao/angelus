@@ -21,24 +21,31 @@
                     </div>
                     <div class="col">Categoria
                         <select class="form-control select2" id="cat" name="categoria" placeholder="categoria" multiple="multiple" >
-                        <option value="">Todos</option>
                         @Foreach($result as $results)
                         <option value="{{$results->id}}">{{$results->nome}}</option>
                         @endForeach
                         </select>
                     </div>
                     <div class="col-sm">Comprado?<br>
-                        <select class="form-control" id="compra" name="compra">
-                            <option value="">Todos</option>
-                            <option value="true">Sim</option>
-                            <option value="false">Não</option>
+                    <select class="form-control" id="compra" name="compra">
+                            <option value="" {{ $compra === null ? 'selected' : '' }}>Todos</option>
+                            <option value="true" {{ $compra === 'true' ? 'selected' : '' }}>Sim</option>
+                            <option value="false" {{ $compra === 'false' ? 'selected' : '' }}>Não</option>
                         </select>
                     </div>
+                    <div class="col">Depósito:
+                        <select class="form-control" id="" name="deposito">
+                            <option value="">Todos</option>    
+                            @foreach($deposito as $dep)
+                            <option value="{{$dep->iddep}}" {{request('deposito') == $dep->iddep ? 'selected' : ''}}>{{$dep->nome}}</option>
+                            @endforeach
+                        </select>
+                    </div>       
                     <div class="col"><br>
                         <input class="btn btn-light" type="submit" style="font-weight:bold; font-size:15px; box-shadow: 1px 2px 5px #000000;color:blue; margin:5px;" value="Pesquisar">
                     </div>
                     <div class="col"><br>
-                        <a href="/saida-categoria"><input class="btn btn-light" style="font-weight:bold; font-size:15px; box-shadow: 1px 2px 5px #000000; color:dimgray; margin:5px;" type="button" value="Limpar"></a>
+                        <a href="/saida-categoria"><input class="btn btn-light" style="font-weight:bold; font-size:15px; box-shadow: 1px 2px 5px #000000; color:red; margin:5px;" type="button" value="Limpar"></a>
                     </div>
                 </form>                    
                     <div class="col"><br>
@@ -56,7 +63,6 @@
             tela_impressao.window.close();
             }
         </script>
-        <br>
         <div id='print' class='conteudo'> 
             <div class="row">
                 <div class="col-12">       

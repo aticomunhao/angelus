@@ -27,6 +27,11 @@
     <!-- App Css-->
     <link href="{{ URL::asset('/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
 
+    <link href="{{ URL::asset('/libs/datatables/datatables.min.css')}}" rel="stylesheet" />
+
+
+    <script src="{{ URL::asset('/libs/jquery/jquery.min.js')}}"></script>
+
 
 </head>
 
@@ -82,14 +87,14 @@
 
 
             <!-- JAVASCRIPT -->
-            <script src="{{ URL::asset('/libs/jquery/jquery.min.js')}}"></script>
+
             <script src="{{ URL::asset('/libs/bootstrap/bootstrap.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/metismenu/metismenu.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/simplebar/simplebar.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/node-waves/node-waves.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/jquery-sparkline/jquery-sparkline.min.js')}}"></script>
 
-
+            <script src="{{ URL::asset('/libs/datatables/datatables.min.js')}}"></script>
 
 
 

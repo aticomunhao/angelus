@@ -2,7 +2,15 @@
 
 @section('title') Gerenciar Cadastro inicial @endsection
 
+
+@section('headerCss')
+
+
+@endsection
+
+
 @section('content')
+
 
     <div class="row">
         <div class="col-12">
@@ -59,8 +67,8 @@
                 <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">RELAÇÃO DE CADASTROS INICIAIS</h4>
                     <div class="card">
                         <div class="card-body">Quantidade filtrada: {{$contar}}
-                            <table id="datatable" class="table-resposive-sm table-bordered table-striped table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead>
+                            <table id="datatable" class="table-resposive-lg table-bordered table-striped table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead style="font-size:17px;">
                                     <tr style="text-align:center; background-color:#c6e6ce">
                                         <th>CÓDIGO</th>
                                         <th>CATEGORIA</th>
@@ -115,6 +123,14 @@
         </div>
     </div>
 
+<!--<script>
+    $(document).ready( function () {
+        $('#datatable').DataTable({
+           
+        });
+    } );
+</script>-->
+
 @endsection
 
 @section('footerScript')
@@ -125,7 +141,7 @@
 
             <!-- Datatable init js -->
             <script src="{{ URL::asset('/js/pages/cad-tipo-material.init.js')}}"></script>
-            <script src="{{ URL::asset('/js/pages/datatables.init.js')}}"></script>
+            
 
-            @endsection
+@endsection
 

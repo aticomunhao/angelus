@@ -31,15 +31,19 @@ class GerenciarVendasController extends Controller
         $array_sessao = explode(",", $sessao);
 
         $result = DB::table('venda AS v')
-        ->select ('v.id', 'v.data', 'v.id_pessoa', 'v.id_usuario', 'v.id_tp_situacao_venda', 'p.nome AS nome_cliente', 'pu.nome AS nome_usuario',  'v.valor', 't.nome as sit_venda', 't.id AS idt')
-        ->leftjoin ('pessoa AS p',  'v.id_pessoa', '=', 'p.id')
-        ->leftjoin ('usuario AS u',  'u.id', '=', 'v.id_usuario')
-        ->leftjoin ('usuario_deposito AS ud',  'u.id', '=', 'ud.id_usuario')
-        ->leftjoin ('pessoa AS pu', 'u.id_pessoa', '=', 'pu.id')
-        ->leftjoin ('tipo_situacao_venda AS t', 't.id', '=', 'v.id_tp_situacao_venda')
-        ->where('ud.id_deposito', $array_sessao);
-
-
+        ->select ('v.id', 'v.data', 'v.id_pessoa', 'im.id_deposito', 'v.id_usuario', 'v.id_tp_situacao_venda', 'p.nome AS nome_cliente', 'pu.nome AS nome_usuario',  'v.valor', 't.nome as sit_venda', 't.id AS idt')
+        ->leftjoin ('pessoa AS p',  'v.id_pessoa', 'p.id')
+        ->leftjoin ('usuario AS u',  'u.id', 'v.id_usuario')
+        ->leftjoin ('usuario_deposito AS ud',  'u.id', 'ud.id_usuario')
+        ->leftjoin ('pessoa AS pu', 'u.id_pessoa', 'pu.id')
+        ->leftjoin ('tipo_situacao_venda AS t', 't.id', 'v.id_tp_situacao_venda')
+        ->leftJoin('venda_item_material AS vim', 'v.id', 'vim.id_venda')
+        ->leftJoin('item_material AS im', 'vim.id_item_material', 'im.id')
+        ->where(function ($query) use ($array_sessao) {
+            $query->whereNull('im.id_deposito')
+                  ->orWhereIn('im.id_deposito', $array_sessao);
+        })
+        ->groupBy('v.id', 'v.data', 'v.id_pessoa', 'im.id_deposito', 'p.nome', 'pu.nome', 't.nome', 't.id');
 
         $situacao = $request->situacao;
 
@@ -56,27 +60,28 @@ class GerenciarVendasController extends Controller
         }
 
         if ($request->cliente){
-            $result->where('p.nome', '~*', $request->cliente);
+            $result->where('p.nome', 'ilike', ("%$request->cliente%"));
         }
 
         if ($request->id_venda){
-            $result->where('v.id', '=', $request->id_venda);
+            $result->where('v.id', '=', $id_venda);
         }
 
         if ($request->data_inicio){
 
-            $result->where('v.data','>=' , $request->data_inicio);
+            $result->whereDate('v.data','>=' , $request->data_inicio);
         }
 
         if ($request->data_fim){
 
-            $result->where('v.data','<=' , $request->data_fim);
+            $result->whereDate('v.data','<=' , $request->data_fim);
         }
 
-        $contar = $result->count();
+        
 
         $result = $result->orderBy('v.id', 'DESC')->paginate(100);
 
+        $contar = $result->count();
 
        return view('vendas/gerenciar-vendas', compact('result','data_inicio', 'data_fim','contar', 'resultSitVenda', 'situacao', 'cliente'));
     }
@@ -151,7 +156,7 @@ class GerenciarVendasController extends Controller
                 ->where ('venda_item_material.id_venda', '=', $id)
                 ->sum(DB::raw('item_material.valor_venda * item_material.valor_venda_promocional'));
 
-        $desconto = round($desconto, 2);
+        $desconto = floor($desconto);
 
  
 
@@ -161,7 +166,7 @@ class GerenciarVendasController extends Controller
         ->where ('id_venda', '=', $id)
         ->sum('item_material.valor_venda');
 
-        $total_preco =  round($total_preco, 2); 
+        $total_preco =  floor($total_preco); 
 
         //dd($total_preco);
 
@@ -169,14 +174,14 @@ class GerenciarVendasController extends Controller
 
         //dd($valor);
 
-        $valor = round($valor, 2);
+        $valor = floor($valor);
 
         $pago =  DB::table ('venda')
         ->leftjoin('pagamento', 'venda.id', 'pagamento.id_venda' )
         ->where ('pagamento.id_venda', $id)
         ->sum('pagamento.valor');
 
-        $pago = round($pago, 2);
+        $pago = floor($pago);
 
 
         //dd($valor == $pago );
