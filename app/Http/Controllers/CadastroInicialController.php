@@ -12,6 +12,7 @@ use App\Models\ModelItemMaterial;
 use App\Models\ModelCor;
 use App\Models\ModelTamanho;
 use App\Models\ModelMarca;
+use Carbon\Carbon;
 
 class CadastroInicialController extends Controller
 
@@ -481,6 +482,8 @@ class CadastroInicialController extends Controller
     public function store(Request $request)
     {
 
+        $today = Carbon::today()->format('Y-m-d');
+
         $data = $request->all();
 
          // Verifica se o campo está vazio e preenche com 0
@@ -498,7 +501,7 @@ class CadastroInicialController extends Controller
             DB::table('item_material')->insert([
             'id_item_catalogo_material' => $request->input('item_material'),
             'observacao' => $request->input('observacao'),
-            'data_cadastro' => date("m-d-Y"),
+            'data_cadastro' => $today,
             'id_usuario_cadastro'=> session()->get('usuario.id_usuario'),
             'id_tipo_embalagem' => $request->input('embalagem'),
             'id_tipo_unidade_medida' => $request->input('und_med'),
