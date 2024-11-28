@@ -81,10 +81,10 @@ class CadastroInicialController extends Controller
         $data_fim = $request->data_fim;
         if ($request->data_inicio){
 
-            $result->where('im.data_cadastro','>=' , $request->data_inicio);
+            $result->whereDate('im.data_cadastro','>=' , $request->data_inicio);
         }
         if ($request->data_fim){
-            $result->where('im.data_cadastro','<=' , $request->data_fim);
+            $result->whereDate('im.data_cadastro','<=' , $request->data_fim);
         }
 
         $material = $request->material;
