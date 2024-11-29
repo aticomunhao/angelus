@@ -7,6 +7,7 @@
 @endsection
 
 @section('content')
+
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -19,7 +20,7 @@
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <label for="item_material" class="col-sm-4 col-form-label">Item Material*</label>
-                            <select class="form-control" id="item_material" name="item_material" required="required">
+                            <select class="form-control select2" id="item_material" name="item_material" required="required">
                                 <option value="">Selecione</option>
                                 @foreach($resultItem as $resultItens)
                                 <option value="{{$resultItens->id}}">{{$resultItens->id}} / {{$resultItens->categoria}} / {{$resultItens->nome}}</option>
@@ -71,5 +72,6 @@
             <script src="{{ URL::asset('/js/pages/mascaras.init.js')}}"></script>
             <script src="{{ URL::asset('/js/pages/form-advanced.init.js')}}"></script>
             <script src="{{ URL::asset('/js/pages/cadastro-inicial.init.js')}}"></script>
+         
 @endsection
 
