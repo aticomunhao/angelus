@@ -66,6 +66,14 @@
     </div>
 </div>
 
+<script>
+$(document).ready(function() {
+    $('#item_material').select2({
+
+    });
+});
+    </script>
+
 @endsection
 
 @section('footerScript')
