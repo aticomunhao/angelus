@@ -97,6 +97,12 @@ class CadastroInicialController extends Controller
             $result->whereRaw("UNACCENT(LOWER(im.observacao)) ILIKE UNACCENT(LOWER(?))", ["%{$request->obs}%"]);
         }
 
+        $identidade = $request->identidade;
+        if ($request->identidade){
+            $result->where('im.id', '=', $request->identidade);
+        }
+
+
         $ref_fab = $request->ref_fab;
         if ($request->ref_fab){
             $result->where('im.ref_fabricante', '=', $request->ref_fab);
@@ -119,7 +125,7 @@ class CadastroInicialController extends Controller
 
         
 
-        return view('cadastroinicial/gerenciar-cadastro-inicial', compact('obs', 'ref_fab', 'contar', 'result','categoria', 'data_inicio', 'data_fim', 'material', 'resultCat'));
+        return view('cadastroinicial/gerenciar-cadastro-inicial', compact('obs', 'identidade', 'ref_fab', 'contar', 'result','categoria', 'data_inicio', 'data_fim', 'material', 'resultCat'));
 
 
     }

@@ -3,7 +3,7 @@
 @section('title') Incluir Cadastro Inicial @endsection
 
 @section('headerCss')
-    <link href="{{ URL::asset('/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css" />
+    
 @endsection
 
 @section('content')
@@ -19,7 +19,7 @@
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <label for="item_material" class="col-sm-4 col-form-label">Item Material*</label>
-                            <select class="form-control select2" id="item_material" name="item_material" required="required">
+                            <select class="form-control" id="item_material" name="item_material" required="required">
                                 <option value="">Selecione</option>
                                 @foreach($resultItem as $resultItens)
                                 <option value="{{$resultItens->id}}">{{$resultItens->id}} / {{$resultItens->categoria}} / {{$resultItens->nome}}</option>
@@ -64,12 +64,28 @@
         </div>
     </div>
 </div>
+
+<script>
+$(document).ready(function() {
+    $('#item_material').select2({
+        placeholder: 'Selecione um item',
+        allowClear: true
+    });
+
+    // Ajustar a altura do campo
+    $('#item_material').next('.select2-container').find('.select2-selection--single').css({
+        height: '33px', // Altura desejada
+        display: 'flex',
+        'align-items': 'center', // Alinha o texto verticalmente
+        'font-size': '12px' // Ajuste do tamanho da fonte
+    });
+});
+</script>
+
 @endsection
 
 @section('footerScript')
             <script src="{{ URL::asset('/js/pages/mascaras.init.js')}}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
-            <script src="{{ URL::asset('/libs/select2/select2.min.js')}}"></script>
             <script src="{{ URL::asset('/js/pages/form-advanced.init.js')}}"></script>
             <script src="{{ URL::asset('/js/pages/cadastro-inicial.init.js')}}"></script>
 @endsection

@@ -30,6 +30,11 @@
                         <div class="col-sm">Observação:
                             <input class="form-control" type="text" name="obs" value="{{$obs}}">
                         </div>
+                        <div class="col-sm">ID:
+                            <input class="form-control" type="text" name="identidade" value="{{$identidade}}">
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm">Ref Fab:
                             <input class="form-control" type="text" name="ref_fab" value="{{$ref_fab}}">
                         </div>
@@ -41,7 +46,7 @@
                             </select>
                         </div>
                         <div class="col-sm">Categoria:
-                            <select class="form-control" id="" name="categoria">
+                            <select class="form-control custom-select2" id="categoria" name="categoria">
                             <option value="">Todos</option>
                             @Foreach($resultCat as $resultCats)
                                 <option value="{{$resultCats->id}}" {{$resultCats->id == $categoria ? 'selected': ''}}>{{$resultCats->nome}}</option>
@@ -49,7 +54,6 @@
                             </select>
                         </div>
                     </div>
-                    <br>
                     <div class="row" style="text-align: right;">
                         <div class="col">
                             <input class="btn btn-light" type="submit" formaction="{{route('cadastroinicial')}}" value="Pesquisar" style="box-shadow: 1px 2px 5px #000000; margin:5px;">
@@ -61,7 +65,6 @@
                     </div>
                 </div>
             </div>
-            <hr>
             <div class="row">
                 <div class="col-12">
                 <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">RELAÇÃO DE CADASTROS INICIAIS</h4>
@@ -123,6 +126,24 @@
         </div>
     </div>
 
+    <script>
+$(document).ready(function() {
+    $('#categoria').select2({
+        placeholder: 'Selecione uma Categoria',
+        allowClear: true
+    });
+
+    // Ajustar a altura do campo
+    $('#categoria').next('.select2-container').find('.select2-selection--single').css({
+        height: '33px', // Altura desejada
+        display: 'flex',
+        'align-items': 'center', // Alinha o texto verticalmente
+        'font-size': '12px' // Ajuste do tamanho da fonte
+    });
+});
+
+</script>
+
 <!--<script>
     $(document).ready( function () {
         $('#datatable').DataTable({
@@ -138,9 +159,6 @@
 
             <script src="{{ URL::asset('/libs/jszip/jszip.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/pdfmake/pdfmake.min.js')}}"></script>
-
-            <!-- Datatable init js -->
-            <script src="{{ URL::asset('/js/pages/cad-tipo-material.init.js')}}"></script>
             
 
 @endsection
