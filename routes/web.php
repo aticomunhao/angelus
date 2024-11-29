@@ -277,7 +277,7 @@ Route::name('valor-avariado')->middleware('validaUsuario')->group(function () {
 });
 
 Route::name('descontos')->middleware('validaUsuario')->group(function () {
-  Route::get('/gerenciar-desconto', 'DescontoController@index')->middleware('validaUsuario');
+  Route::get('/gerenciar-desconto', 'DescontoController@index')->middleware('validaUsuario')->name('.desconto');
   Route::get('/criar-desconto', 'DescontoController@create')->middleware('validaUsuario');
   Route::post('/incluir-desconto', 'DescontoController@store')->middleware('validaUsuario');
   Route::get('/desconto-alterar/{id}', 'DescontoController@edit')->middleware('validaUsuario');

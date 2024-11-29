@@ -8,10 +8,26 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <a href="/criar-desconto">
-                        <input class="btn btn-success" type="button" value="Incluir Desconto">
-                </a>
-                    <br><br><hr>
+                
+                    <br>
+                    <form action="/gerenciar-desconto" class="form-horizontal mt-4" method="GET" >
+                        <div class="row" style="display: flex; align-items: center;">
+                            <div class="col-2">Início
+                                <input type="date" class="form-control" name="data_inicio" value="{{$data_inicio}}">
+                            </div>
+                            <div class="col-2">Fim
+                                <input type="date" class="form-control" name="data_fim"  value="{{$data_fim}}">
+                            </div>
+                            <div class="col">
+                                <input class="btn btn-light" type="submit" style="box-shadow: 1px 2px 5px #000000;  margin:5px;" value="Pesquisar">
+                                <a href="/gerenciar-desconto"><input class="btn btn-light" style="box-shadow: 1px 2px 5px #000000; margin:5px;" type="button" value="Limpar"></a>                            
+                            </div>
+                            <div class="col">                            
+                                <a href="/criar-desconto"><input class="btn btn-success" type="button" value="Incluir Desconto"></a>
+                            </div>
+                        </div>
+                    </form>
+                    <hr>
                         <h4 class="card-title">Lista de Descontos</h4>
                     <div class="row">
                         <div class="col-12">
@@ -66,11 +82,13 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-
+                                    <div class="d-flex justify-content-center">
+                    {{$result->withQueryString()->links()}}
+                    </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- end col -->
+                       
                     </div>
 
             </div>
@@ -82,12 +100,11 @@
 
 @section('footerScript')
             <!-- Required datatable js -->
-            <script src="{{ URL::asset('/libs/datatables/datatables.min.js')}}"></script>
+           
             <script src="{{ URL::asset('/libs/jszip/jszip.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/pdfmake/pdfmake.min.js')}}"></script>
 
             <!-- Datatable init js -->
-            <script src="{{ URL::asset('/js/pages/datatables.init.js')}}"></script>
             <script src="{{ URL::asset('/libs/select2/select2.min.js')}}"></script>
             <script src="{{ URL::asset('/js/pages/form-advanced.init.js')}}"></script>
 

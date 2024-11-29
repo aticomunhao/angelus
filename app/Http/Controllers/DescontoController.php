@@ -8,18 +8,35 @@ use Illuminate\Http\Request;
 
 class DescontoController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
 
         $result = DB::table('descontos')
                     ->leftjoin('tipo_categoria_material', 'descontos.id_tp_categoria', 'tipo_categoria_material.id')
                     ->leftjoin('percentagem', 'descontos.porcentagem', 'percentagem.valor')
                     ->leftjoin('usuario', 'descontos.id_usuario', 'usuario.id')
                     ->leftjoin('pessoa', 'usuario.id_pessoa', 'pessoa.id')
-                    ->select('descontos.id', 'tipo_categoria_material.nome AS nome1', 'data_inicio', 'data_fim', 'porcentagem', 'percentagem.codigo AS percentual', 'pessoa.nome AS nome2', 'descontos.ativo', 'descontos.data_registro')
-                    ->get();
+                    ->select('descontos.id', 'tipo_categoria_material.nome AS nome1', 'data_inicio', 'data_fim', 'porcentagem', 'percentagem.codigo AS percentual', 'pessoa.nome AS nome2', 'descontos.ativo', 'descontos.data_registro');
+                    
+                             
+                    $data_inicio = $request->data_inicio;
+            
+                    $data_fim = $request->data_fim;
+            
+                    if ($request->data_inicio){
+            
+                        $result->whereDate('descontos.data_registro','>=' , $request->data_inicio);
+                    }
+            
+                    if ($request->data_fim){
+            
+                        $result->whereDate('descontos.data_registro','<=' , $request->data_fim);
+                    }           
+                    
+            
+                    $result = $result->orderBy('descontos.data_registro', 'DESC')->paginate(10);
 
 
-        return view ('/descontos/gerenciar-desconto', compact('result'));
+        return view ('/descontos/gerenciar-desconto', compact('result', 'data_inicio', 'data_fim'));
 
     }
 
@@ -38,15 +55,31 @@ class DescontoController extends Controller
 
         $inativo = isset($request->inativo) ? 1 : 0;
 
-        DB::table('descontos')->insert([
-            'id_tp_categoria' => $request->input('cat_item'),
-            'data_inicio' => $request->input('data_inicio'),
-            'data_fim' => $request->input('data_fim'),
-            'porcentagem' => $request->input('porcentagem'),
-            'id_usuario' => $request->input('id_usuario'),
-            'data_registro' => $request->input('data_registro'),
-            'ativo' => $inativo,
-        ]);
+        if ($request->cat_item > 0){
+
+            DB::table('descontos')->insert([
+                'id_tp_categoria' => $request->input('cat_item'),
+                'data_inicio' => $request->input('data_inicio'),
+                'data_fim' => $request->input('data_fim'),
+                'porcentagem' => $request->input('porcentagem'),
+                'id_usuario' => $request->input('id_usuario'),
+                'data_registro' => $request->input('data_registro'),
+                'ativo' => $inativo,
+            ]);
+
+        }else{
+            DB::table('descontos')->insert([
+                'id_tp_categoria' => null,
+                'data_inicio' => $request->input('data_inicio'),
+                'data_fim' => $request->input('data_fim'),
+                'porcentagem' => $request->input('porcentagem'),
+                'id_usuario' => $request->input('id_usuario'),
+                'data_registro' => $request->input('data_registro'),
+                'ativo' => $inativo,
+            ]);
+
+        }
+
 
         return redirect()->action('DescontoController@index')
         ->with('message', 'A configuração do desconto foi criada com sucesso!');
@@ -74,7 +107,6 @@ class DescontoController extends Controller
     }
 
     public function update(Request $request, $id){
-
 
         DB::table('descontos')
         ->where('id', $id)
@@ -151,18 +183,21 @@ class DescontoController extends Controller
 
         $usuario = $request->session()->get('usuario.id_usuario');
 
+        $sessao = session()->get('usuario.depositos');
+
+        $array_sessao = explode(",", $sessao);
+
         $data_atual = (\Carbon\carbon::now()->toDateTimeString());
 
+       // dd($desconto);
 
-        if ($data_inicio == null && $data_fim == null){
+        if ($data_inicio == null && $data_fim == null && $categoria == null){
 
             DB::table('item_material')
-            ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
-            ->leftJoin('tipo_categoria_material', 'item_catalogo_material.id_categoria_material', 'tipo_categoria_material.id')
-            ->leftJoin('descontos', 'tipo_categoria_material.id', 'descontos.id_tp_categoria')
-            ->where('descontos.id',$id)
-            ->where('item_catalogo_material.id_categoria_material', $categoria)
-            ->where ('descontos.porcentagem', $desconto)
+            ->where(function ($query) use ($array_sessao) {
+                $query->whereNull('item_material.id_deposito')
+                      ->orWhereIn('item_material.id_deposito', $array_sessao);
+            })
             ->where ('item_material.id_tipo_situacao','<', 2)
             ->update([
             'item_material.valor_venda_promocional' => $desconto,
@@ -178,7 +213,37 @@ class DescontoController extends Controller
 
 
             return redirect()->action('DescontoController@index')
-                ->with('message', 'A configuração do desconto foi ativada!');
+                ->with('message', 'A configuração do desconto black friday foi ativada!');
+        }
+        elseif ($data_inicio == null && $data_fim == null){
+
+                DB::table('item_material')
+                ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
+                ->leftJoin('tipo_categoria_material', 'item_catalogo_material.id_categoria_material', 'tipo_categoria_material.id')
+                ->leftJoin('descontos', 'tipo_categoria_material.id', 'descontos.id_tp_categoria')
+                ->where('descontos.id',$id)
+                ->where(function ($query) use ($array_sessao) {
+                    $query->whereNull('item_material.id_deposito')
+                          ->orWhereIn('item_material.id_deposito', $array_sessao);
+                })
+                ->where('item_catalogo_material.id_categoria_material', $categoria)
+                ->where ('descontos.porcentagem', $desconto)
+                ->where ('item_material.id_tipo_situacao','<', 2)
+                ->update([
+                'item_material.valor_venda_promocional' => $desconto,
+                ]);
+    
+                $teste = DB::table('descontos')
+                    ->where('descontos.id',$id)
+                    ->update([
+                        'ativo' => 'true',
+                        'id_usuario' => $usuario,
+                        'data_registro' => $data_atual
+                        ]);
+    
+    
+                return redirect()->action('DescontoController@index')
+                    ->with('message', 'A configuração do desconto foi ativada!');
 
 
         }
@@ -189,6 +254,10 @@ class DescontoController extends Controller
               ->leftJoin('tipo_categoria_material', 'item_catalogo_material.id_categoria_material', 'tipo_categoria_material.id')
               ->leftJoin('descontos', 'tipo_categoria_material.id', 'descontos.id_tp_categoria')
               ->where('descontos.id',$id)
+              ->where(function ($query) use ($array_sessao) {
+                $query->whereNull('item_material.id_deposito')
+                      ->orWhereIn('item_material.id_deposito', $array_sessao);
+            })
               ->where('item_catalogo_material.id_categoria_material', $categoria)
               ->where('descontos.porcentagem', $desconto)
               ->where('item_material.data_cadastro','>', $data_inicio)
@@ -216,6 +285,10 @@ class DescontoController extends Controller
             ->leftJoin('tipo_categoria_material', 'item_catalogo_material.id_categoria_material', 'tipo_categoria_material.id')
             ->leftJoin('descontos', 'tipo_categoria_material.id', 'descontos.id_tp_categoria')
             ->where('descontos.id',$id)
+            ->where(function ($query) use ($array_sessao) {
+                $query->whereNull('item_material.id_deposito')
+                      ->orWhereIn('item_material.id_deposito', $array_sessao);
+            })
             ->where('item_catalogo_material.id_categoria_material', $categoria)
             ->where('descontos.porcentagem', $desconto)
             ->where('item_material.data_cadastro','<', $data_fim)
@@ -244,6 +317,10 @@ class DescontoController extends Controller
             ->leftJoin('tipo_categoria_material', 'item_catalogo_material.id_categoria_material', 'tipo_categoria_material.id')
             ->leftJoin('descontos', 'tipo_categoria_material.id', 'descontos.id_tp_categoria')
             ->where('descontos.id',$id)
+            ->where(function ($query) use ($array_sessao) {
+                $query->whereNull('item_material.id_deposito')
+                      ->orWhereIn('item_material.id_deposito', $array_sessao);
+            })
             ->where('item_catalogo_material.id_categoria_material', $categoria)
             ->where('descontos.porcentagem', $desconto)
             ->where('item_material.data_cadastro', '>', $data_inicio)
@@ -288,16 +365,50 @@ class DescontoController extends Controller
 
         $usuario = $request->session()->get('usuario.id_usuario');
 
+        $sessao = session()->get('usuario.depositos');
+
+        $array_sessao = explode(",", $sessao);
+
         $data_atual = (\Carbon\carbon::now()->toDateTimeString());
 
+        if ($data_inicio == null && $data_fim == null && $categoria == null){
 
-        if ($data_inicio == null && $data_fim == null){
+            DB::table('item_material')
+            ->where(function ($query) use ($array_sessao) {
+                $query->whereNull('item_material.id_deposito')
+                      ->orWhereIn('item_material.id_deposito', $array_sessao);
+            })
+            ->where('item_material.id_tipo_situacao','<', 2)
+            ->where('item_material.valor_venda_promocional', $desconto)
+            ->update([
+            'valor_venda_promocional' => 0
+            ]);
+
+            DB::table('descontos')
+                ->where('descontos.id',$id)
+                ->update([
+                    'ativo' => 'false',
+                    'id_usuario' => $usuario,
+                    'data_registro' => $data_atual
+                    ]);
+
+
+            return redirect()->action('DescontoController@index')
+                ->with('warning', 'A configuração do desconto foi inativada!');
+
+        }
+
+        elseif ($data_inicio == null && $data_fim == null){
 
             DB::table('item_material')
             ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
             ->leftJoin('tipo_categoria_material', 'item_catalogo_material.id_categoria_material', 'tipo_categoria_material.id')
             ->leftJoin('descontos', 'tipo_categoria_material.id', 'descontos.id_tp_categoria')
             ->where('descontos.id',$id)
+            ->where(function ($query) use ($array_sessao) {
+                $query->whereNull('item_material.id_deposito')
+                      ->orWhereIn('item_material.id_deposito', $array_sessao);
+            })
             ->where('item_catalogo_material.id_categoria_material', $categoria)
             ->where ('descontos.porcentagem', $desconto)
             ->where ('item_material.id_tipo_situacao','<', 2)
@@ -325,6 +436,10 @@ class DescontoController extends Controller
               ->leftJoin('tipo_categoria_material', 'item_catalogo_material.id_categoria_material', 'tipo_categoria_material.id')
               ->leftJoin('descontos', 'tipo_categoria_material.id', 'descontos.id_tp_categoria')
               ->where('descontos.id',$id)
+              ->where(function ($query) use ($array_sessao) {
+                $query->whereNull('item_material.id_deposito')
+                      ->orWhereIn('item_material.id_deposito', $array_sessao);
+            })
               ->where('item_catalogo_material.id_categoria_material', $categoria)
               ->where('descontos.porcentagem', $desconto)
               ->where('item_material.data_cadastro','>', $data_inicio)
@@ -353,6 +468,10 @@ class DescontoController extends Controller
             ->leftJoin('tipo_categoria_material', 'item_catalogo_material.id_categoria_material', 'tipo_categoria_material.id')
             ->leftJoin('descontos', 'tipo_categoria_material.id', 'descontos.id_tp_categoria')
             ->where('descontos.id',$id)
+            ->where(function ($query) use ($array_sessao) {
+                $query->whereNull('item_material.id_deposito')
+                      ->orWhereIn('item_material.id_deposito', $array_sessao);
+            })
             ->where('item_catalogo_material.id_categoria_material', $categoria)
             ->where('descontos.porcentagem', $desconto)
             ->where('item_material.data_cadastro','<', $data_fim)
@@ -382,6 +501,10 @@ class DescontoController extends Controller
             ->leftJoin('tipo_categoria_material', 'item_catalogo_material.id_categoria_material', 'tipo_categoria_material.id')
             ->leftJoin('descontos', 'tipo_categoria_material.id', 'descontos.id_tp_categoria')
             ->where('descontos.id',$id)
+            ->where(function ($query) use ($array_sessao) {
+                $query->whereNull('item_material.id_deposito')
+                      ->orWhereIn('item_material.id_deposito', $array_sessao);
+            })
             ->where('item_catalogo_material.id_categoria_material', $categoria)
             ->where('descontos.porcentagem', $desconto)
             ->where('item_material.data_cadastro', '>', $data_inicio)

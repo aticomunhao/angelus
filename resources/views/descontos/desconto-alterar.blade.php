@@ -22,6 +22,7 @@
                         <div class="form-group row">
                             <div class="col">Categoria
                                 <select class="form-control select2" id="" name="cat_item" required="required">
+                                    <option value="0">Todos</option>
                                     @foreach($categoria as $categorias)
                                     <option value="{{$categorias->id}}">{{$categorias->nome}}</option>
                                     @endforeach
