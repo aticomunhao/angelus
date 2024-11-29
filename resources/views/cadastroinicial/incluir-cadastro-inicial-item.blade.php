@@ -65,23 +65,6 @@
     </div>
 </div>
 
-<script>
-$(document).ready(function() {
-    $('#item_material').select2({
-        placeholder: 'Selecione um item',
-        allowClear: true
-    });
-
-    // Ajustar a altura do campo
-    $('#item_material').next('.select2-container').find('.select2-selection--single').css({
-        height: '33px', // Altura desejada
-        display: 'flex',
-        'align-items': 'center', // Alinha o texto verticalmente
-        'font-size': '12px' // Ajuste do tamanho da fonte
-    });
-});
-</script>
-
 @endsection
 
 @section('footerScript')
