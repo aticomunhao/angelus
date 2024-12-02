@@ -181,10 +181,12 @@ class GerenciarVendasController extends Controller
         ->where ('pagamento.id_venda', $id)
         ->sum('pagamento.valor');
 
+//dd($pago);
+
         $pago = ($pago);
 
 
-        //dd($valor == $pago );
+    //    dd($valor == $pago );
         
 
         $sit_ven =  DB::table ('venda')

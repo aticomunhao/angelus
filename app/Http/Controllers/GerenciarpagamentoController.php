@@ -190,7 +190,7 @@ class GerenciarpagamentoController extends Controller
 
         
 
-        $resto = (($total_preco - $desconto) - $total_pago);
+        $resto = (($total_preco - floor($desconto)) - $total_pago);
         
         $resto =  ($resto);
 
