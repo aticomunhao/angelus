@@ -30,13 +30,16 @@
                         <div class="col-sm">Observação:
                             <input class="form-control" type="text" name="obs" value="{{$obs}}">
                         </div>
-                        <div class="col-sm">ID:
-                            <input class="form-control" type="text" name="identidade" value="{{$identidade}}">
+                        <div class="col-sm">Ref Fab:
+                            <input class="form-control" type="text" name="ref_fab" value="{{$ref_fab}}">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm">Ref Fab:
-                            <input class="form-control" type="text" name="ref_fab" value="{{$ref_fab}}">
+                        <div class="col-sm">ID inicial:
+                            <input class="form-control" type="numeric" name="identidade1" value="{{$identidade1}}">
+                        </div>
+                        <div class="col-sm">ID final:
+                            <input class="form-control" type="numeric" name="identidade2" value="{{$identidade2}}">
                         </div>
                         <div class="col-sm">Comprado?<br>
                             <select class="form-control" id="" name="compra">
