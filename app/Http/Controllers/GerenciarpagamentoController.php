@@ -66,6 +66,7 @@ class GerenciarpagamentoController extends Controller
                     ->where ('id_venda', '=', $id)
                     ->sum('item_material.valor_venda');
 
+        $total_venda = floatval($total_venda);
 
 
         ///Total devido em dinheiro
@@ -74,6 +75,8 @@ class GerenciarpagamentoController extends Controller
                     ->where ('id_venda', '=', $id)
                     ->where ('pagamento.id_tipo_pagamento', '=', 1)
                     ->sum('pagamento.valor');
+
+        $total_especie = floatval($total_especie);
 
 
         ///Valor a devolver em dinheiro
@@ -87,7 +90,9 @@ class GerenciarpagamentoController extends Controller
                 ->where ('id_venda', '=', $id)
                 ->sum('valor');
         
-        $total_pago = ($total_pago);
+        $total_pago = floatval($total_pago);
+        
+        //dd($total_pago);
 
         ///Cálculo do total de desconto
         $desconto = DB::table ('item_material')
@@ -98,20 +103,21 @@ class GerenciarpagamentoController extends Controller
         
         $desconto = floor($desconto);
 
+        //dd($desconto);
+
         ///Cálculo do total do preço da venda com desconto se houver
         $total_original = $total_venda;
 
-        $total_original = ($total_original);
+        //dd($desconto);
 
          ///Cálculo do valor ainda não pago
-         $nao_pago = ($total_original - $desconto) - $total_pago;
-
+         $nao_pago = floatval(bcsub(bcsub($total_original, $desconto, 2), $total_pago, 2));
+         
+//dd($nao_pago);
         ///Cálculo do total do preço da venda com desconto se houver
-        $total_preco = $total_original - $desconto;
+        $total_preco = bcsub($total_original, $desconto, 2);
 
-        $total_preco = ($total_preco);
-
-        //dd($total_preco);
+        //dd($total_pago);
 
         ///Cálculo de possível troco
         $troco = $total_pago - $total_preco;

@@ -166,15 +166,10 @@ class GerenciarVendasController extends Controller
         ->where ('id_venda', '=', $id)
         ->sum('item_material.valor_venda');
 
-        $total_preco = ($total_preco); 
+        $total_preco = floatval($total_preco); 
 
-        //dd($total_preco);
 
-        $valor = ($total_preco - $desconto);
-
-        //dd($valor);
-
-        $valor = $valor;
+        $valor = floatval(bcsub($total_preco, $desconto, 2));
 
         $pago =  DB::table ('venda')
         ->leftjoin('pagamento', 'venda.id', 'pagamento.id_venda' )
@@ -183,10 +178,10 @@ class GerenciarVendasController extends Controller
 
 //dd($pago);
 
-        $pago = ($pago);
+        $pago = floatval($pago);
 
 
-    //    dd($valor == $pago );
+        //dd($valor == $pago );
         
 
         $sit_ven =  DB::table ('venda')
