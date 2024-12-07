@@ -160,19 +160,19 @@
                     <ul class="sub-menu" aria-expanded="false">
                         @if(!$perfil_vol)
                         <li>
-                            <a href="/relatorio-entrada" class="waves-effect"><span>Entradas Materiais</span></a>
+                            <a href="/vendas-geral" class="waves-effect"><span>Vendas Cliente</span></a>
+                        </li>
+                        <li>
+                            <a href="/saida-categoria" class="waves-effect"><span>Vendas Categoria</span></a>
                         </li>
                         <li>
                             <a href="/inventarios" class="waves-effect"><span>Inventário</span></a>
                         </li>
                         <li>
+                            <a href="/relatorio-entrada" class="waves-effect"><span>Entradas Materiais</span></a>
+                        </li>                 
+                        <li>
                             <a href="/relatorio-saidas" class="waves-effect"><span>Saídas Materiais</span></a>
-                        </li>
-                        <li>
-                            <a href="/relatorio-vendas" class="waves-effect"><span>Vendas Cliente</span></a>
-                        </li>
-                        <li>
-                            <a href="/saida-categoria" class="waves-effect"><span>Vendas Categoria</span></a>
                         </li>
                         @endif
                         @if($perfil_adm)

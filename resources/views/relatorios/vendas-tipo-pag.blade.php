@@ -25,19 +25,7 @@
                         <a href="/vendas-tipo-valor">    
                         <input class="btn btn-warning" type="button" value="Limpar">
                         </a>
-                    </form>
-                    </div>  
-                    <div class="col">
-                        <a href="/gerenciar-vendas">
-                            <input class="btn btn-danger" type="button" value="Cancelar">
-                        </a>
-                    </div>
-                    <div class="col">
-                        <a href="">
-                        <input class="btn btn-success" onclick="cont();" type="button" value="Imprimir">
-                        </a>
-                    </div>
-                    
+                    </form>                   
                 </div>
             </div>
         </div>
@@ -45,12 +33,12 @@
 
     <hr>
     <div id='print' class='conteudo'>
-        <h4 class="card-title" class="card-title" style="font-size:15px; text-align: center; background: #088CFF; color: white;">RELATÓRIO DE VENDAS POR TIPO PAGAMENTO</h4>
+    <h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">RELATÓRIO DE VENDAS POR TIPO PAGAMENTO</h4>
         <h4 style="font-size: 12px; text-align: center; color:black;">O período do relatório é: {{ \Carbon\Carbon::parse("$data_inicio")->format('d/m/Y')}} até {{ \Carbon\Carbon::parse("$data_fim")->format('d/m/Y')}}</h4>
         <br>
         <div class="container" style="background:#ffffff;">
             <div class="row">
-                    @foreach ($rela as $ra)
+                   
                     <table class="table table-sm table-striped table-bordered">
                         <thead style='font-size:12px; background:#ffffff; text-align:center;vertical-align:middle'>
                             <tr>
@@ -62,19 +50,58 @@
                                 <th colspan="1">VALOR</th>
                             </tr>
                         </thead>
-                        <tbody style='font-size:10px; text-align:center;vertical-align:middle'>
                        
-                            <tr>
-                                <td>{{$ra->idv}}</td>
-                                <td>{{date( 'd/m/Y' , strtotime($ra->data))}}</td>
-                                <td>{{$ra->nomep}}</td>
-                                <td>{{number_format($ra->vlr_final,2,',','.')}}</td>
-                  
-                            </tr>
-                        </tbody>
-                    </table>
-                    @endforeach
-                  
+                        <tbody style="font-size:10px; text-align:center;vertical-align:middle">
+    @php
+        $currentIdv = null; // Variável para controlar o ID atual
+        $totalVlrFinal = 0; // Variável para somar vlr_final do ID atual
+    @endphp
+
+    @foreach ($rela as $ra)
+        @if ($currentIdv !== $ra->idv)
+            @if ($currentIdv !== null)
+                <!-- Exibe o total do ID anterior antes de mudar -->
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>Total por Venda:</strong></td>
+                    <td><strong>{{ number_format($totalVlrFinal, 2, ',', '.') }}</strong></td>
+                </tr>
+            @endif
+
+            @php
+                // Atualiza o ID atual e reseta o total
+                $currentIdv = $ra->idv;
+                $totalVlrFinal = 0;
+            @endphp
+        @endif
+
+        <!-- Soma o valor ao total do ID atual -->
+        @php $totalVlrFinal += $ra->vlr_final; @endphp
+
+        <tr>
+            <td>{{ $ra->idv }}</td>
+            <td>{{ date('d/m/Y', strtotime($ra->data)) }}</td>
+            <td>{{ $ra->nomep }}</td>
+            <td>{{ number_format($ra->vlr_final, 2, ',', '.') }}</td>
+            <td>{{ $ra->tpnome }}</td>
+            <td>{{ number_format($ra->pagvalor, 2, ',', '.') }}</td>
+        </tr>
+    @endforeach
+
+    <!-- Exibe o total do último ID -->
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><strong>Total por IDV:</strong></td>
+        <td><strong>{{ number_format($totalVlrFinal, 2, ',', '.') }}</strong></td>
+    </tr>
+</tbody>
+                    </table>  
                         <tfoot style='background:#ffffff;'>
                             <tr>
                            

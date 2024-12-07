@@ -2,10 +2,10 @@
 
 @section('title') Relatório de saídas @endsection
 
-@section('content')
+@section('headerCss')
+@endsection
 
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+@section('content')
 
 <div class="col12" style="background:#ffffff;">
     <div class="container">
@@ -21,18 +21,18 @@
                         <input type="date" class="form-control" name='data_fim' value="{{$data_fim}}" default="$today = Carbon::today();">
                     </div>
                     <div class="col-2">Categoria
-                        <select class="form-control select2" id="lista1" name="categoria" placeholder="categoria" onchange="toggleLista('lista1')" multiple="multiple">
+                        <select class="form-control select2" id="lista1" name="categoria[]" placeholder="categoria" onchange="toggleLista('lista1')" multiple="multiple">
                         <option value="">Todos</option>
                         @Foreach($result as $results)
-                        <option value="{{$results->id}}">{{$results->nome}}</option>
+                        <option value="{{$results->id}}" {{ in_array($results->id, request()->get('categoria', [])) ? 'selected' : '' }}>{{ $results->nome }}</option>
                         @endForeach
                         </select>
                     </div>
                     <div class="col-2">Item nome
-                        <select class="form-control select2" id="lista2" name="nomeitem" placeholder="nomeitem" onchange="toggleLista('lista2')" multiple="multiple">
+                        <select class="form-control select2" id="lista2" name="nomeitem[]" placeholder="nomeitem" onchange="toggleLista('lista2')" multiple="multiple">
                         <option value=" ">Todos</option>
                         @Foreach($itemmaterial as $itemmat)
-                        <option value="{{$itemmat->id}}">{{$itemmat->nome}}</option>
+                        <option value="{{$itemmat->id}}" {{ in_array($itemmat->id, request()->get('nomeitem', [])) ? 'selected' : '' }}>{{ $itemmat->nome }}</option>
                         @endForeach
                         </select>
                     </div>
@@ -52,7 +52,7 @@
                     </div>                
 
                     <div class="col-1"><br>
-                        <a href=""><input class="btn btn-info" onclick="cont();" type="button" value="Imprimir"></a>
+                      <!--  <a href=""><input class="btn btn-info" onclick="cont();" type="button" value="Imprimir"></a>-->
                     </div>
                 </div>
             
@@ -86,12 +86,15 @@
                 <td style="text-align:center;">DATA SAÍDA</td>
                 </tr>
             </thead>
+            @php
+                $nr_ordem = $saidamat->firstItem(); // Define o contador inicial
+            @endphp
             <tbody>
                 @foreach ($saidamat as $saidamats )
                 <tr style="text-align:center;">
                     <td>{{$nr_ordem++}}</td>
-                    <td style="text-align:left;">{{$saidamats->nomecat}}</td>
-                    <td style="text-align:center;">{{$saidamats->nomemat}}</td>
+                    <td style="text-align:center;">{{$saidamats->nomecat}}</td> 
+                    <td style="text-align:center;">{{$saidamats->nomemat}}</td>                                       
                     <td style="text-align:center;">
                     @if($saidamats->adquirido == true)
                         Sim
@@ -105,46 +108,68 @@
                     </tr>
                 @endforeach
             </tbody>
+            @if($saidamat->currentPage() === $saidamat->lastPage())
             <tfoot>
-                    <tr style="text-align:center; font-weight: bold; font-size:15px">
+                    <tr style="text-align:center; font-weight: bold; font-size:15px; background-color:yellow">
                     <td></td>
                     <td></td>
                     <td></td>
                     <td>Soma total de saídas</td>
-                    <td>{{$somaqtd}}</td>
+                    <td>{{number_format($somaqtd,0,'','.')}}</td>
                     <td>{{number_format($somasai,2,',','.')}}</td>
                     <td></td>
                 </tr>
             </tfoot>
+            @endif
         </table>
+        <div class="d-flex justify-content-center">
+        {{$saidamat->withQueryString()->links()}}
+        </div>
 
     </div>
 </div>
 
 
 <script>
-    function toggleLista(id) {
-            var listaAtual = document.getElementById(id);
-            var outrasListaId = (id === 'lista1') ? 'lista2' : 'lista1';
-            var outrasLista = document.getElementById(outrasListaId);
+$(document).ready(function () {
+    // Inicializa o Select2 com múltiplas seleções e sem fechar automaticamente
+    $('#lista1, #lista2').select2({
+        placeholder: 'Selecione uma ou mais opções',
+        allowClear: true,
+        closeOnSelect: false // Impede o fechamento automático ao selecionar
+    });
 
-            if (listaAtual.value !== '') {
-                outrasLista.disabled = true;
-            } else {
-                outrasLista.disabled = false;
-            }
+    // Mantém o dropdown aberto após a seleção
+    $('#lista1, #lista2').on('select2:select', function (e) {
+        $(this).select2('open'); // Reabre o dropdown após selecionar uma opção
+    });
+
+    // Função para ativar/desativar selects
+    function toggleDisable(selectedId, otherId) {
+        const selectedValues = $(`#${selectedId}`).val();
+        if (selectedValues && selectedValues.length > 0) {
+            $(`#${otherId}`).prop('disabled', true).select2();
+        } else {
+            $(`#${otherId}`).prop('disabled', false).select2();
         }
+    }
+
+    // Eventos de mudança
+    $('#lista1').on('change', function () {
+        toggleDisable('lista1', 'lista2');
+    });
+
+    $('#lista2').on('change', function () {
+        toggleDisable('lista2', 'lista1');
+    });
+});
 </script>
 
 
 @endsection
 
 @section('footerScript')
-            <script src="{{ URL::asset('/js/pages/mascaras.init.js')}}"></script>
-            <script src="{{ URL::asset('/js/pages/busca-cep.init.js')}}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
-            <script src="{{ URL::asset('/libs/select2/select2.min.js')}}"></script>
-            <script src="{{ URL::asset('/js/pages/form-advanced.init.js')}}"></script>
+
 @endsection
 
 

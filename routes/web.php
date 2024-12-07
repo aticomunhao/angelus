@@ -259,7 +259,7 @@ Route::name('vendas')->middleware('validaUsuario')->group(function () {
 
 Route::name('relatorios')->middleware('validaUsuario')->group(function (){
   Route::get('/demonstrativo/{id}', 'GerenciardemonstrativoController@index')->middleware('validaUsuario');
-  Route::get('/relatorio-vendas', 'RelatoriosController@index')->middleware('validaUsuario');
+  Route::get('/vendas-geral', 'RelatoriosController@index')->middleware('validaUsuario');
   Route::get('/relatorio-entrada', 'RelatoriosController@entrada')->middleware('validaUsuario');
   Route::get('/relatorio-saidas', 'RelatoriosController@saida')->middleware('validaUsuario');
   Route::get('/inventarios', 'GerenciarInventariosController@index')->middleware('validaUsuario');

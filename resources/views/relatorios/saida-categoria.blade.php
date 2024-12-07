@@ -4,8 +4,6 @@
 
 @section('content')
 
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <div class="row">
     <div class="col">
         <div class="card">
@@ -20,9 +18,9 @@
                         <input type="date" class="form-control" name='data_fim' value="{{$data_fim}}" default="$today = Carbon::today();">
                     </div>
                     <div class="col">Categoria
-                        <select class="form-control select2" id="cat" name="categoria" placeholder="categoria" multiple="multiple" >
-                        @Foreach($result as $results)
-                        <option value="{{$results->id}}">{{$results->nome}}</option>
+                        <select class="form-control select2" id="lista1" name="categoria[]" placeholder="categoria" multiple="multiple" >
+                        @Foreach($result as $results)                       
+                        <option value="{{$results->id}}" {{ in_array($results->id, request()->get('categoria', [])) ? 'selected' : '' }}>{{ $results->nome }}</option>
                         @endForeach
                         </select>
                     </div>
@@ -48,9 +46,9 @@
                         <a href="/saida-categoria"><input class="btn btn-light" style="font-weight:bold; font-size:15px; box-shadow: 1px 2px 5px #000000; color:red; margin:5px;" type="button" value="Limpar"></a>
                     </div>
                 </form>                    
-                    <div class="col"><br>
+                   <!-- <div class="col"><br>
                         <a href=""><input class="btn btn-info" onclick="cont();" type="button" style="font-weight:bold; font-size:15px; box-shadow: 1px 2px 5px #000000; margin:5px;" value="Imprimir"></a>
-                    </div>
+                    </div>-->
                 </div>            
             </div>
         </div> 
@@ -173,14 +171,46 @@
         </div>    
     </div>
 </div>
+
+<script>
+$(document).ready(function () {
+    // Inicializa o Select2 com múltiplas seleções e sem fechar automaticamente
+    $('#lista1, #lista2').select2({
+        placeholder: 'Selecione uma ou mais opções',
+        allowClear: true,
+        closeOnSelect: false // Impede o fechamento automático ao selecionar
+    });
+
+    // Mantém o dropdown aberto após a seleção
+    $('#lista1, #lista2').on('select2:select', function (e) {
+        $(this).select2('open'); // Reabre o dropdown após selecionar uma opção
+    });
+
+    // Função para ativar/desativar selects
+    function toggleDisable(selectedId, otherId) {
+        const selectedValues = $(`#${selectedId}`).val();
+        if (selectedValues && selectedValues.length > 0) {
+            $(`#${otherId}`).prop('disabled', true).select2();
+        } else {
+            $(`#${otherId}`).prop('disabled', false).select2();
+        }
+    }
+
+    // Eventos de mudança
+    $('#lista1').on('change', function () {
+        toggleDisable('lista1', 'lista2');
+    });
+
+    $('#lista2').on('change', function () {
+        toggleDisable('lista2', 'lista1');
+    });
+});
+</script>
+
 @endsection
 
 @section('footerScript')
-            <script src="{{ URL::asset('/js/pages/mascaras.init.js')}}"></script>
-            <script src="{{ URL::asset('/js/pages/busca-cep.init.js')}}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
-            <script src="{{ URL::asset('/libs/select2/select2.min.js')}}"></script>
-            <script src="{{ URL::asset('/js/pages/form-advanced.init.js')}}"></script>
+
 @endsection
 
 

@@ -33,41 +33,56 @@ class GerenciarInventariosController extends Controller{
     $itemmaterial = DB::select ("select distinct(icm.nome), id, nome from item_catalogo_material icm order by nome"); 
 
 
-    $resultItens = DB::table('item_material')
-                                    ->select('item_catalogo_material.nome', 'item_material.valor_venda', DB::raw('count(*) as qtd'), DB::raw('sum(valor_venda) as total'))
-                                    ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material','=','item_catalogo_material.id')
-                                    ->leftjoin('venda_item_material','item_material.id','venda_item_material.id_item_material')
-                                    ->leftjoin('venda','venda_item_material.id_venda', 'venda.id')
-                                    ->where('item_material.id_deposito', $array_sessao)
-                                    ->groupBy('item_catalogo_material.nome', 'item_material.valor_venda',);
+    $resultItens = DB::table('item_material AS im')
+                                    ->select('icm.nome', 'im.valor_venda', DB::raw('count(*) as qtd'), DB::raw('sum(valor_venda) as total'))
+                                    ->leftjoin('item_catalogo_material AS icm', 'im.id_item_catalogo_material','icm.id')
+                                    ->leftjoin('venda_item_material AS vim','im.id','vim.id_item_material')
+                                    ->leftjoin('venda AS v','vim.id_venda', 'v.id')
+                                    ->where('im.id_deposito', $array_sessao)
+                                    ->groupBy('icm.nome', 'im.valor_venda',);
 
 
     $data = $request->data;
 
     $categoria = $request->categoria;
 
-    if ($request->data){
-        $resultItens->where('item_material.data_cadastro','<=', $request->data)
-        ->Where('venda.data','>=', $request->data)
-        ->orWhere('venda.data','<=', $request->data)
-        ->whereNull('venda.data');
+    $item = $request->item;
+
+    //dd($categoria, $item, $data);
+
+    if ($data !== null) {
+        $resultItens->whereDate('im.data_cadastro', '<=', $data)
+                    ->where(function ($query) use ($data) {
+                        // Exclui itens vendidos antes da data registrada
+                        $query->whereNull('v.data')
+                              ->orWhereDate('v.data', '>=', $data);
+                    });
     }
 
-    if ($request->categoria){
-        $resultItens->where('item_catalogo_material.id_categoria_material', $request->categoria);
+    if ($categoria !== null){
+
+        $resultItens->where('icm.id_categoria_material', $categoria);
     }
 
-    $resultItens = $resultItens->get();
+    if ($item !== null){
+        $resultItens->where('icm.id', $item);
+    }
+
+    $resultData = $resultItens->get();
+    
+    $total_itens = $resultData->sum('qtd');
+
+    $total_soma = $resultData->sum('total');
+
+    $resultItens = $resultItens->paginate(100);
 
     //dd($resultItens);
 
-    $total_itens = $resultItens->sum('qtd');
-
-    $total_soma = $resultItens->sum('total');
 
 
 
-    return view('relatorios/inventarios', compact('nr_ordem', 'data', 'resultCategorias', 'resultItens', 'total_itens', 'total_soma', 'itemmaterial'));
+
+    return view('relatorios/inventarios', compact('nr_ordem', 'categoria', 'item', 'data', 'resultCategorias', 'resultItens', 'total_itens', 'total_soma', 'itemmaterial'));
 
     }
 
