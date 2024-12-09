@@ -257,16 +257,16 @@ Route::name('vendas')->middleware('validaUsuario')->group(function () {
   Route::get('/cad-pagamento/alterar/{id}', 'TipoPagamentoController@edit')->middleware('validaUsuario');
   Route::put('/cad-pagamento/atualizar/{id}', 'TipoPagamentoController@update')->middleware('validaUsuario');
 
-Route::name('relatorios')->middleware('validaUsuario')->group(function (){
+//Route::name('relatorios')->middleware('validaUsuario')->group(function (){
   Route::get('/demonstrativo/{id}', 'GerenciardemonstrativoController@index')->middleware('validaUsuario');
-  Route::get('/vendas-geral', 'RelatoriosController@index')->middleware('validaUsuario');
+  Route::get('/relatorio-vendas', 'RelatoriosController@index')->middleware('validaUsuario');
   Route::get('/relatorio-entrada', 'RelatoriosController@entrada')->middleware('validaUsuario');
   Route::get('/relatorio-saidas', 'RelatoriosController@saida')->middleware('validaUsuario');
   Route::get('/inventarios', 'GerenciarInventariosController@index')->middleware('validaUsuario');
-  Route::get('/venda-valor', 'RelatoriosController@vendas')->middleware('validaUsuario');
+  Route::get('/venda-valor', 'RelatoriosController@RELAORIO')->middleware('validaUsuario');
   Route::get('/saida-categoria', 'RelatoriosController@saida_cat')->middleware('validaUsuario');
 
-});
+//});
 
 Route::name('valor-avariado')->middleware('validaUsuario')->group(function () {
   Route::get('/cad-valor-avariado', 'RegistrarAvariaController@index')->middleware('validaUsuario')->name('cadavaria.index');

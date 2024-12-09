@@ -54,7 +54,7 @@
         <div id='print' class='conteudo'>
         <div class="row">
             <div class="col-12">
-                <h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">RELATÓRIO DE SAÍDAS POR PERÍODO</h4>
+                <h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">RELATÓRIO DE VENDAS POR PERÍODO</h4>
                 <br>
                 <div class="container" style="background:#ffffff;">
                     <div class="row">
