@@ -36,16 +36,12 @@
                     <div class="col">
                         <input class="btn btn-light" type="submit" value="Pesquisar" style="box-shadow: 1px 2px 5px #000000; margin-top:20px;">
                     </div>
-                    <div class="col">
-                        <a href="/relatorio-vendas">    
-                        <input class="btn btn-light" type="button" value="Limpar" style="box-shadow: 1px 2px 5px #000000; margin-top:20px;">
-                        </a>
                     </form>
+                    <div class="col">
+                        <a href="/relatorio-vendas"><input class="btn btn-light" type="button" value="Limpar" style="box-shadow: 1px 2px 5px #000000; margin-top:20px;"></a>                    
                     </div>  
                     <div class="col">
-                        <a href="">
-                        <input class="btn btn-info" onclick="cont();" type="button" value="Imprimir">
-                        </a>
+                        <a href=""><input class="btn btn-info" onclick="cont();" type="button" value="Imprimir"></a>
                     </div>                    
                 </div>
             </div>
@@ -85,10 +81,10 @@
                                 <tr>
                                     <th></th>
                                     <th></th>
-                                    <th></th>
                                     <th style="text-align:right;font-size:12px;font-weight: bold;">TOTAL</th>
-                                    <th style="text-align:center;font-size:12px;font-weight: bold;">{{number_format($total_desconto,2,',','.')}}</th>
-                                    <td style="text-align:center;font-size:12px;font-weight: bold;">{{number_format($total1,2,',','.')}}</td>
+                                    <th style="text-align:center;font-size:12px;font-weight: bold; background-color:yellow">{{number_format($soma_origem,2,',','.')}}</th>
+                                    <th style="text-align:center;font-size:12px;font-weight: bold; background-color:indianred; color:#ffffff;">{{number_format($total_desconto,2,',','.')}}</th>
+                                    <td style="text-align:center;font-size:12px;font-weight: bold; background-color:forestgreen; color:#ffffff;">{{number_format($total1,2,',','.')}}</td>
                                 </tr>
                             </tfoot>
                         </table>

@@ -23,7 +23,7 @@ class RelatoriosController extends Controller
         //dd($array_sessao);
         //AQUI TODAS AS REGRAS DE FILTROS DE PESQUISA
 
-        $rela = ModelVendas::select('venda.id_tp_situacao_venda', 'venda.data', 'item_material.id_deposito', 'venda.id as idv', 'pessoa.nome as nomep', DB::raw('sum(item_material.valor_venda * item_material.valor_venda_promocional) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - sum(item_material.valor_venda * item_material.valor_venda_promocional) as vlr_final'))
+        $rela = ModelVendas::select('venda.id_tp_situacao_venda', 'item_material.valor_venda', 'venda.data', 'item_material.id_deposito', 'venda.id as idv', 'pessoa.nome as nomep',DB::raw('sum(item_material.valor_venda) as soma_orig'), DB::raw('sum(item_material.valor_venda * item_material.valor_venda_promocional) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - sum(item_material.valor_venda * item_material.valor_venda_promocional) as vlr_final'))
                                 ->leftJoin('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                                 ->leftJoin('item_material', 'venda_item_material.id_item_material', 'item_material.id')
                                 ->leftJoin('pessoa', 'venda.id_pessoa', 'pessoa.id')                                
@@ -32,7 +32,7 @@ class RelatoriosController extends Controller
                                     $query->whereNull('item_material.id_deposito')
                                           ->orWhereIn('item_material.id_deposito', $array_sessao);
                                 })
-                                ->groupby('venda.id_tp_situacao_venda','venda.data','venda.id', 'item_material.id_deposito', 'pessoa.nome');
+                                ->groupby('item_material.valor_venda','venda.id_tp_situacao_venda','venda.data','venda.id', 'item_material.id_deposito', 'pessoa.nome');
 
 
         $relb = ModelPagamentos::select('venda.id_tp_situacao_venda', 'venda.data', 'item_material.id_deposito', 'pagamento.id as pid', 'tipo_pagamento.id as tpid', 'tipo_pagamento.nome as nomepg', 'pagamento.valor as valor_p', 'pagamento.id_venda')
@@ -91,8 +91,10 @@ class RelatoriosController extends Controller
         $rela = $rela->where('venda.id_tp_situacao_venda', '3')->get();
         $relb = $relb->where('venda.id_tp_situacao_venda', '3')->get();
 
-        $total1 = round($rela->sum('vlr_final'));
-        $total_desconto = round($rela->sum('desconto'));
+
+        $soma_origem = ($rela->sum('soma_orig'));
+        $total1 = ($rela->sum('vlr_final'));
+        $total_desconto = ($rela->sum('desconto'));
 //dd($total1);
 
         $total_din = $relb->where('tpid', '1')->sum('valor_p');
@@ -101,7 +103,7 @@ class RelatoriosController extends Controller
         $total_che = $relb->where('tpid', '4')->sum('valor_p');
         $total_pix = $relb->where('tpid', '5')->sum('valor_p');
 
-        $total_pag = round($relb->sum("valor_p"));
+        $total_pag = ($relb->sum("valor_p"));
 
         //dd($total_cre);
         $deposito = DB::table('deposito')->select('id as iddep', 'nome')->whereIn('id', $array_sessao)->get();
@@ -110,7 +112,7 @@ class RelatoriosController extends Controller
 
         //dd($deposito);
 
-        return view('relatorios/relatorio-vendas', compact('compra', 'deposito', 'total_pag', 'data_fim', 'data_inicio', 'rela', 'relb', 'total_din', 'total_deb', 'total_cre', 'total_che', 'total_pix', 'total1', 'total_desconto'));
+        return view('relatorios/relatorio-vendas', compact('compra', 'deposito', 'soma_origem', 'total_pag', 'data_fim', 'data_inicio', 'rela', 'relb', 'total_din', 'total_deb', 'total_cre', 'total_che', 'total_pix', 'total1', 'total_desconto'));
 
     }
 
