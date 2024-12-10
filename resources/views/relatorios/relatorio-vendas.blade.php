@@ -11,7 +11,7 @@
             <div class="col-12">
                 <form action="/relatorio-vendas" class="form-horizontal mt-4" method="GET" >
                     @csrf
-                <div class="row">
+                <div class="row align-items-center" style="position: sticky">
                     <div class="col">Início                        
                         <input type="date" class="form-control" name="data_inicio" value="{{$data_inicio}}">
                     </div>
@@ -39,10 +39,10 @@
                     </form>
                     <div class="col">
                         <a href="/relatorio-vendas"><input class="btn btn-light" type="button" value="Limpar" style="box-shadow: 1px 2px 5px #000000; margin-top:20px;"></a>                    
-                    </div>  
+                    </div>
                     <div class="col">
-                        <a href=""><input class="btn btn-info" onclick="cont();" type="button" value="Imprimir"></a>
-                    </div>                    
+                        <a href=""><input class="btn btn-info" onclick="cont();" type="button" value="Imprimir"></a>                    
+                    </div>                       
                 </div>
             </div>
         </div>
@@ -77,6 +77,7 @@
                                 </tr>
                             @endforeach
                             </tbody>
+                            @if($rela->currentPage() === $rela->lastPage())
                             <tfoot style='background:#ffffff;'>
                                 <tr>
                                     <th></th>
@@ -87,14 +88,18 @@
                                     <td style="text-align:center;font-size:12px;font-weight: bold; background-color:forestgreen; color:#ffffff;">{{number_format($total1,2,',','.')}}</td>
                                 </tr>
                             </tfoot>
+                            @endif
                         </table>
+                        <div class="d-flex justify-content-center">
+                        {{$rela->withQueryString()->links()}}
                     </div>
                 </div>
             </div>
         </div>
         <hr>
+        @if($rela->currentPage() === $rela->lastPage())
         <div class="container" style="background:#ffffff;">
-            <div class="row">
+            <div class="row">            
                 <table class="table table-sm table-striped">
                 <h4 class="card-title" class="card-title" style="font-size:15px; text-align: left; color: gray; font-family:calibri">CÁLCULOS DO PERÍODO</h4>
                     <tbody style='text-align:center;vertical-align:middle; font-size:10px;'>
@@ -112,6 +117,7 @@
                         </tr>
                     </tbody>
                 </table>
+            
             </div>
             <div class="row">
                 <div class="col-12">
@@ -125,7 +131,9 @@
                     <h4 style="font-size: 15px; text-align: center; color:black;">{{session()->get('usuario.nome')}}</h4>Responsável pela informação
                 </div>
             </div>
+            @endif
         </div>
+      
     </div>
 <script>
     function cont(){

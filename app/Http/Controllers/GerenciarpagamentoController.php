@@ -99,7 +99,7 @@ class GerenciarpagamentoController extends Controller
                 ->leftjoin('venda_item_material', 'item_material.id', 'venda_item_material.id_item_material')
                 ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
                 ->where ('venda_item_material.id_venda', '=', $id)
-                ->sum(DB::raw('item_material.valor_venda * item_material.valor_venda_promocional'));
+                ->sum(DB::raw('floor(item_material.valor_venda * item_material.valor_venda_promocional)'));
         
         $desconto = floor($desconto);
 
@@ -181,12 +181,15 @@ class GerenciarpagamentoController extends Controller
                     ->sum('item_material.valor_venda');
 
         //dd($total_preco);
+
+
         ///Cálculo do total de desconto
         $desconto = DB::table ('item_material')
         ->leftjoin('venda_item_material', 'item_material.id', 'venda_item_material.id_item_material')
         ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
         ->where ('venda_item_material.id_venda', '=', $id)
-        ->sum(DB::raw('item_material.valor_venda * item_material.valor_venda_promocional'));
+        ->sum(DB::raw('floor(item_material.valor_venda * item_material.valor_venda_promocional)'));
+        
         //dd($desconto);
 
         ///Soma TOTAL dos pagamentos
