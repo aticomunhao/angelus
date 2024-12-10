@@ -196,21 +196,12 @@ class GerenciarpagamentoController extends Controller
         $total_pago = DB::table ('pagamento')
                     ->where ('id_venda', '=', $id)
                     ->sum('valor');
-
         
 
         $resto = (($total_preco - floor($desconto)) - $total_pago);
-        
-        $resto =  ($resto);
 
 
        $novo_valor = ($request->valor);
-
-      // $novo_valor =  round($novo_valor, 2);
-
-      // dd($request->valor);
-      //dd($novo_valor, $resto );
-//dd($novo_valor <= $resto );
 
         if ($novo_valor <= $resto ) {
 

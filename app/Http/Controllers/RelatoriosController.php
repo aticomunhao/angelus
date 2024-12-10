@@ -156,13 +156,13 @@ class RelatoriosController extends Controller
 
         if ($request->data_inicio){
 
-        $entmat->whereDate(DB::raw("DATE(item_material.data_cadastro)"),'>=' , $request->data_inicio);
+        $entmat->whereDate('item_material.data_cadastro','>=' , $request->data_inicio);
 
         }
 
         if ($request->data_fim){
 
-            $entmat->whereDate(DB::raw("DATE(item_material.data_cadastro)"),'<=' , $request->data_fim);
+            $entmat->whereDate('item_material.data_cadastro', '<=' , $request->data_fim);
         }
 
         if ($request->categoria){
@@ -230,12 +230,12 @@ class RelatoriosController extends Controller
 
         if ($request->data_inicio){
 
-            $saidamat->whereDate(DB::raw("DATE(venda.data)"),'>=' , $request->data_inicio);
+            $saidamat->whereDate('venda.data', '>=' , $request->data_inicio);
         }
 
         if ($request->data_fim){
 
-            $saidamat->whereDate(DB::raw("DATE(venda.data)"),'<=' , $request->data_fim);
+            $saidamat->whereDate('venda.data','<=' , $request->data_fim);
         }
 
         if ($request->categoria){
@@ -285,7 +285,7 @@ class RelatoriosController extends Controller
 
         //AQUI TODAS AS REGRAS DE FILTROS DE PESQUISA
 
-        $rela = ModelVendas::select('venda.data','venda.id as idv',  'pessoa.nome as nomep', 'tipo_pagamento.nome as tpnome','pagamento.id', 'pagamento.valor as pagvalor',  DB::raw('sum(item_material.valor_venda * floor(item_material.valor_venda_promocional)) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - sum(item_material.valor_venda * floor(item_material.valor_venda_promocional)) as vlr_final') )
+        $rela = ModelVendas::select('venda.data','venda.id as idv',  'pessoa.nome as nomep', 'tipo_pagamento.nome as tpnome','pagamento.id', 'pagamento.valor as pagvalor',  DB::raw('floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as vlr_final') )
                             ->leftjoin('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                             ->leftjoin('item_material', 'venda_item_material.id_item_material', 'item_material.id')
                             ->leftjoin('pagamento', 'venda.id', 'pagamento.id_venda')
@@ -456,9 +456,9 @@ class RelatoriosController extends Controller
 
         //dd($saidacat2);
 
-        $total1 = round($saidacat1->sum('vlr_final'));
+        $total1 = ($saidacat1->sum('vlr_final'));
         $total3 = $saidacat1->sum('qnt_cat');
-        $total_desconto = round($saidacat1->sum('desconto'));
+        $total_desconto = ($saidacat1->sum('desconto'));
 
         $total_din = $saidacat2->where('tpid', '1')->sum('valor_p');
         $total_deb = $saidacat2->where('tpid', '2')->sum('valor_p');
@@ -466,7 +466,7 @@ class RelatoriosController extends Controller
         $total_che = $saidacat2->where('tpid', '4')->sum('valor_p');
         $total_pix = $saidacat2->where('tpid', '5')->sum('valor_p');
 
-        $total2 = round($saidacat2->sum("valor_p"));
+        $total2 = ($saidacat2->sum("valor_p"));
       //dd($total2);
 
         $result = DB::select('select id, nome from tipo_categoria_material order by nome');
