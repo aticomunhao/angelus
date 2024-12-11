@@ -23,29 +23,29 @@ class RelatoriosController extends Controller
         //dd($array_sessao);
         //AQUI TODAS AS REGRAS DE FILTROS DE PESQUISA
 
-        $rela = ModelVendas::select('venda.id_tp_situacao_venda', 'item_material.valor_venda', 'venda.data', 'item_material.id_deposito', 'venda.id as idv', 'pessoa.nome as nomep',DB::raw('sum(item_material.valor_venda) as soma_orig'), DB::raw('floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as vlr_final'))
+        $rela = ModelVendas::select('venda.id_tp_situacao_venda', 'item_material.valor_venda', 'venda.data', 'item_material.id_deposito', 'venda.id as idv', 'pessoa.nome as nomep', 'item_material.adquirido', DB::raw('sum(item_material.valor_venda) as soma_orig'), DB::raw('floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as vlr_final'))
                                 ->leftJoin('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                                 ->leftJoin('item_material', 'venda_item_material.id_item_material', 'item_material.id')
                                 ->leftJoin('pessoa', 'venda.id_pessoa', 'pessoa.id')                                
-                                ->where('item_material.id_tipo_situacao', '2')
+                                ->where('venda.id_tp_situacao_venda', '3')
                                 ->where(function ($query) use ($array_sessao) {
                                     $query->whereNull('item_material.id_deposito')
                                           ->orWhereIn('item_material.id_deposito', $array_sessao);
                                 })
-                                ->groupby('item_material.valor_venda','venda.id_tp_situacao_venda','venda.data','venda.id', 'item_material.id_deposito', 'pessoa.nome');
+                                ->groupby('item_material.valor_venda','venda.id_tp_situacao_venda','venda.data','venda.id', 'item_material.id_deposito', 'pessoa.nome', 'item_material.adquirido');
 
 
-        $relb = ModelPagamentos::select('venda.id_tp_situacao_venda', 'venda.data', 'item_material.id_deposito', 'pagamento.id as pid', 'tipo_pagamento.id as tpid', 'tipo_pagamento.nome as nomepg', 'pagamento.valor as valor_p', 'pagamento.id_venda')
+        $relb = ModelPagamentos::select('venda.id_tp_situacao_venda', 'venda.data', 'item_material.id_deposito', 'pagamento.id as pid', 'item_material.adquirido', 'tipo_pagamento.id as tpid', 'tipo_pagamento.nome as nomepg', 'pagamento.valor as valor_p', 'pagamento.id_venda', 'item_material.adquirido')
                             ->leftJoin('venda', 'pagamento.id_venda', 'venda.id')
                             ->leftJoin('tipo_pagamento', 'pagamento.id_tipo_pagamento', 'tipo_pagamento.id')
                             ->leftJoin('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                             ->leftJoin('item_material', 'venda_item_material.id_item_material', 'item_material.id')
-                            ->where('item_material.id_tipo_situacao', '2')
+                            ->where('venda.id_tp_situacao_venda', '3')
                             ->where(function ($query) use ($array_sessao) {
                                 $query->whereNull('item_material.id_deposito')
                                       ->orWhereIn('item_material.id_deposito', $array_sessao);
                             })
-                            ->groupby('venda.id_tp_situacao_venda', 'venda.data', 'item_material.id_deposito', 'pagamento.id', 'tipo_pagamento.id', 'tipo_pagamento.nome', 'pagamento.valor', 'pagamento.id_venda');
+                            ->groupby('venda.id_tp_situacao_venda', 'venda.data', 'item_material.id_deposito', 'pagamento.id', 'tipo_pagamento.id', 'tipo_pagamento.nome', 'pagamento.valor', 'pagamento.id_venda', 'item_material.adquirido');
 
 
 
@@ -72,12 +72,17 @@ class RelatoriosController extends Controller
 
         }
 
-        if ($request->compra){
+        if ($request->compra !== null){
 
-            $rela->where('item_material.adquirido','=' , $request->compra);
+            $rela->where('item_material.adquirido', $request->compra);
 
-            $relb->where('item_material.adquirido','=' , $request->compra);
+            $relb->where('item_material.adquirido', $request->compra);
+        }
+        elseif ($request->compra === null){
 
+            $rela->whereIn('item_material.adquirido', [true, false]);
+
+            $relb->whereIn('item_material.adquirido', [true, false]);
         }
 
         if ($request->deposito){
@@ -89,18 +94,21 @@ class RelatoriosController extends Controller
         }
 
 
-        $relcont = $rela->where('venda.id_tp_situacao_venda', '3')->get();
+        $relcont = $rela->get();
+
+        $original = $relcont->sum('vlr_original');
+        $desconto = floatval($relcont->sum('desconto'));
         
-        $soma_origem = ($relcont->sum('soma_orig'));
-        $total1 = ($relcont->sum('vlr_final'));
-        $total_desconto = ($relcont->sum('desconto'));
+        $soma_origem = $relcont->sum('soma_orig');
+        $total1 = ($original - $desconto);
+        $total_desconto = $relcont->sum('desconto');
 
-
-        $rela = $rela->where('venda.id_tp_situacao_venda', '3')->paginate(100);
+        //dd($total_desconto);
+        $rela = $rela->paginate(100);
         
         $relb = $relb->where('venda.id_tp_situacao_venda', '3')->get();
      
-//dd($total1);
+
 
         $total_din = $relb->where('tpid', '1')->sum('valor_p');
         $total_deb = $relb->where('tpid', '2')->sum('valor_p');
@@ -374,23 +382,25 @@ class RelatoriosController extends Controller
 
         $array_sessao = explode(",", $sessao);
 
+        $options = DB::table('item_material AS im')->select('im.id AS idad');
+
         $nr_ordem = 1;
 
-         $saidacat1 = ModelItemMaterial::select('item_material.adquirido', 'item_material.id_deposito', 'tipo_categoria_material.nome AS nome_cat',  DB::raw('floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as vlr_final'), DB::raw('count(item_material.id) as qnt_cat'))
-                        ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
-                        ->leftjoin('tipo_categoria_material', 'tipo_categoria_material.id','item_catalogo_material.id_categoria_material')
-                        ->leftjoin('venda_item_material', 'item_material.id', 'id_item_material')
-                        ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
-                        ->where('venda.id_tp_situacao_venda', '3')
-                        ->where(function ($query) use ($array_sessao) {
-                            $query->whereNull('item_material.id_deposito')
-                                  ->orWhereIn('item_material.id_deposito', $array_sessao);
-                        })
-                        ->groupby('item_material.adquirido', 'item_material.id_deposito', 'tipo_categoria_material.nome')
-                        ->orderby('tipo_categoria_material.nome');
+         $saidacat1 = ModelVendas::select('tipo_categoria_material.nome AS nome_cat', 'venda.id', 'item_material.adquirido',  DB::raw('count (item_material.id) as qnt_cat'),  DB::raw('floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as vlr_final'))
+         ->leftJoin('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
+         ->leftJoin('item_material', 'venda_item_material.id_item_material', 'item_material.id')
+         ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')         
+         ->leftjoin('tipo_categoria_material', 'tipo_categoria_material.id','item_catalogo_material.id_categoria_material')                               
+         ->where('venda.id_tp_situacao_venda', '3')
+         ->where('item_material.valor_venda', '>', 0)
+         ->where(function ($query) use ($array_sessao) {
+             $query->whereNull('item_material.id_deposito')
+                   ->orWhereIn('item_material.id_deposito', $array_sessao);
+         })
+         ->groupby('tipo_categoria_material.nome', 'venda.id', 'item_material.adquirido');
+      
 
-
-        $saidacat2 = ModelPagamentos::select('pagamento.id as pid', 'item_material.id_deposito', 'tipo_pagamento.id as tpid', 'tipo_pagamento.nome as nomepg', 'pagamento.valor as valor_p')
+        $saidacat2 = ModelPagamentos::select('pagamento.id as pid', 'item_material.id_deposito', 'tipo_pagamento.id as tpid', 'tipo_pagamento.nome as nomepg', 'pagamento.valor as valor_p', 'item_material.adquirido')
                             ->leftjoin('venda', 'pagamento.id_venda', 'venda.id')
                             ->leftjoin('tipo_pagamento', 'pagamento.id_tipo_pagamento', 'tipo_pagamento.id')
                             ->leftjoin('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
@@ -401,7 +411,7 @@ class RelatoriosController extends Controller
                                 $query->whereNull('item_material.id_deposito')
                                       ->orWhereIn('item_material.id_deposito', $array_sessao);
                             })
-                            ->groupby('venda.data', 'pagamento.id', 'item_material.id_deposito', 'tipo_pagamento.id', 'tipo_pagamento.nome', 'pagamento.valor', 'pagamento.id_venda');
+                            ->groupby('venda.data', 'pagamento.id', 'item_material.id_deposito', 'tipo_pagamento.id', 'tipo_pagamento.nome', 'pagamento.valor', 'pagamento.id_venda', 'item_material.adquirido');
 
 
 
@@ -435,11 +445,17 @@ class RelatoriosController extends Controller
             $saidacat2->whereIn('item_catalogo_material.id_categoria_material', $request->categoria);
         }
 
-        if ($request->compra){
+        if ($request->compra !== null){
 
-            $saidacat1->where('item_material.adquirido', '=', $request->compra);
+            $saidacat1->where('item_material.adquirido', $request->compra);
 
-            $saidacat2->where('item_material.adquirido', '=', $request->compra);
+            $saidacat2->where('item_material.adquirido', $request->compra);
+        }
+        elseif ($request->compra === null){
+
+            $saidacat1->whereIn('item_material.adquirido', [true, false]);
+
+            $saidacat2->whereIn('item_material.adquirido', [true, false]);
         }
 
         if ($request->deposito){
@@ -450,23 +466,27 @@ class RelatoriosController extends Controller
 
         }
 
-        $saidacat1 = $saidacat1->orderby('tipo_categoria_material.nome')->get();
+        $pre = $saidacat1->get();
+
+       // $total5 = floatval($pre->sum('vlr_final'));
+        $original = $pre->sum('vlr_original');
+        $desconto = floatval($pre->sum('desconto'));
+        $total1 = ($original - $desconto);
+        $total2 = $pre->sum('qnt_cat');
+       
+        //dd($total1);
+
+        $saidacat1 = $saidacat1->orderby('tipo_categoria_material.nome')->paginate(100);
 
         $saidacat2 = $saidacat2->get();
-
-        //dd($saidacat2);
-
-        $total1 = ($saidacat1->sum('vlr_final'));
-        $total3 = $saidacat1->sum('qnt_cat');
-        $total_desconto = ($saidacat1->sum('desconto'));
-
+  
         $total_din = $saidacat2->where('tpid', '1')->sum('valor_p');
         $total_deb = $saidacat2->where('tpid', '2')->sum('valor_p');
         $total_cre = $saidacat2->where('tpid', '3')->sum('valor_p');
         $total_che = $saidacat2->where('tpid', '4')->sum('valor_p');
         $total_pix = $saidacat2->where('tpid', '5')->sum('valor_p');
 
-        $total2 = ($saidacat2->sum("valor_p"));
+        $total3 = ($saidacat2->sum("valor_p"));
       //dd($total2);
 
         $result = DB::select('select id, nome from tipo_categoria_material order by nome');
@@ -477,7 +497,7 @@ class RelatoriosController extends Controller
         $compra = $request->input('compra');
 
 
-        return view('relatorios/saida-categoria', compact('deposito', 'compra', 'saidacat1', 'saidacat2', 'result', 'total1', 'total2', 'total3', 'nr_ordem', 'data_inicio', 'data_fim', 'total_deb', 'total_cre', 'total_che', 'total_pix', 'total_desconto', 'total_din'));
+        return view('relatorios/saida-categoria', compact('options', 'deposito', 'compra', 'saidacat1', 'saidacat2', 'result', 'original', 'desconto', 'total1',  'total2', 'total3', 'nr_ordem', 'data_inicio', 'data_fim', 'total_deb', 'total_cre', 'total_che', 'total_pix', 'total_din'));
 
     }
 
