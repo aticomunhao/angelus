@@ -387,7 +387,7 @@ class RelatoriosController extends Controller
 
         $nr_ordem = 1;
 
-         $saidacat1 = ModelVendas::select('tipo_categoria_material.nome AS nome_cat', 'venda.id', 'item_material.adquirido',  DB::raw('count (item_material.id) as qnt_cat'),  DB::raw('sum(floor(item_material.valor_venda * item_material.valor_venda_promocional)) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('(sum(item_material.valor_venda)) - (sum(floor(item_material.valor_venda * item_material.valor_venda_promocional))) as vlr_final'))
+         $saidacat1 = ModelVendas::select('tipo_categoria_material.nome AS nome_cat', 'item_material.adquirido',  DB::raw('count (item_material.id) as qnt_cat'),  DB::raw('sum(floor(item_material.valor_venda * item_material.valor_venda_promocional)) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('(sum(item_material.valor_venda)) - (sum(floor(item_material.valor_venda * item_material.valor_venda_promocional))) as vlr_final'))
          ->leftJoin('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
          ->leftJoin('item_material', 'venda_item_material.id_item_material', 'item_material.id')
          ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')         
@@ -398,7 +398,7 @@ class RelatoriosController extends Controller
              $query->whereNull('item_material.id_deposito')
                    ->orWhereIn('item_material.id_deposito', $array_sessao);
          })
-         ->groupby('tipo_categoria_material.nome', 'venda.id', 'item_material.adquirido');
+         ->groupby('tipo_categoria_material.nome', 'item_material.adquirido');
       
 
         $saidacat2 = ModelPagamentos::select('pagamento.id as pid', 'item_material.id_deposito', 'tipo_pagamento.id as tpid', 'tipo_pagamento.nome as nomepg', 'pagamento.valor as valor_p', 'item_material.adquirido')
