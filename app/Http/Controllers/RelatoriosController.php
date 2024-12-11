@@ -23,11 +23,12 @@ class RelatoriosController extends Controller
         //dd($array_sessao);
         //AQUI TODAS AS REGRAS DE FILTROS DE PESQUISA
 
-        $rela = ModelVendas::select('venda.id_tp_situacao_venda', 'item_material.valor_venda', 'venda.data', 'item_material.id_deposito', 'venda.id as idv', 'pessoa.nome as nomep', 'item_material.adquirido', DB::raw('sum(item_material.valor_venda) as soma_orig'), DB::raw('floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as vlr_final'))
+        $rela = ModelVendas::select('venda.id_tp_situacao_venda', 'item_material.valor_venda', 'venda.data', 'item_material.id_deposito', 'venda.id as idv', 'pessoa.nome as nomep', 'item_material.adquirido', DB::raw('sum(item_material.valor_venda) as soma_orig'), DB::raw('sum(floor(item_material.valor_venda * item_material.valor_venda_promocional)) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('(sum(item_material.valor_venda)) - (sum(floor(item_material.valor_venda * item_material.valor_venda_promocional))) as vlr_final'))
                                 ->leftJoin('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
                                 ->leftJoin('item_material', 'venda_item_material.id_item_material', 'item_material.id')
                                 ->leftJoin('pessoa', 'venda.id_pessoa', 'pessoa.id')                                
                                 ->where('venda.id_tp_situacao_venda', '3')
+                                ->where('item_material.valor_venda', '>', 0)
                                 ->where(function ($query) use ($array_sessao) {
                                     $query->whereNull('item_material.id_deposito')
                                           ->orWhereIn('item_material.id_deposito', $array_sessao);
@@ -386,7 +387,7 @@ class RelatoriosController extends Controller
 
         $nr_ordem = 1;
 
-         $saidacat1 = ModelVendas::select('tipo_categoria_material.nome AS nome_cat', 'venda.id', 'item_material.adquirido',  DB::raw('count (item_material.id) as qnt_cat'),  DB::raw('floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as vlr_final'))
+         $saidacat1 = ModelVendas::select('tipo_categoria_material.nome AS nome_cat', 'venda.id', 'item_material.adquirido',  DB::raw('count (item_material.id) as qnt_cat'),  DB::raw('sum(floor(item_material.valor_venda * item_material.valor_venda_promocional)) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('(sum(item_material.valor_venda)) - (sum(floor(item_material.valor_venda * item_material.valor_venda_promocional))) as vlr_final'))
          ->leftJoin('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
          ->leftJoin('item_material', 'venda_item_material.id_item_material', 'item_material.id')
          ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')         
@@ -468,7 +469,7 @@ class RelatoriosController extends Controller
 
         $pre = $saidacat1->get();
 
-       // $total5 = floatval($pre->sum('vlr_final'));
+        //$total5 = floatval($pre->sum('vlr_final'));
         $original = $pre->sum('vlr_original');
         $desconto = floatval($pre->sum('desconto'));
         $total1 = ($original - $desconto);
