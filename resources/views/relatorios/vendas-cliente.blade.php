@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row" style="text-align: left;">
             <div class="col-12">
-                <form action="/relatorio-vendas" class="form-horizontal mt-4" method="GET" >
+                <form action="/vendas-cliente" class="form-horizontal mt-4" method="GET" >
                     @csrf
                 <div class="row align-items-center" style="position: sticky">
                     <div class="col">Início                        
@@ -38,7 +38,7 @@
                     </div>
                     </form>
                     <div class="col">
-                        <a href="/relatorio-vendas"><input class="btn btn-light" type="button" value="Limpar" style="box-shadow: 1px 2px 5px #000000; margin-top:20px;"></a>                    
+                        <a href="/vendas-cliente"><input class="btn btn-light" type="button" value="Limpar" style="box-shadow: 1px 2px 5px #000000; margin-top:20px;"></a>                    
                     </div>
                     <div class="col">
                         <a href=""><input class="btn btn-info" onclick="cont();" type="button" value="Imprimir"></a>                    
@@ -50,7 +50,7 @@
         <div id='print' class='conteudo'>
         <div class="row">
             <div class="col-12">
-                <h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">RELATÓRIO DE VENDAS POR PERÍODO</h4>
+                <h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">VENDAS POR CLIENTE</h4>
                 <br>
                 <div class="container" style="background:#ffffff;">
                     <div class="row">
@@ -77,7 +77,7 @@
                                 </tr>
                             @endforeach
                             </tbody>
-                            @if($rela->currentPage() === $rela->lastPage())
+                           {{-- @if($rela->currentPage() === $rela->lastPage())--}}
                             <tfoot style='background:#ffffff;'>
                                 <tr>
                                     <th></th>
@@ -88,16 +88,16 @@
                                     <td style="text-align:center;font-size:12px;font-weight: bold; background-color:forestgreen; color:#ffffff;">{{number_format($total1,2,',','.')}}</td>
                                 </tr>
                             </tfoot>
-                            @endif
+                            
                         </table>
-                        <div class="d-flex justify-content-center">
-                        {{$rela->withQueryString()->links()}}
+                        {{-- <div class="d-flex justify-content-center">
+                        {{$rela->withQueryString()->links()}} --}}
                     </div>
                 </div>
             </div>
         </div>
         <hr>
-        @if($rela->currentPage() === $rela->lastPage())
+        {{--@if($rela->currentPage() === $rela->lastPage())--}}
         <div class="container" style="background:#ffffff;">
             <div class="row">            
                 <table class="table table-sm table-striped">
@@ -131,7 +131,7 @@
                     <h4 style="font-size: 15px; text-align: center; color:black;">{{session()->get('usuario.nome')}}</h4>Responsável pela informação
                 </div>
             </div>
-            @endif
+          
         </div>
       
     </div>

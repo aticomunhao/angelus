@@ -9,7 +9,7 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">               
-                    <form action="/saida-categoria" class="form-horizontal mt-4" method="GET">
+                    <form action="/vendas-categoria" class="form-horizontal mt-4" method="GET">
                     @csrf   
                     <div class="row">
                         <div class="col">Início
@@ -44,7 +44,7 @@
                             <input class="btn btn-light" type="submit" style="font-weight:bold; font-size:15px; box-shadow: 1px 2px 5px #000000;color:blue; margin:5px;" value="Pesquisar">
                         </div>
                         <div class="col"><br>
-                            <a href="/saida-categoria"><input class="btn btn-light" style="font-weight:bold; font-size:15px; box-shadow: 1px 2px 5px #000000; color:red; margin:5px;" type="button" value="Limpar"></a>
+                            <a href="/vendas-categoria"><input class="btn btn-light" style="font-weight:bold; font-size:15px; box-shadow: 1px 2px 5px #000000; color:red; margin:5px;" type="button" value="Limpar"></a>
                         </div>
                     </form>                    
                     <!-- <div class="col"><br>
@@ -70,7 +70,7 @@
     <div class="container" style="background:#ffffff;">  
         <div class="row">
             <div class="col-12">       
-                <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">SAÍDAS POR CATEGORIA no período de {{ date( 'd/m/Y' , strtotime($data_inicio))}} até {{ date( 'd/m/Y' , strtotime($data_fim))}}</h4>
+                <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">VENDAS POR CATEGORIA no período de {{ date( 'd/m/Y' , strtotime($data_inicio))}} até {{ date( 'd/m/Y' , strtotime($data_fim))}}</h4>
                 <div class="card">
                     <div class="card-body">
                         <table class="table table-hover table-dark"  style="font-size:15px;">
