@@ -22,7 +22,7 @@
                         <select class="form-control"id="sit" name="situacao" >
                             <option value="">Todos</option>
                         @Foreach($resultSitVenda as $resultSitVendas)
-                            <option value="{{$resultSitVendas->id}}" {{$resultSitVendas->id == $situacao ? 'selected' : ''}}>{{$resultSitVendas->nome}}</option>
+                            <option value="{{$resultSitVendas->id}}" {{request('situacao') == $resultSitVendas->id ? 'selected' : ''}}>{{$resultSitVendas->nome}}</option>
                         @endForeach
                         </select>
                     </div>

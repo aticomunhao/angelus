@@ -158,12 +158,12 @@
                         <span>Relatórios</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        @if(!$perfil_vol)
+                        {{--@if(!$perfil_vol)--}}
                         <li>
-                            <a href="/vendas-geral" class="waves-effect"><span>Vendas Cliente</span></a>
+                            <a href="/vendas-cliente" class="waves-effect"><span>Vendas Cliente</span></a>
                         </li>
                         <li>
-                            <a href="/saida-categoria" class="waves-effect"><span>Vendas Categoria</span></a>
+                            <a href="/vendas-categoria" class="waves-effect"><span>Vendas Categoria</span></a>
                         </li>
                         <li>
                             <a href="/inventarios" class="waves-effect"><span>Inventário</span></a>
@@ -174,12 +174,12 @@
                         <li>
                             <a href="/relatorio-saidas" class="waves-effect"><span>Saídas Materiais</span></a>
                         </li>
-                        @endif
-                        @if($perfil_adm)
+                        {{--@endif--}}
+                        {{--@if($perfil_adm)--}}
                         <li>
-                            <a href="/venda-valor" class="waves-effect"><span>Vendas Tipo Pagamento</span></a>
+                            <a href="/vendas-valor" class="waves-effect"><span>Vendas Tipo Pagamento</span></a>
                         </li>
-                        @endif
+                        {{--@endif--}}
                     </ul>
                 </li>
                 

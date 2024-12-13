@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') Relatório de vendas por valor @endsection
+@section('title') Relatório de vendas por tipo pagamento @endsection
 
 @section('content')
 
@@ -22,7 +22,7 @@
                         <input class="btn btn-info" type="submit" value="Pesquisar">
                     </div>
                     <div class="col">
-                        <a href="/vendas-tipo-valor">    
+                        <a href="/vendas-tipo-pag">    
                         <input class="btn btn-warning" type="button" value="Limpar">
                         </a>
                     </form>                   
