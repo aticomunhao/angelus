@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-sm">Comprado?<br>
                             <select class="form-control" id="compra" name="compra">
-                                <option value="" {{ $compra === null ? 'selected' : '' }}>Todos</option>
+                                <option value="null">Todos</option>
                                 <option value="true" {{ $compra === 'true' ? 'selected' : '' }}>Sim</option>
                                 <option value="false" {{ $compra === 'false' ? 'selected' : '' }}>Não</option>
                             </select>
@@ -100,7 +100,7 @@
                                 </tr>
                                 @endforeach
                             </tbody>
-                            @if($saidacat1->currentPage() === $saidacat1->lastPage())
+                            {{-- @if($saidacat1->currentPage() === $saidacat1->lastPage()) --}}
                             <tfoot class="table-success" style="color:#000;">
                                 <tr style="text-align:center; font-weight: bold; font-size:15px">
                                 <td></td>
@@ -110,15 +110,15 @@
                                 <td>{{number_format($total1,2,',','.')}}</td>
                                 </tr>
                             </tfoot>
-                            @endif
+                
                         </table>
-                    <div class="d-flex justify-content-center">{{$saidacat1->withQueryString()->links()}}
+                    {{-- <div class="d-flex justify-content-center">{{$saidacat1->withQueryString()->links()}} --}}
                 </div>
             </div>
         </div>
     </div>          
         <hr>
-        @if($saidacat1->currentPage() === $saidacat1->lastPage())
+        {{-- @if($saidacat1->currentPage() === $saidacat1->lastPage()) --}}
     <div class="container">                    
         <div class="row">
             <div class="col">                       
@@ -175,7 +175,7 @@
                 </table>                                                   
             </div>
         </div>
-            @endif                      
+                            
     </div>      
 
 

@@ -14,7 +14,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title" class="card-title" style="font-size:20px; text-align: center; background: #088CFF; color: white;">Registrar Pagamento</h5>
+                <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">REGISTRAR O PAGAMENTO</h4>
                 <hr>
                 <div class="container">
                     <div class="row align-items-center">
