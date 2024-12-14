@@ -25,13 +25,9 @@
 
     <!-- Bootstrap Css -->
 
-<<<<<<< Updated upstream
     
 
     <script src="{{ URL::asset('/libs/jquery/jquery.min.js')}}"></script>
-=======
-
->>>>>>> Stashed changes
     
     <link href="{{ URL::asset('/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
@@ -119,13 +115,9 @@
             <script src="{{ URL::asset('/libs/simplebar/simplebar.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/node-waves/node-waves.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/select2/select2.min.js')}}"></script>
-<<<<<<< Updated upstream
            
 
             <!--<script src="{{ URL::asset('/libs/datatables/datatables.min.js')}}"></script>-->
-=======
-            <script src="{{ URL::asset('/libs/datatables/datatables.min.js')}}"></script>
->>>>>>> Stashed changes
    
 
 

@@ -62,11 +62,12 @@
                     <div class="container" style="background:#ffffff;">
                     <h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">INVENTÁRIO DE ESTOQUE</h4>
                         <div class="row">
-                        <h6 class="font-weight-bold" style="color: blue;  margin-left: 10px;">RELAÇÃO DOS MATERIAIS EM ESTOQUE - no dia <span class="badge badge-secondary">{{ \Carbon\Carbon::parse($data)->format('d/m/Y')}}</span> </h6>
+                        <h6 class="font-weight-bold" style="color: blue;  margin-left: 10px;">INVENTÁRIO DE ESTOQUE - no dia <span class="badge badge-secondary">{{ \Carbon\Carbon::parse($data)->format('d/m/Y')}}</span> </h6>
                             <table class="table table-sm table-striped">
                                 <thead style="text-align:center; background: #daffe0;">
                                     <tr style="text-align:center; font-weight: bold; font-size:15px">
                                     <td>NR</td>
+                                    <td>CATEGORIA</td>
                                     <td>NOME</td>
                                     <td>VALOR UNITÁRIO</td>
                                     <td>QUANTIDADE</td>
@@ -77,6 +78,7 @@
                                     @foreach ($resultItens as $rit )
                                     <tr style="text-align:center;">
                                         <td>{{$nr_ordem++}}</td>
+                                        <td style="text-align:center;">{{$rit->ncat}}</td>
                                         <td style="text-align:center;">{{$rit->nome}}</td>
                                         <td>{{number_format($rit->valor_venda,2,',','.')}}</td>
                                         <td>{{$rit->qtd}}</td>
@@ -89,8 +91,9 @@
                                         <tr style="text-align:center; font-weight: bold; font-size:15px">
                                         <td></td>
                                         <td></td>
+                                        <td></td>
                                         <td>TOTAIS</td>
-                                        <td>{{$total_itens}}</td>
+                                        <td>{{number_format($total_itens, 0, '', '.')}}</td>
                                         <td>{{number_format($total_soma,2,',','.')}}</td>
                                     </tr>
                                 </tfoot>

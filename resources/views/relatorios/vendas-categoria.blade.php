@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') Saídas por categoria @endsection
+@section('title') Vendas Categoria @endsection
 
 @section('content')
 
@@ -70,7 +70,7 @@
     <div class="container" style="background:#ffffff;">  
         <div class="row">
             <div class="col-12">       
-                <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">VENDAS POR CATEGORIA no período de {{ date( 'd/m/Y' , strtotime($data_inicio))}} até {{ date( 'd/m/Y' , strtotime($data_fim))}}</h4>
+                <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">VENDAS POR CATEGORIA no período de {{ \Carbon\Carbon::parse("$data_inicio")->format('d/m/Y')}} até {{ \Carbon\Carbon::parse("$data_fim")->format('d/m/Y')}}</h4>
                 <div class="card">
                     <div class="card-body">
                         <table class="table table-hover table-dark"  style="font-size:15px;">

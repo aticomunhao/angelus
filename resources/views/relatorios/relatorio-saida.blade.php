@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') Relatório de saídas @endsection
+@section('title') Saídas Material @endsection
 
 @section('headerCss')
 @endsection
@@ -72,7 +72,7 @@
 <br>
 <div id='print' class='conteudo'>
 <div class="container" style="background:#ffffff;">
-<h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">RELATÓRIO DE SAÍDAS POR PERÍODO</h4>
+<h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">SAÍDAS DE MATERIAL POR PERÍODO</h4>
     <div class="row align-items-center">
         <table class="table table-sm table-striped">
             <thead style="text-align:center;">

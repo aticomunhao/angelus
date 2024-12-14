@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') Relatório de vendas @endsection
+@section('title') Vendas Cliente @endsection
 
 @section('content')
 

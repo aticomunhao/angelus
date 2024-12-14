@@ -423,100 +423,7 @@ class RelatoriosController extends Controller
 
     }
 
-    // public function vendas(Request $request)
-    // {
-    //     $sessao = session()->get('usuario.depositos');
-
-    //     $array_sessao = explode(",", $sessao);
-
-    //    // dd($sessao);
-
-    //     //AQUI TODAS AS REGRAS DE FILTROS DE PESQUISA
-
-    //     $rela = ModelVendas::select('venda.data','venda.id as idv',  'pessoa.nome as nomep', 'tipo_pagamento.nome as tpnome','pagamento.id', 'pagamento.valor as pagvalor',  DB::raw('floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as desconto'), DB::raw('sum(item_material.valor_venda) as vlr_original'), DB::raw('sum(item_material.valor_venda) - floor(sum(item_material.valor_venda * item_material.valor_venda_promocional)) as vlr_final') )
-    //                         ->leftjoin('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
-    //                         ->leftjoin('item_material', 'venda_item_material.id_item_material', 'item_material.id')
-    //                         ->leftjoin('pagamento', 'venda.id', 'pagamento.id_venda')
-    //                         ->leftjoin('tipo_pagamento', 'pagamento.id_tipo_pagamento', 'tipo_pagamento.id')
-    //                         ->leftjoin('pessoa', 'venda.id_pessoa', 'pessoa.id')
-    //                         ->leftjoin ('usuario AS u',  'u.id', 'venda.id_usuario')                            
-    //                         ->leftjoin ('usuario_deposito AS ud',  'u.id', '=', 'ud.id_usuario')
-    //                         ->whereIn('ud.id_deposito', $array_sessao)
-    //                         ->groupBy('venda.id', 'pessoa.nome','venda.data', 'tipo_pagamento.nome', 'pagamento.valor', 'pagamento.id');
-                            
-
-
-    //     $relb = ModelPagamentos::select('venda.id as idv', 'venda.data', 'tipo_pagamento.nome as nomepg', 'pagamento.valor as valor_p')
-    //                         ->leftjoin('venda', 'pagamento.id_venda', 'venda.id')
-    //                         ->leftjoin('tipo_pagamento', 'pagamento.id_tipo_pagamento', 'tipo_pagamento.id')
-    //                         ->leftjoin('venda_item_material', 'venda.id', 'venda_item_material.id_venda')
-    //                         ->leftjoin('item_material', 'venda_item_material.id_item_material', 'item_material.id')
-    //                         ->whereIn('item_material.id_deposito', $array_sessao)
-    //                         ->groupBy('venda.id','venda.data', 'tipo_pagamento.nome', 'pagamento.valor');
-                    
-
-                            
-
-    //     $data_inicio = $request->data_inicio;
-    //     $data_fim = $request->data_fim;
-    //    // $compra = $request->compra;
-
-
-    //     if ($request->data_inicio){
-
-    //         $rela->whereDate('venda.data', '>=', $request->data_inicio);
-
-    //         $relb->whereDate('venda.data', '>=' , $request->data_inicio);
-
-    //     }
-
-    //     if ($request->data_fim){
-
-    //         $rela->whereDate('venda.data','<=' , $request->data_fim);
-
-    //         $relb->whereDate('venda.data','<=' , $request->data_fim);
-
-    //     }
-
-    //    // if ($request->compra){
-
-    //      //   $rela->where('item_material.adquirido','=' , $request->compra);
-
-    //    //     $relb->where('item_material.adquirido','=' , $request->compra);
-
-    //     //}
-
-       
-
-    //     $rela = $rela->where('venda.id_tp_situacao_venda', '3')->orderby('venda.id', 'asc')->paginate(100);
-    //     $relb = $relb->where('venda.id_tp_situacao_venda', '3')->get();
-
-       
-    //     //dd($relb);
-    //     $total1 = $rela->sum('vlr_final');
-    //     $total_desconto = $rela->sum('desconto');
-
-
-    //     $total_din = $relb->where('tpid', '1')->sum('valor_p');
-    //     $total_deb = $relb->where('tpid', '2')->sum('valor_p');
-    //     $total_cre = $relb->where('tpid', '3')->sum('valor_p');
-    //     $total_che = $relb->where('tpid', '4')->sum('valor_p');
-    //     $total_pix = $relb->where('tpid', '5')->sum('valor_p');
-
-    //     $total_pag = $relb->sum("valor_p");
-
-       
-
-    //     //dd($total_cre);
-    //     //$result = DB::select('select id, nome from tipo_categoria_material order by nome');
-
-
-    //     return view('relatorios/vendas-tipo-pag', compact('total_pag', 'data_fim', 'data_inicio', 'rela', 'relb', 'total_din', 'total_deb', 'total_cre', 'total_che', 'total_pix', 'total1', 'total_desconto'));
-
-
-    // }
-
-    public function venda_cat(Request $request) {
+       public function venda_cat(Request $request) {
 
         $sessao = session()->get('usuario.depositos');
 
@@ -657,6 +564,8 @@ class RelatoriosController extends Controller
 
         $array_sessao = explode(",", $sessao);
 
+        $tipo_pag = DB::table('tipo_pagamento AS tp')->select('tp.id AS tid', 'tp.nome AS tnome')->get();
+
         $rela = DB::table('venda AS v')
         ->select('v.data','v.id as idv', 'pessoa.nome as nomep', 'tipo_pagamento.id as tpid', 'tipo_pagamento.nome as tpnome', 'pagamento.valor as pagvalor')
         ->leftJoin('venda_item_material', 'v.id', 'venda_item_material.id_venda')
@@ -676,7 +585,7 @@ class RelatoriosController extends Controller
 
         $data_inicio = $request->data_inicio;
         $data_fim = $request->data_fim;
-
+        $tp_pag = $request->tp_pag;
 
 
 
@@ -690,14 +599,23 @@ class RelatoriosController extends Controller
             $rela->whereDate('v.data','<=' , $request->data_fim);
         }
 
+        if ($request->tp_pag){
+
+            $rela->whereIn('tipo_pagamento.id', $request->tp_pag);
+        }
+
+
+        $tot = $rela->get();
+        
+        $total_pag = $tot->sum("pagvalor");
       
-        $rela = $rela->orderBy('idv', 'asc')->get();
+        $rela = $rela->orderBy('idv', 'asc')->paginate(50);
 
         //dd($rela);
 
-        $total_pag = $rela->sum("pagvalor");
+       
 
-        return view('relatorios/vendas-tipo-pag', compact('rela', 'data_inicio', 'data_fim', 'total_pag'));
+        return view('relatorios/vendas-tipo-pag', compact('rela', 'data_inicio', 'data_fim', 'total_pag', 'tipo_pag'));
 
     }
 

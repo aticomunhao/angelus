@@ -34,12 +34,13 @@ class GerenciarInventariosController extends Controller{
 
 
     $resultItens = DB::table('item_material AS im')
-                                    ->select('icm.nome', 'im.valor_venda', DB::raw('count(*) as qtd'), DB::raw('sum(valor_venda) as total'))
+                                    ->select('icm.nome', 'tcm.nome AS ncat', 'im.valor_venda', DB::raw('count(*) as qtd'), DB::raw('sum(valor_venda) as total'))
                                     ->leftjoin('item_catalogo_material AS icm', 'im.id_item_catalogo_material','icm.id')
+                                    ->leftJoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material', 'tcm.id' )
                                     ->leftjoin('venda_item_material AS vim','im.id','vim.id_item_material')
                                     ->leftjoin('venda AS v','vim.id_venda', 'v.id')
                                     ->where('im.id_deposito', $array_sessao)
-                                    ->groupBy('icm.nome', 'im.valor_venda',);
+                                    ->groupBy('icm.nome', 'im.valor_venda', 'tcm.nome');
 
 
     $data = $request->data;
