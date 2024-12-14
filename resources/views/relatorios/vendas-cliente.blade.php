@@ -20,7 +20,7 @@
                     </div>    
                     <div class="col">Comprado?<br>
                         <select class="form-control" id="compra" name="compra">
-                            <option value="" {{ $compra === null ? 'selected' : '' }}>Todos</option>
+                            <option value="null">Todos</option>
                             <option value="true" {{ $compra === 'true' ? 'selected' : '' }}>Sim</option>
                             <option value="false" {{ $compra === 'false' ? 'selected' : '' }}>Não</option>
                         </select>
@@ -77,7 +77,7 @@
                                 </tr>
                             @endforeach
                             </tbody>
-                           {{-- @if($rela->currentPage() === $rela->lastPage())--}}
+                           @if($rela->currentPage() === $rela->lastPage())
                             <tfoot style='background:#ffffff;'>
                                 <tr>
                                     <th></th>
@@ -88,16 +88,16 @@
                                     <td style="text-align:center;font-size:12px;font-weight: bold; background-color:forestgreen; color:#ffffff;">{{number_format($total1,2,',','.')}}</td>
                                 </tr>
                             </tfoot>
-                            
+                            @endif
                         </table>
-                        {{-- <div class="d-flex justify-content-center">
-                        {{$rela->withQueryString()->links()}} --}}
+                         <div class="d-flex justify-content-center">
+                        {{$rela->withQueryString()->links()}}
                     </div>
                 </div>
             </div>
         </div>
         <hr>
-        {{--@if($rela->currentPage() === $rela->lastPage())--}}
+        @if($rela->currentPage() === $rela->lastPage())
         <div class="container" style="background:#ffffff;">
             <div class="row">            
                 <table class="table table-sm table-striped">
@@ -117,7 +117,7 @@
                         </tr>
                     </tbody>
                 </table>
-            
+            @endif
             </div>
             <div class="row">
                 <div class="col-12">

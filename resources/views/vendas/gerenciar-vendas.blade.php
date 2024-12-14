@@ -44,10 +44,10 @@
                 </div>
             </div>
             <hr>
-
+            <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">GERENCIAR VENDAS</h4>
         <div class="row">
             <div class="col-12">
-                    <h4 class="card-title" style="color:red; text-align: left;">Listar as vendas</h4>Quantidade filtrada: {{$contar}}
+                    Quantidade filtrada: {{$contar}}
                         <table id="datatable" class="table-resposive-sm table-bordered table-striped table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead style='text-align:center;vertical-align:middle'>
                                 <tr style="text-align:center; background-color:#c6e6ce">

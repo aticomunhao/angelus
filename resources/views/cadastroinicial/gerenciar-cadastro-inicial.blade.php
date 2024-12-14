@@ -70,7 +70,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">RELAÇÃO DE CADASTROS INICIAIS</h4>
+                <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">GERENCIAR CADASTROS INICIAIS</h4>
                     <div class="card">
                         <div class="card-body">Quantidade filtrada: {{$contar}}
                             <table id="datatable" class="display table-resposive-lg table-bordered table-striped table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
