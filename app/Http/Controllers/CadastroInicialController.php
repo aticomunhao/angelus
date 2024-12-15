@@ -127,9 +127,9 @@ class CadastroInicialController extends Controller
         $result = $result->orderBy('im.id', 'DESC')->paginate(100);
         //dd($result);
 
-        
+        $compra = $request->input('compra');
 
-        return view('cadastroinicial/gerenciar-cadastro-inicial', compact('obs', 'identidade1', 'identidade2', 'ref_fab', 'contar', 'result','categoria', 'data_inicio', 'data_fim', 'material', 'resultCat'));
+        return view('cadastroinicial/gerenciar-cadastro-inicial', compact('compra', 'obs', 'identidade1', 'identidade2', 'ref_fab', 'contar', 'result','categoria', 'data_inicio', 'data_fim', 'material', 'resultCat'));
 
 
     }
@@ -170,14 +170,18 @@ class CadastroInicialController extends Controller
 
         }
         else {
+        
+        
 
         $itemmat = DB::table('item_material AS im')
-                        ->select('im.id AS id_item', 'im.data_cadastro', 'im.valor_venda', 'im.valor_aquisicao', 'icm.id AS id_item_cat', 'icm.id_categoria_material AS id_cat_item', 'icm.nome AS nome_item', 'tcm.nome AS nome_categ')
+                        ->select('im.id AS id_item', 'im.data_cadastro', 'im.valor_venda', 'im.valor_aquisicao', 'icm.id AS id_item_cat', 'icm.id_categoria_material AS id_cat_item', 'icm.nome AS nome_item', 'tcm.nome AS nome_categ', 'im.adquirido AS comprado')
                         ->leftJoin('item_catalogo_material AS icm', 'im.id_item_catalogo_material', 'icm.id' )
                         ->leftJoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material', 'tcm.id')
                         ->where('im.id',$id)
                         ->get();
-
+                        //dd($itemmat);
+                        
+        $comprado = DB::table('item_material AS im')->select('im.adquirido AS comprado')->where('im.id', $id)->first();
 
         $itemlista = DB::table('item_material AS im')
                         ->select('im.id AS id_item', 'im.id_tipo_situacao', 'im.data_cadastro', 'im.valor_venda', 'icm.id_categoria_material AS id_item_cat', 'im.observacao AS obs', 'im.ref_fabricante AS ref_fab', 'icm.nome AS nomeitem', 'tcm.nome AS nome_categ', 'ts.nome AS n1', 'im.id_marca', 'm.nome AS n2', 'im.id_tamanho AS id_tam', 't.nome AS n3', 'im.id_cor', 'c.nome AS n4', 'im.id_tp_sexo AS id_sexo', 'tm.id AS tp_mat', 'tm.nome AS n7', 'sex.nome AS n5', 'im.id_fase_etaria AS fase_e', 'fe.nome as n6')
@@ -242,7 +246,7 @@ class CadastroInicialController extends Controller
 
         //dd($request);
 
-        return view ('cadastroinicial/editar-cadastro-inicial', compact('lista', 'itemlista', 'cor', 'tamanho', 'itemmat', 'marca', 'tipo','sexo', 'etaria' ));
+        return view ('cadastroinicial/editar-cadastro-inicial', compact('comprado','lista', 'itemlista', 'cor', 'tamanho', 'itemmat', 'marca', 'tipo','sexo', 'etaria' ));
         }
 
 

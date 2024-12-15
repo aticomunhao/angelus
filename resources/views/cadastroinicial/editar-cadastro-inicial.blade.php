@@ -3,7 +3,6 @@
 @section('title') Editar Cadastro inicial @endsection
 
 @section('headerCss')
-    <link href="{{ URL::asset('/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
@@ -150,8 +149,9 @@
                     <div class="col">
                         <div class="form-group row">Comprado?
                             <div class="col">
-                                <input type="checkbox" id="checkAdq" name="checkAdq" switch="bool"/>
-                                <label for="checkAdq" data-off-label="Não" data-on-label="Sim" ></label>
+                                 <!-- Usar a lógica para preencher o atributo checked -->
+                                <input type="checkbox" id="checkAdq" name="checkAdq" switch="bool" {{ $comprado->comprado ? 'checked' : '' }} />
+                                <label for="checkAdq" data-off-label="Não" data-on-label="Sim"></label>
                             </div>
                          </div>
                     </div>
@@ -173,10 +173,6 @@
 @endsection
 
 @section('footerScript')
-            <script src="{{ URL::asset('/js/pages/mascaras.init.js')}}"></script>
-            <script src="{{ URL::asset('/js/pages/busca-cep.init.js')}}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
-            <script src="{{ URL::asset('/libs/select2/select2.min.js')}}"></script>
-            <script src="{{ URL::asset('/js/pages/form-advanced.init.js')}}"></script>
+
 @endsection
 

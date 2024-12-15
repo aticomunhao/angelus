@@ -43,9 +43,9 @@
                         </div>
                         <div class="col-sm">Comprado?<br>
                             <select class="form-control" id="" name="compra">
-                                <option value="">Todos</option>
-                                <option value="true">Sim</option>
-                                <option value="false">Não</option>
+                            <option value="null">Todos</option>
+                                <option value="true" {{ $compra === 'true' ? 'selected' : '' }}>Sim</option>
+                                <option value="false" {{ $compra === 'false' ? 'selected' : '' }}>Não</option>
                             </select>
                         </div>
                         <div class="col-sm">Categoria:
