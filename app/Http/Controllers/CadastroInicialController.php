@@ -79,6 +79,8 @@ class CadastroInicialController extends Controller
 
         $data_inicio = $request->data_inicio;
         $data_fim = $request->data_fim;
+        $compra = $request->compra;
+
         if ($request->data_inicio){
 
             $result->whereDate('im.data_cadastro','>=' , $request->data_inicio);
@@ -117,9 +119,18 @@ class CadastroInicialController extends Controller
             $result->where('tcm.id', '=', "$request->categoria");
         }
                 
-        $total = $request->compra;
-        if ($request->compra){
-            $result->where('im.adquirido', '=', "$request->compra");
+        if ($compra === 'null'){
+
+            $result->where(function($query) {
+                $query->whereIn('im.adquirido', [true, false]) // Para booleanos
+                      ->orWhereIn('im.adquirido', ['true', 'false']) // Para strings
+                      ->orWhereIn('im.adquirido', [0, 1]); // Para inteiros
+            });
+        }
+        else{
+
+            $result->where('im.adquirido', $request->compra);
+
         }
         
         $contar = $result->count();

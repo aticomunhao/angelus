@@ -42,7 +42,7 @@
                             <input class="form-control" type="numeric" name="identidade2" value="{{$identidade2}}">
                         </div>
                         <div class="col-sm">Comprado?<br>
-                            <select class="form-control" id="" name="compra">
+                            <select class="form-control" id="compra" name="compra">
                             <option value="null">Todos</option>
                                 <option value="true" {{ $compra === 'true' ? 'selected' : '' }}>Sim</option>
                                 <option value="false" {{ $compra === 'false' ? 'selected' : '' }}>Não</option>
