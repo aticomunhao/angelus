@@ -13,7 +13,7 @@
                     @csrf
                 <div class="row align-items-center" style="position: sticky">
                     <div class="col">Início                        
-                        <input type="date" class="form-control" name="data_inicio" value="{{$data_inicio}}">
+                        <input type="date" class="form-control" name="data_inicio" value="{{ isset($data_inicio) ? $data_inicio : date('Y-m-d') }}">
                     </div>
                     <div class="col">Final                        
                         <input type="date" class="form-control" name="data_fim"  value="{{$data_fim}}">

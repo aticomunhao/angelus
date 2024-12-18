@@ -19,7 +19,7 @@
                     @csrf  
                     <div class="row"> 
                         <div class="col-2">Data
-                            <input type="date" class="form-control" name='data' value="{{$data}}">
+                            <input type="date" class="form-control" name='data' value="{{ isset($data) ? $data : date('Y-m-d') }}">
                         </div>
                         <div class="col">Categoria
                             <select class="form-control select2" id="lista1" name="categoria[]" multiple>

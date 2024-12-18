@@ -322,9 +322,18 @@ class RelatoriosController extends Controller
             $entmat->whereIn('item_catalogo_material.id', $request->nomeitem);
         }
 
-        if ($request->compra){
+        if ($compra === 'null'){
 
-            $entmat->where('item_material.adquirido', '=', $request->compra);
+            $entmat->where(function($query) {
+                $query->whereIn('item_material.adquirido', [true, false]) // Para booleanos
+                      ->orWhereIn('item_material.adquirido', ['true', 'false']) // Para strings
+                      ->orWhereIn('item_material.adquirido', [0, 1]); // Para inteiros
+            });
+
+        }
+        else{
+
+            $entmat->where('item_material.adquirido', $request->compra);
 
         }
 
@@ -345,7 +354,7 @@ class RelatoriosController extends Controller
         $itemmaterial = DB::select ("select distinct(icm.nome), id, nome from item_catalogo_material icm order by nome"); 
 
 
-        return view('relatorios/relatorio-entrada', compact('entmat','somaent','result', 'nr_ordem', 'data_inicio', 'data_fim', 'somait', 'itemmaterial'));
+        return view('relatorios/relatorio-entrada', compact('compra', 'entmat','somaent','result', 'nr_ordem', 'data_inicio', 'data_fim', 'somait', 'itemmaterial'));
 
     }
 
@@ -396,9 +405,19 @@ class RelatoriosController extends Controller
             $saidamat->whereIn('item_catalogo_material.id', $request->nomeitem);
         }
 
-        if ($request->compra){
+        if ($compra === 'null'){
 
-            $saidamat->where('item_material.adquirido', '=', $request->compra);
+            $saidamat->where(function($query) {
+                $query->whereIn('item_material.adquirido', [true, false]) // Para booleanos
+                      ->orWhereIn('item_material.adquirido', ['true', 'false']) // Para strings
+                      ->orWhereIn('item_material.adquirido', [0, 1]); // Para inteiros
+            });
+
+        }
+        else{
+
+            $saidamat->where('item_material.adquirido', $request->compra);
+
         }
 
         $datesai = $saidamat->get();
@@ -419,7 +438,7 @@ class RelatoriosController extends Controller
 
 
 
-        return view('relatorios/relatorio-saida', compact('saidamat', 'result', 'somasai','nr_ordem', 'data_inicio', 'data_fim', 'somaqtd', 'itemmaterial'));
+        return view('relatorios/relatorio-saida', compact('compra', 'saidamat', 'result', 'somasai','nr_ordem', 'data_inicio', 'data_fim', 'somaqtd', 'itemmaterial'));
 
     }
 
