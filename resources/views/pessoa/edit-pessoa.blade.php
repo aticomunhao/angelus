@@ -116,12 +116,28 @@
             </div>
         </div>
     </div>
+
+    <script>
+    $(document).ready(function() {
+    $('#entidade').select2({
+        placeholder: 'Selecione uma Categoria',
+        allowClear: true
+    });
+
+    // Ajustar a altura do campo
+    $('#entidade').next('.select2-container').find('.select2-selection--single').css({
+        height: '33px', // Altura desejada
+        display: 'flex',
+        'align-items': 'center', // Alinha o texto verticalmente
+            'font-size': '12px' // Ajuste do tamanho da fonte
+        });
+    });
+
+    </script>
+    
 @endsection
 
 @section('footerScript')
-            <script src="{{ URL::asset('/js/pages/busca-cep.init.js')}}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
-            <script src="{{ URL::asset('/libs/select2/select2.min.js')}}"></script>
-            <script src="{{ URL::asset('/js/pages/form-advanced.init.js')}}"></script>
+
 @endsection
 

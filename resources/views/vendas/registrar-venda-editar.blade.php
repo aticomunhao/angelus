@@ -5,7 +5,7 @@
 @section('title') Editar Venda @endsection
 
 @section('headerCss')
-    <link href="{{ URL::asset('/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css" />
+    
 @endsection
 
 @section('content')
@@ -21,19 +21,19 @@
                             <div class="col-2">
                                 @foreach($venda as $vendas)
                                 <label for="id_venda">ID VENDA</label>
-                                <input class="form-control" style="font-weight:bold; background:#f3f3f3; color:#000;" type="text" name="id_venda" id="id_venda" value={{$vendas->id}} placeholder="ID Venda" readonly>
+                                <input class="form-control" style="font-weight:bold; background:#f3f3f3; color:#000;" type="text" name="id_venda" id="id_venda" value="{{$vendas->id}}" placeholder="ID Venda" readonly>
                             </div>
                             <div class="col-2">
                             <label for="data_venda">DATA VENDA</label>
-                                <input class="form-control" style="font-weight:bold; background: #f3f3f3; color: rgb(0, 0, 0);" value={{date( 'd/m/Y' , strtotime ($vendas->data))}} type="text" name="data_venda" id="data_venda" placeholder="Data Venda" readonly>
+                                <input class="form-control" style="font-weight:bold; background: #f3f3f3; color: rgb(0, 0, 0);" value="{{date( 'd/m/Y' , strtotime ($vendas->data))}}" type="text" name="data_venda" id="data_venda" placeholder="Data Venda" readonly>
                             </div>
                             <div class="col-2">
                                 <label for="cpf">CPF CLIENTE</label>
-                                <input class="form-control" style="font-weight:bold; background: #f3f3f3; color: rgb(0, 0, 0);" value={{$vendas->cpf}} name="cpf" id="cpf" type="text" placeholder="cpf" readonly>
+                                <input class="form-control" style="font-weight:bold; background: #f3f3f3; color: rgb(0, 0, 0);" value="{{$vendas->cpf}}" name="cpf" id="cpf" type="text" placeholder="cpf" readonly>
                             </div>
                             <div class="col-5">
                                 <label for="nome_usuário">CLIENTE</label>
-                                <input class="form-control" style="font-weight:bold; background: #f3f3f3; color: rgb(0, 0, 0);" value={{$vendas->nomepes}} name="nome_usuario" id="nome_usuario" type="text" placeholder="Vendedor" readonly>
+                                <input class="form-control" style="font-weight:bold; background: #f3f3f3; color: rgb(0, 0, 0);" value="{{$vendas->nomepes}}" name="nome_usuario" id="nome_usuario" type="text" placeholder="Vendedor" readonly>
                             </div>
                             @endforeach
                         </div>
@@ -179,7 +179,7 @@
             <script src="{{ URL::asset('/js/pages/datatables.init.js')}}"></script>
             <script src="{{ URL::asset('/js/pages/registrar-venda.init.js')}}"></script>
 
-            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+            {{--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">--}}
             <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 @endsection

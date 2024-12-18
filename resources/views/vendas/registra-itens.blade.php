@@ -3,7 +3,7 @@
 @section('title') Registrar itens @endsection
 
 @section('headerCss')
-    <link href="{{ URL::asset('/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css" />
+
 @endsection
 
 @section('content')
@@ -108,8 +108,6 @@
 
 @section('footerScript')
 
-            <script src="{{ URL::asset('/libs/select2/select2.min.js')}}"></script>
-            <script src="{{ URL::asset('/js/pages/form-advanced.init.js')}}"></script>
             <!-- Required datatable js -->
             <script src="{{ URL::asset('/libs/datatables/datatables.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/jszip/jszip.min.js')}}"></script>
@@ -119,7 +117,7 @@
             <script src="{{ URL::asset('/js/pages/datatables.init.js')}}"></script>
             <script src="{{ URL::asset('/js/pages/registrar-devolucao.init.js')}}"></script>
 
-            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            
+
 
 @endsection

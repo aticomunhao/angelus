@@ -18,7 +18,7 @@
                     @csrf
                     <div class="form-group row">
                         <div class="col-5">Cliente
-                            <select class="form-control select2" id="" name="cliente">
+                            <select class="form-control select2" id="cliente" name="cliente">
                                 <option value="">Selecione</option>
                                 @foreach($form as $forms)
                                 <option value="{{$forms->id_p}}">{{$forms->nome_p}}</option>
@@ -29,7 +29,7 @@
                             <input type="date"  class="form-control" name='data_venda'style="height:65%;" value="">
                         </div>    
                         <div class="col">Código Venda
-                            <select class="form-control select2" type="numeric" id="" name="id_venda">
+                            <select class="form-control select2" type="numeric" id="id_venda" name="id_venda">
                                 <option value="">Selecione</option> 
                             @foreach ($form as $forms)
                                 <option value="{{$forms->id_venda}}">{{$forms->id_venda}}</option>
@@ -85,19 +85,28 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function() {
+    $('#cliente, #id_venda').select2({
+        placeholder: 'Selecione uma Categoria',
+        allowClear: true
+    });
+
+    // Ajustar a altura do campo
+    $('#cliente, #id_venda').next('.select2-container').find('.select2-selection--single').css({
+        height: '33px', // Altura desejada
+        display: 'flex',
+        'align-items': 'center', // Alinha o texto verticalmente
+        'font-size': '12px' // Ajuste do tamanho da fonte
+    });
+});
+
+</script>
 
 @endsection
 
 @section('footerScript')
-            <script src="{{ URL::asset('/js/pages/mascaras.init.js')}}"></script>
-            
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
-            <script src="{{ URL::asset('/libs/select2/select2.min.js')}}"></script>
-            <script src="{{ URL::asset('/js/pages/form-advanced.init.js')}}"></script>
 
-            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-            <script src="js/bootstrap.min.js"></script>
-            <script src="jquery.bsAlerts.js"></script>
 
 @endsection
 

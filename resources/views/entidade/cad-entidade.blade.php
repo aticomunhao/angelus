@@ -109,9 +109,6 @@
 @endsection
 
 @section('footerScript')
-            <script src="{{ URL::asset('/js/pages/mascaras.init.js')}}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
-            <script src="{{ URL::asset('/js/pages/busca-cep.init.js')}}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+
 @endsection
 

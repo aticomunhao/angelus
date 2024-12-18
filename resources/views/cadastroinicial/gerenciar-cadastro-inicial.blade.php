@@ -43,7 +43,7 @@
                         </div>
                         <div class="col-sm">Comprado?<br>
                             <select class="form-control" id="compra" name="compra">
-                            <option value="null">Todos</option>
+                                <option value="">Todos</option>
                                 <option value="true" {{ $compra === 'true' ? 'selected' : '' }}>Sim</option>
                                 <option value="false" {{ $compra === 'false' ? 'selected' : '' }}>Não</option>
                             </select>

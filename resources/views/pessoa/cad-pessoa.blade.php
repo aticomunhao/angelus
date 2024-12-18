@@ -38,7 +38,7 @@
                                 @enderror
                             </div>
                             <div class="col">SEXO*
-                                <select class="form-control select2" required="required"  id="sexo" name="sexo">
+                                <select class="form-control" required="required"  id="sexo" name="sexo">
                                     <option value="">Selecione</option>
                                     @foreach($result as $results)
                                     <option value="{{$results->id}}">{{$results->nome}}</option>
@@ -120,18 +120,28 @@
         <!-- end col -->
     </div>
     <!-- end row -->
+
+    <script>
+    $(document).ready(function() {
+    $('#entidade').select2({
+        placeholder: 'Selecione uma Categoria',
+        allowClear: true
+    });
+
+    // Ajustar a altura do campo
+    $('#entidade').next('.select2-container').find('.select2-selection--single').css({
+        height: '33px', // Altura desejada
+        display: 'flex',
+        'align-items': 'center', // Alinha o texto verticalmente
+        'font-size': '12px' // Ajuste do tamanho da fonte
+    });
+});
+
+</script>
 @endsection
 
 @section('footerScript')
-            <script src="{{ URL::asset('/js/pages/mascaras.init.js')}}"></script>
-            <script src="{{ URL::asset('/js/pages/busca-cep.init.js')}}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
-            <script src="{{ URL::asset('/libs/select2/select2.min.js')}}"></script>
-            <script src="{{ URL::asset('/js/pages/form-advanced.init.js')}}"></script>
 
-            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-            <script src="js/bootstrap.min.js"></script>
-            <script src="jquery.bsAlerts.js"></script>
 
 @endsection
 
