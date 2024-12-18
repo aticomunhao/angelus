@@ -118,8 +118,8 @@ class CadastroInicialController extends Controller
         if ($request->categoria){
             $result->where('tcm.id', '=', "$request->categoria");
         }
-                
-        if ($compra === 'null'){
+        // dd($compra === null);       
+        if ($compra === null){
 
             $result->where(function($query) {
                 $query->whereIn('im.adquirido', [true, false]) // Para booleanos

@@ -47,18 +47,23 @@ class BarcodeController extends Controller
                
             $lista = DB::table('item_material AS im')
             ->select('im.data_cadastro','im.id AS id_item', 'im.ref_fabricante AS ref_fab', 'icm.nome AS n1','tcm.nome AS n5', 'im.observacao AS obs', 'im.valor_venda','m.nome AS n2', 't.nome AS n3', 'c.nome AS n4', 'im.valor_venda', 'im.adquirido', 'tcm.id AS id_cat','tcm.nome AS nome_cat', 'im.id_tipo_situacao', 'icm.id_categoria_material AS cat')
-            ->where('id_tipo_situacao', '1')
-            ->leftjoin('item_catalogo_material AS icm', 'icm.id' , '=', 'im.id_item_catalogo_material')
-            ->leftjoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material' , '=', 'tcm.id')
-            ->leftjoin('marca AS m', 'm.id' , '=', 'im.id_marca')
-            ->leftjoin('tamanho AS t', 't.id' , '=', 'im.id_tamanho')
-            ->leftjoin('cor AS c', 'c.id', '=', 'im.id_cor')
-            ->whereIn('id_deposito', $array_sessao);;
+            ->where('id_tipo_situacao', 1)
+            ->leftjoin('item_catalogo_material AS icm', 'icm.id' , 'im.id_item_catalogo_material')
+            ->leftjoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material' , 'tcm.id')
+            ->leftjoin('marca AS m', 'm.id' , 'im.id_marca')
+            ->leftjoin('tamanho AS t', 't.id' , 'im.id_tamanho')
+            ->leftjoin('cor AS c', 'c.id', 'im.id_cor')
+            ->where(function ($query) use ($array_sessao) {
+                $query->whereNull('im.id_deposito')
+                      ->orWhereIn('im.id_deposito', $array_sessao);
+            });
 
 
 
             $data_inicio = $request->data_inicio;
             $data_fim = $request->data_fim;
+            $compra = $request->compra;
+
             if ($request->data_inicio){
 
             $lista->where('im.data_cadastro','>=' , $request->data_inicio);
@@ -82,10 +87,22 @@ class BarcodeController extends Controller
             $lista->where('im.ref_fabricante', '=', $request->ref_fab);
             }
 
-            $doado = $request->doado;
-            if ($request->doado){
-            $lista->where('im.adquirido', '=', "$request->doado");
+           // dd($request->$compra === 'null');
+
+            if ($request->$compra === null){
+
+                $lista->where(function($query) {
+                    $query->whereIn('im.adquirido', [true, false]) // Para booleanos
+                          ->orWhereIn('im.adquirido', ['true', 'false']) // Para strings
+                          ->orWhereIn('im.adquirido', [0, 1]); // Para inteiros
+                });
             }
+            else{
+    
+                $lista->where('im.adquirido', $request->compra);
+    
+            }
+
             $categoria = $request->categoria;
             if ($request->categoria){
             $lista->where('tcm.id', '=', "$request->categoria");
