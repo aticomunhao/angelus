@@ -132,7 +132,7 @@ class GerenciarVendasController extends Controller
             DB::delete('delete from venda where id = ?' , [$id]);
 
 
-        return redirect()->action('GerenciarvendasController@index');
+        return redirect()->action('GerenciarVendasController@index');
 
     }
 
@@ -222,14 +222,14 @@ class GerenciarVendasController extends Controller
 
 
             return redirect()
-                ->action('GerenciarvendasController@index')
+                ->action('GerenciarVendasController@index')
                 ->with('message', 'O pagamento foi realizado com sucesso e a venda finalizada.');
 
         }
 
         
         return redirect()
-        ->action('GerenciarvendasController@index')
+        ->action('GerenciarVendasController@index')
         ->with('warning', 'Ocorreu um erro não identificado.');
 
     }

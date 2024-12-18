@@ -222,7 +222,7 @@ class RegistrarVendaController extends Controller
 
 
         return redirect()
-        ->route('GerenciarvendasController@index')
+        ->route('GerenciarVendasController@index')
         ->with('message', 'Falta apenas o pagamento!!!');
 
         
@@ -305,7 +305,7 @@ class RegistrarVendaController extends Controller
             ->where('id', $id)
             ->update(['id_tp_situacao_venda' => 2, 'valor' => $total]);
 
-        return redirect()->action('GerenciarvendasController@index');
+        return redirect()->action('GerenciarVendasController@index');
         //return view('vendas/gerenciar-vendas', compact('venda', 'total'));
 
     }
