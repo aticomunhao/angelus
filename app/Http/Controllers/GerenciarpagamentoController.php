@@ -101,7 +101,7 @@ class GerenciarpagamentoController extends Controller
                 ->where ('venda_item_material.id_venda', '=', $id)
                 ->sum(DB::raw('ROUND(item_material.valor_venda * item_material.valor_venda_promocional, 2)'));
         
-        $desconto = round($desconto,2);
+        $desconto = $desconto;
 
         //dd($desconto);
 
@@ -198,7 +198,7 @@ class GerenciarpagamentoController extends Controller
                     ->sum('valor');
         
 
-        $resto = (($total_preco - round($desconto, 2)) - $total_pago);
+        $resto = (($total_preco - $desconto) - $total_pago);
 
 
        $novo_valor = ($request->valor);

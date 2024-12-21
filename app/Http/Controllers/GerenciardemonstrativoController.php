@@ -87,16 +87,18 @@ class GerenciardemonstrativoController extends Controller{
          ->leftjoin('venda_item_material', 'item_material.id', 'venda_item_material.id_item_material')
          ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
          ->where ('venda_item_material.id_venda', '=', $id)
-         ->sum(DB::raw(ROUND('item_material.valor_venda * item_material.valor_venda_promocional, 2')));
+         ->sum(DB::raw('ROUND(item_material.valor_venda * item_material.valor_venda_promocional, 2)'));
 
          ///Cálculo do total do preço da venda com desconto se houver
-        $total_desc = ROUND($desconto, 2);
+        $total_desc = $desconto;
 
         ///Cálculo de possível troco
-        $troco = $total_pago - $total_preco - ROUND($desconto, 2);
+        $troco = (($total_pago - $total_preco) - $desconto);
 
         ////Valor da venda com descontos
-        $valor_final = $total_preco - $desconto;
+        //$valor_final = $total_preco - $desconto;
+        
+        $valor_final = bcsub($total_preco, $desconto, 2);
 
 
         return view ('relatorios/demonstrativo', compact('vendas', 'total_itens', 'total_preco', 'total_pago', 'troco',

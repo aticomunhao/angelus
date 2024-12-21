@@ -156,7 +156,7 @@ class GerenciarVendasController extends Controller
                 ->where ('venda_item_material.id_venda', '=', $id)
                 ->sum(DB::raw('ROUND(item_material.valor_venda * item_material.valor_venda_promocional, 2)'));
 
-        $desconto = round($desconto, 2);
+        $desconto = $desconto;
 
  
 
