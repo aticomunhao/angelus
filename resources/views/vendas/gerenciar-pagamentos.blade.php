@@ -68,7 +68,7 @@
                                     <tr>
                                         <td style= "text-align:center;">{{$ic->id_item_material}}</td>
                                         <td>{{$ic->nomemat}}</td>
-                                        <td style= "text-align:center;">{{number_format(floor($ic->desconto),2,',','.')}}</td>
+                                        <td style= "text-align:center;">{{number_format($ic->desconto,2,',','.')}}</td>
                                         <td style= "text-align:center;">{{number_format($ic->valor_venda,2,',','.')}}</td>
                                     </tr>
                                 @endforeach
