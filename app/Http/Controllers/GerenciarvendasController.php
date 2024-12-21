@@ -154,9 +154,9 @@ class GerenciarVendasController extends Controller
                 ->leftjoin('venda_item_material', 'item_material.id', 'venda_item_material.id_item_material')
                 ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
                 ->where ('venda_item_material.id_venda', '=', $id)
-                ->sum(DB::raw('floor(item_material.valor_venda * item_material.valor_venda_promocional)'));
+                ->sum(DB::raw('ROUND(item_material.valor_venda * item_material.valor_venda_promocional, 2)'));
 
-        $desconto = floor($desconto);
+        $desconto = round($desconto, 2);
 
  
 

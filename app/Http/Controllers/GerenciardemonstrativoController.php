@@ -31,7 +31,7 @@ class GerenciardemonstrativoController extends Controller{
         $itens_compra = DB::select ("
         Select
         distinct (v.id) idv,
-        im.valor_venda * im.valor_venda_promocional as desconto,
+        round(im.valor_venda * im.valor_venda_promocional, 2) as desconto,
         vim.id_item_material,
         im.id as idm,
         ic.nome as nomemat,
@@ -87,13 +87,13 @@ class GerenciardemonstrativoController extends Controller{
          ->leftjoin('venda_item_material', 'item_material.id', 'venda_item_material.id_item_material')
          ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
          ->where ('venda_item_material.id_venda', '=', $id)
-         ->sum(DB::raw('item_material.valor_venda * item_material.valor_venda_promocional'));
+         ->sum(DB::raw(ROUND('item_material.valor_venda * item_material.valor_venda_promocional, 2')));
 
          ///Cálculo do total do preço da venda com desconto se houver
-        $total_desc = $desconto;
+        $total_desc = ROUND($desconto, 2);
 
         ///Cálculo de possível troco
-        $troco = $total_pago - $total_preco - $desconto;
+        $troco = $total_pago - $total_preco - ROUND($desconto, 2);
 
         ////Valor da venda com descontos
         $valor_final = $total_preco - $desconto;
