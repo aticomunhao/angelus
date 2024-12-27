@@ -71,8 +71,8 @@
                                     <td>{{$ra->idv}}</td>
                                     <td>{{ date( 'd/m/Y' , strtotime($ra->data))}}</td>
                                     <td>{{$ra->nomep}}</td>
-                                    <td>{{number_format($ra->vlr_original,2,',','.')}}</td>
-                                    <td>{{number_format($ra->desconto,2,',','.')}}</td>
+                                    <td>{{number_format($ra->vlr_origem,2,',','.')}}</td>
+                                    <td>{{number_format($ra->vlr_desconto,2,',','.')}}</td>
                                     <td>{{number_format($ra->vlr_final,2,',','.')}}</td>
                                 </tr>
                             @endforeach
@@ -83,9 +83,9 @@
                                     <th></th>
                                     <th></th>
                                     <th style="text-align:right;font-size:12px;font-weight: bold;">TOTAL</th>
-                                    <th style="text-align:center;font-size:12px;font-weight: bold; background-color:yellow">{{number_format($soma_origem,2,',','.')}}</th>
-                                    <th style="text-align:center;font-size:12px;font-weight: bold; background-color:indianred; color:#ffffff;">{{number_format($total_desconto,2,',','.')}}</th>
-                                    <td style="text-align:center;font-size:12px;font-weight: bold; background-color:forestgreen; color:#ffffff;">{{number_format($total1,2,',','.')}}</td>
+                                    <th style="text-align:center;font-size:12px;font-weight: bold; background-color:yellow">{{number_format($somaoriginal,2,',','.')}}</th>
+                                    <th style="text-align:center;font-size:12px;font-weight: bold; background-color:indianred; color:#ffffff;">{{number_format($somadesconto,2,',','.')}}</th>
+                                    <td style="text-align:center;font-size:12px;font-weight: bold; background-color:forestgreen; color:#ffffff;">{{number_format($somatotal,2,',','.')}}</td>
                                 </tr>
                             </tfoot>
                             @endif
@@ -104,7 +104,7 @@
                 <h4 class="card-title" class="card-title" style="font-size:15px; text-align: left; color: gray; font-family:calibri">CÁLCULOS DO PERÍODO</h4>
                     <tbody style='text-align:center;vertical-align:middle; font-size:10px;'>
                         <tr>
-                            <td></td><td></td><td  style="text-align:right; font-weight: bold;">TOTAL DESCONTOS -></td><td style="text-align:center;">{{number_format($total_desconto,2,',','.')}}</td></tr>
+                            <td></td><td></td><td  style="text-align:right; font-weight: bold;">TOTAL DESCONTOS -></td><td style="text-align:center;">{{number_format($somadesconto,2,',','.')}}</td></tr>
                         <tr style="text-align:right;"><td></td><td style="font-weight: bold;"></td><td style="text-align:right; font-weight: bold;">DISCRIMINAÇÃO DOS PAGAMENTOS</td></tr>
                         <tr><td></td><td  style=" text-align:right;"></td><td style=" text-align:right;"><i class="fa-solid fa-money-bill-1-wave"></i> Em Dinheiro:</td><td style="font-weight: bold;">{{number_format($total_din,2,',','.')}}</td></tr>
                         <tr><td></td><td style=" text-align:right;"></td><td style=" text-align:right;"><i class="fab fa-cc-mastercard"></i> No Débito:</td><td style="font-weight: bold;">{{number_format($total_deb,2,',','.')}}</td></tr>
