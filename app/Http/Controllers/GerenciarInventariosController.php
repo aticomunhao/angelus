@@ -34,20 +34,22 @@ class GerenciarInventariosController extends Controller{
 
 
     $resultItens = DB::table('item_material AS im')
-                                    ->select('icm.nome', 'tcm.nome AS ncat', 'im.valor_venda', DB::raw('count(*) as qtd'), DB::raw('sum(valor_venda) as total'))
+                                    ->select('icm.nome', 'im.adquirido', 'tcm.nome AS ncat', 'im.valor_venda', DB::raw('count(*) as qtd'), DB::raw('sum(valor_venda) as total'))
                                     ->leftjoin('item_catalogo_material AS icm', 'im.id_item_catalogo_material','icm.id')
                                     ->leftJoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material', 'tcm.id' )
                                     ->leftjoin('venda_item_material AS vim','im.id','vim.id_item_material')
                                     ->leftjoin('venda AS v','vim.id_venda', 'v.id')
-                                    ->where('im.id_deposito', $array_sessao)
-                                    ->groupBy('icm.nome', 'im.valor_venda', 'tcm.nome');
+                                    ->where(function ($query) use ($array_sessao) {
+                                        $query->whereNull('im.id_deposito')
+                                              ->orWhereIn('im.id_deposito', $array_sessao);
+                                    })
+                                    ->groupBy('icm.nome', 'im.adquirido', 'im.valor_venda', 'tcm.nome');
 
 
     $data = $request->data;
-
     $categoria = $request->categoria;
-
     $item = $request->item;
+    $compra = $request->compra;
 
     //dd($categoria, $item, $data);
 
@@ -63,6 +65,20 @@ class GerenciarInventariosController extends Controller{
     if ($categoria !== null){
 
         $resultItens->where('icm.id_categoria_material', $categoria);
+    }
+
+    if ($compra === 'null'){
+
+        $resultItens->where(function($query) {
+            $query->whereIn('im.adquirido', [true, false]) // Para booleanos
+                  ->orWhereIn('im.adquirido', ['true', 'false']) // Para strings
+                  ->orWhereIn('im.adquirido', [0, 1]); // Para inteiros
+        });
+    }
+    else{
+
+        $resultItens->where('im.adquirido', $request->compra);
+
     }
 
     if ($item !== null){
@@ -83,7 +99,7 @@ class GerenciarInventariosController extends Controller{
 
 
 
-    return view('relatorios/inventarios', compact('nr_ordem', 'categoria', 'item', 'data', 'resultCategorias', 'resultItens', 'total_itens', 'total_soma', 'itemmaterial'));
+    return view('relatorios/inventarios', compact('nr_ordem', 'compra', 'categoria', 'item', 'data', 'resultCategorias', 'resultItens', 'total_itens', 'total_soma', 'itemmaterial'));
 
     }
 

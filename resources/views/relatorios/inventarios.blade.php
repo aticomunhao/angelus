@@ -21,6 +21,13 @@
                         <div class="col-2">Data
                             <input type="date" class="form-control" name='data' value="{{ isset($data) ? $data : date('Y-m-d') }}">
                         </div>
+                        <div class="col-sm">Comprado?<br>
+                            <select class="form-control" id="compra" name="compra">
+                                <option value="null">Todos</option>
+                                <option value="true" {{ $compra === 'true' ? 'selected' : '' }}>Sim</option>
+                                <option value="false" {{ $compra === 'false' ? 'selected' : '' }}>Não</option>
+                            </select>
+                        </div>
                         <div class="col">Categoria
                             <select class="form-control select2" id="lista1" name="categoria[]" multiple>
                                 <option value="">Todos</option>
@@ -69,8 +76,9 @@
                                     <td>NR</td>
                                     <td>CATEGORIA</td>
                                     <td>NOME</td>
-                                    <td>VALOR UNITÁRIO</td>
-                                    <td>QUANTIDADE</td>
+                                    <td>COMPRA?</td>
+                                    <td>VLR UNID</td>
+                                    <td>QTD</td>
                                     <td>SUBTOTAL</td>
                                     </tr>
                                 </thead>
@@ -80,6 +88,13 @@
                                         <td>{{$nr_ordem++}}</td>
                                         <td style="text-align:center;">{{$rit->ncat}}</td>
                                         <td style="text-align:center;">{{$rit->nome}}</td>
+                                        <td style="text-align:center;">
+                                            @if($rit->adquirido == true)
+                                                Sim
+                                            @else
+                                                Não
+                                            @endif
+                                        </td>
                                         <td>{{number_format($rit->valor_venda,2,',','.')}}</td>
                                         <td>{{$rit->qtd}}</td>
                                         <td>{{number_format($rit->qtd * $rit->valor_venda,2,',','.')}}</td>
@@ -89,6 +104,7 @@
                                 @if($resultItens->currentPage() === $resultItens->lastPage())
                                 <tfoot style="background: #daffe0;">
                                         <tr style="text-align:center; font-weight: bold; font-size:15px">
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
