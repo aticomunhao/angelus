@@ -75,8 +75,11 @@
                                     <tr style="text-align:center; font-weight: bold; font-size:15px">
                                     <td>NR</td>
                                     <td>CATEGORIA</td>
+                                    <td>CÓDIGO</td>
                                     <td>NOME</td>
                                     <td>COMPRA?</td>
+                                    <td>ENTRADA</td>
+                                    <td>VENDA</td>
                                     <td>VLR UNID</td>
                                     <td>QTD</td>
                                     <td>SUBTOTAL</td>
@@ -85,8 +88,9 @@
                                 <tbody>
                                     @foreach ($resultItens as $rit )
                                     <tr style="text-align:center;">
-                                        <td>{{$nr_ordem++}}</td>
+                                        <td>{{ ($resultItens->firstItem() + $loop->index) }}</td>
                                         <td style="text-align:center;">{{$rit->ncat}}</td>
+                                        <td style="text-align:center;">{{$rit->idmat}}</td>
                                         <td style="text-align:center;">{{$rit->nome}}</td>
                                         <td style="text-align:center;">
                                             @if($rit->adquirido == true)
@@ -95,6 +99,8 @@
                                                 Não
                                             @endif
                                         </td>
+                                        <td>{{date( 'd-m-Y', strtotime($rit->data_cadastro))}}</td>
+                                        <td>{{ $rit->data ? date('d-m-Y', strtotime($rit->data)): '-' }}</td>
                                         <td>{{number_format($rit->valor_venda,2,',','.')}}</td>
                                         <td>{{$rit->qtd}}</td>
                                         <td>{{number_format($rit->qtd * $rit->valor_venda,2,',','.')}}</td>
@@ -104,6 +110,9 @@
                                 @if($resultItens->currentPage() === $resultItens->lastPage())
                                 <tfoot style="background: #daffe0;">
                                         <tr style="text-align:center; font-weight: bold; font-size:15px">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>

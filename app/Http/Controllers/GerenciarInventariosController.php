@@ -34,7 +34,7 @@ class GerenciarInventariosController extends Controller{
 
 
     $resultItens = DB::table('item_material AS im')
-                                    ->select('icm.nome', 'im.adquirido', 'tcm.nome AS ncat', 'im.valor_venda', DB::raw('count(*) as qtd'), DB::raw('sum(valor_venda) as total'))
+                                    ->select('icm.nome', 'im.adquirido','im.adquirido', 'im.id as idmat', 'im.data_cadastro', 'v.data', 'tcm.nome AS ncat', 'im.valor_venda', DB::raw('count(*) as qtd'), DB::raw('sum(valor_venda) as total'))
                                     ->leftjoin('item_catalogo_material AS icm', 'im.id_item_catalogo_material','icm.id')
                                     ->leftJoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material', 'tcm.id' )
                                     ->leftjoin('venda_item_material AS vim','im.id','vim.id_item_material')
@@ -43,7 +43,7 @@ class GerenciarInventariosController extends Controller{
                                         $query->whereNull('im.id_deposito')
                                               ->orWhereIn('im.id_deposito', $array_sessao);
                                     })
-                                    ->groupBy('icm.nome', 'im.adquirido', 'im.valor_venda', 'tcm.nome');
+                                    ->groupBy('icm.nome', 'im.adquirido', 'im.valor_venda', 'tcm.nome', 'im.adquirido', 'im.id', 'im.data_cadastro', 'v.data');
 
 
     $data = $request->data;
@@ -51,7 +51,7 @@ class GerenciarInventariosController extends Controller{
     $item = $request->item;
     $compra = $request->compra;
 
-    //dd($categoria, $item, $data);
+    //dd($data);
 
     if ($data !== null) {
         $resultItens->whereDate('im.data_cadastro', '<=', $data)
@@ -60,6 +60,20 @@ class GerenciarInventariosController extends Controller{
                         $query->whereNull('v.data')
                               ->orWhereDate('v.data', '>=', $data);
                     });
+
+    }
+
+    if ($compra === 'null'){
+
+        $resultItens->where(function($query) {
+            $query->whereIn('im.adquirido', [true, false]) // Para booleanos
+                  ->orWhereIn('im.adquirido', ['true', 'false']) // Para strings
+                  ->orWhereIn('im.adquirido', [0, 1]); // Para inteiros
+        });
+    }
+    else{
+
+        $resultItens->where('im.adquirido', $request->compra);
     }
 
     if ($categoria !== null){
@@ -91,7 +105,7 @@ class GerenciarInventariosController extends Controller{
 
     $total_soma = $resultData->sum('total');
 
-    $resultItens = $resultItens->paginate(100);
+    $resultItens = $resultItens->orderBy('tcm.nome', 'asc', 'icm.nome', 'asc')->paginate(100);
 
     //dd($resultItens);
 
