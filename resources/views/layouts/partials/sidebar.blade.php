@@ -169,6 +169,9 @@
                             <a href="/inventarios" class="waves-effect"><span>Inventário</span></a>
                         </li>
                         <li>
+                            <a href="/inventario-fabricante" class="waves-effect"><span>Inventário fabricante</span></a>
+                        </li>
+                        <li>
                             <a href="/relatorio-entrada" class="waves-effect"><span>Entradas Materiais</span></a>
                         </li>                 
                         <li>

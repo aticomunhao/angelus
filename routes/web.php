@@ -262,9 +262,11 @@ Route::name('vendas')->middleware('validaUsuario')->group(function () {
   Route::get('/vendas-cliente', 'RelatoriosController@venda_cliente')->middleware('validaUsuario');
   Route::get('/relatorio-entrada', 'RelatoriosController@entrada')->middleware('validaUsuario');
   Route::get('/relatorio-saidas', 'RelatoriosController@saida')->middleware('validaUsuario');
-  Route::get('/inventarios', 'GerenciarInventariosController@index')->middleware('validaUsuario');
   Route::get('/vendas-valor', 'RelatoriosController@venda_valor')->middleware('validaUsuario');
   Route::get('/vendas-categoria', 'RelatoriosController@venda_cat')->middleware('validaUsuario');
+
+  Route::get('/inventarios', 'GerenciarInventariosController@index')->middleware('validaUsuario');
+  Route::get('/inventario-fabricante', 'GerenciarInventariosController@fabrica')->middleware('validaUsuario');
 
 //});
 
