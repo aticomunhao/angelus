@@ -23,12 +23,12 @@ $(document).ready(function() {
 
     });
     window.setTimeout(function () {
-      $("#txtCodigoBarra").trigger("focus").off().keypress(function (e) {
-        if (e.which == 13) {
+      $("#txtCodigoBarra").trigger("focus").off().on("keydown", function (e) {
+        if (e.key === "Enter") {
+          e.preventDefault(); // Evita comportamentos inesperados no formulário
           $("#btnPesqItem").trigger("click");
         }
       });
-
     }, 300);
   });
 
@@ -37,9 +37,10 @@ $(document).ready(function() {
   $("#btnbuscaitem").click(function(){
 
     $("#dialogBuscaItem").dialog({
-      width:800,
+      width:900,
       height:500
     });
+    
     $("#divBuscaritem").html('<img src="/images/loading02.gif" width="50px"><span>&nbsp;Carregando...</span>');
 
   $("#divFormAlterar").html('<img src="/images/loader.gif"  width="50px" />');
@@ -73,34 +74,45 @@ $(document).ready(function() {
 
 
 
-  $(document).on("click", ".btnRemoveItem", function(){
-    removeItem($("#id_venda").val(), $(this).val());
-  });
-
-
-  $(document).on("click", "#btnAddItem", function () {
-    $("#dialogBuscaItem").dialog("close")
-    pesqItem($(this).val());
-    /*
+   $(document).on("click", "#btnAddItem", function () {
     var id_item = $(this).val();
+  
+    if (!id_item) {
+      console.warn("Erro: O botão não tem um valor válido.");
+      return;
+    }
+  
+    console.log("ID do item selecionado:", id_item);
+  
+    showModal("divModal"); // Mostra o pop-up de carregamento
+  
     jQuery.ajax({
-      url: "/registrar-venda/getItem/"+id_item,
-      method: 'get',
-      success: function(result){
-      	$("#DivConfirmaItem").html(result);
+      url: "/registrar-venda/getItem/" + id_item,
+      method: "get",
+      success: function (result) {
+        if (!result) {
+          console.error("Erro: Nenhum resultado recebido.");
+          hideModal("divModal"); // Fecha o modal mesmo sem resultado
+          return;
+        }
+  
+        console.log("Item recuperado com sucesso!");
+        $("#DivConfirmaItem").html(result);
         $("#vlr_unit").val($("#vlrVenda").val());
-      	$("#dialogBuscaItem").dialog("close")
-        //$("#divVendaItens").show();
-        //$("#divVendaBotoes").show();
-
-        fCalculaValor();
-      	// $("#title-alterar").html("Buscar item");
-      	// $(".select2").select2();
+  
+        setTimeout(function () {
+          hideModal("divModal"); // Fecha modal após um pequeno delay
+        }, 300);
+  
+        $("#dialogBuscaItem").dialog("close"); // Fecha o outro modal
+      },
+      error: function (xhr, status, error) {
+        console.error("Erro na requisição AJAX:", error);
+        alert("Erro ao recuperar o item. Tente novamente."); // Alerta para o usuário
+        hideModal("divModal"); // Fecha o modal mesmo em caso de erro
       }
     });
-    */
   });
-
 
 
 
@@ -171,13 +183,6 @@ $(document).ready(function() {
           success: function(result){
             $("#id_venda").val(result);
             adicionarItem();
-            //$("#cpf").val(result);
-            // var html = $("#divVenda").html(result);
-            // $("#divVenda").html(result);
-
-            // $("#dialogBuscaItem").dialog("close")
-            // $("#title-alterar").html("Buscar item");
-            // $(".select2").select2();
 
           }
         });
@@ -187,19 +192,7 @@ $(document).ready(function() {
        adicionarItem();
 
         }
-    // if ($("#id_venda").val()==null) {
-
-      // jQuery.ajax({
-      //   url: "/registrar-venda-lista/setItemLista/"+id_item,
-      //   method: 'get',
-      //   success: function(result){
-      //     $("#divListaCompras").html(result);
-      //     // $("#dialogBuscaItem").dialog("close")
-      //     // $("#title-alterar").html("Buscar item");
-      //     // $(".select2").select2();
-      //   }
-      // });
-    // }
+   
     });
 
   $("#qtd_item").keyup(function(evt){

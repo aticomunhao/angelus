@@ -55,6 +55,7 @@
                                                 <th>Tipo Material</th>
                                                 <th>Categoria</th>
                                                 <th>Ativo?</th>
+                                                <th>Ações</th>
                                             </tr>
                                         </thead>
 

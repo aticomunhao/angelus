@@ -56,6 +56,7 @@
                                                 <th>Id</th>
                                                 <th>Marca</th>
                                                 <th>Categoria</th>
+                                                <th>Ações</th>
                                             </tr>
                                         </thead>
 

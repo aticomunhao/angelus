@@ -3,11 +3,12 @@
 @section('title') Editar Cadastro inicial @endsection
 
 @section('headerCss')
+
 @endsection
 
 @section('content')
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 
         <div class="card">
             <div class="card-body">

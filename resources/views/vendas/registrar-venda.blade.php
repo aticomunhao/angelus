@@ -3,7 +3,7 @@
 @section('title') Registrar venda @endsection
 
 @section('headerCss')
-    <link href="{{ URL::asset('/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css" />
+    
 @endsection
 
 @section('content')
@@ -181,7 +181,7 @@
     **********************************************************************************************************************************
     -->
     <div class="modal fade" id="divModal" data-backdrop="static" >
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">&nbsp;</h5>
@@ -212,10 +212,10 @@
             <script src="{{ URL::asset('/libs/pdfmake/pdfmake.min.js')}}"></script>
 
             <!-- Datatable init js -->
-            <script src="{{ URL::asset('/js/pages/datatables.init.js')}}"></script>
+            <script src="{{ URL::asset('/libs/datatables.min.js')}}"></script>
             <script src="{{ URL::asset('/js/pages/registrar-venda.init.js')}}"></script>
-
-            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            
+            <script src="{{ URL::asset('/libs/jquery-ui/jquery-ui.min.js')}}"></script>
+            
 
 @endsection

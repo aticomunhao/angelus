@@ -3,12 +3,11 @@
 @section('title') Incluir item no catálogo @endsection
 
 @section('headerCss')
-    <link href="{{ URL::asset('/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css" />
+
 @endsection
 
 @section('content')
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <div class="row">
         <div class="col-12">
             <div class="card">

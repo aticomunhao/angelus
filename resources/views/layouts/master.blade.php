@@ -37,15 +37,18 @@
 
     <link href="{{ URL::asset('/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css" />
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    
+    <link href="{{ URL::asset('/libs/jquery-ui/jquery-ui.theme.min.css')}}">
+
+    <link href="{{ URL::asset('/libs/jquery-ui/jquery-ui.min.css')}}">
+
+    <link href="{{ URL::asset('/libs/datatables/datatables.min.css')}}" rel="stylesheet" />
 
     <script src="{{ URL::asset('/libs/jquery/jquery.min.js')}}"></script>
 
   
 
   
-    <!--<link href="{{ URL::asset('/libs/datatables/datatables.min.css')}}" rel="stylesheet" />-->
+    
 
 
  
@@ -121,7 +124,7 @@
             <script src="{{ URL::asset('/libs/node-waves/node-waves.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/select2/select2.min.js')}}"></script>
             <script src="{{ URL::asset('/libs/bootstrap4/bootstrap4-toggle.min.js')}}"></script>
-            <script src="{{ URL::asset('/libs/jquery.bsAlerts.js')}}"></script>
+            
             <!--<script src="{{ URL::asset('/libs/datatables/datatables.min.js')}}"></script>-->
    
 

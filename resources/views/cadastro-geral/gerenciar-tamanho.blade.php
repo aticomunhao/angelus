@@ -58,6 +58,7 @@
                                                 <th>Id</th>
                                                 <th>Tamanho</th>
                                                 <th>Categoria</th>
+                                                <th>Ações</th>
                                             </tr>
                                         </thead>
 

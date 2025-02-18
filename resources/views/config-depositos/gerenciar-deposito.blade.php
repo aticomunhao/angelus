@@ -60,6 +60,7 @@
                                                 <th>Sigla</th>
                                                 <th>Tipo Estoque</th>
                                                 <th>Ativo</th>
+                                                <th>Ações</th>
                                             </tr>
                                         </thead>
 

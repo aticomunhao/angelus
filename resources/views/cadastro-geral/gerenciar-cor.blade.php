@@ -58,6 +58,7 @@
                                                 <th>Id</th>
                                                 <th>Cor</th>
                                                 <th>Categoria</th>
+                                                <th>Ações</th>
                                             </tr>
                                         </thead>
 
