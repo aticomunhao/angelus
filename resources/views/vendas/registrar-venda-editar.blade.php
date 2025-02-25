@@ -103,7 +103,11 @@
                                                         <?php $tot += floatval($itens->valor_venda); $qtde++; ?>
                                                         <td>{{number_format($itens->valor_venda,2,'.','.')}}</td>
                                                         <td>
-                                                            <button type="button" value="{{$itens->id_item_material}}"  class="btn btn-danger btn-custom btnRemoveItem" onclick="setInterval('Atualizar()',1000)"><i class="far fa-trash-alt"></i></button>
+                                                        <button type="button" value="{{$itens->id_item_material}}"  
+        class="btn btn-danger btn-custom btnRemoveItem" 
+        data-iditem="{{$itens->id_item_material}}">
+        <i class="far fa-trash-alt"></i>
+    </button>
                                                         </td>
                                                     </tr>
                                                     @endforeach
@@ -162,6 +166,15 @@
             </div>
         </div>
     </div>
+
+    <script>
+$(document).on("click", ".btnRemoveItem", function(){
+    var idVenda = $("#id_venda").val();
+    var idItem = $(this).data("iditem"); // Captura o ID do item a ser removido
+    console.log("Removendo item:", idItem, " da venda:", idVenda);
+    removeItem(idVenda, idItem);
+});
+        </script>
 
 
 @endsection

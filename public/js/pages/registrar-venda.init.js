@@ -252,22 +252,20 @@ function fCalculaValor(){
 
 
 function removeItem(pIdVenda, pIdItem){
-  console.log("removeItem",pIdVenda, pIdItem);
+  console.log("Chamando removeItem:", pIdVenda, pIdItem);
   showModal();
+  
   jQuery.ajax({
-    url: "/registrar-venda/removeItemLista/"+pIdItem+"/"+pIdVenda+"",
-    method: 'get',
-    success: function(result){
-      $("#divListaCompras").html(result);
-      hideModal();
-      /*
-      $(document).on("click", "#btnCancVenda", function(){
-        if ($("#id_venda").val()){
-          cancelarVenda($("#id_venda").val());
-        }
-      });
-      */
-
+      url: "/registrar-venda/removeItemLista/" + pIdItem + "/" + pIdVenda,
+      method: 'GET',
+      success: function(result){
+        console.log("Sucesso! Fechando modal...");
+        $("#divListaCompras").html(result);
+        hideModal();
+    },
+    error: function(xhr, status, error){
+        console.error("Erro ao remover item:", error);
+        hideModal();
     }
   });
 }
