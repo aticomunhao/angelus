@@ -194,7 +194,7 @@ class GerenciarInventariosController extends Controller{
         }
     
         if ($item !== null){
-            $resultItens->where('icm.id', $item);
+            $resultItens->whereIn('icm.id', $item);
         }
 
         if ($cod_fab !== null){
