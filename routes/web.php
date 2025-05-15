@@ -266,7 +266,8 @@ Route::name('vendas')->middleware('validaUsuario')->group(function () {
   Route::get('/vendas-categoria', 'RelatoriosController@venda_cat')->middleware('validaUsuario');
 
   Route::get('/inventarios', 'GerenciarInventariosController@index')->middleware('validaUsuario');
-  Route::get('/inventario-fabricante', 'GerenciarInventariosController@fabrica')->middleware('validaUsuario');
+  Route::get('/inventario-fabricante', 'GerenciarInventariosController@fabrica')->middleware('validaUsuario')->name('inv.fabrica');
+  Route::get('/generate-pdf','PDFController@generatePDF')->name('inv.pdf');
 
 //});
 
@@ -298,4 +299,6 @@ Route::get('/gerarXml/{id}', 'NotaFiscalController@gerarXml');
 Route::get('/novo', 'EmitenteController@index');
 
 Route::post('/save', 'EmitenteController@save');
+
+
 

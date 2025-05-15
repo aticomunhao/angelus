@@ -13,20 +13,20 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">                         
-            <form action="/inventario-fabricante" class="form-horizontal mt-4" method="GET">
+            <form class="form-horizontal mt-4" method="GET">
             @csrf  
             <div class="row"> 
-                <div class="col-md-2 col-sm-12">Data
-                    <input type="date" class="form-control" name='data' value="{{ isset($data) ? $data : date('Y-m-d') }}">
+                <div class="auto" >Data
+                    <input type="date" class="form-control"  name='data' value="{{ isset($data) ? $data : date('Y-m-d') }}">
                 </div>
-                <div class="col-md-2 col-sm-12">Comprado?<br>
+                <div class="col-1">Comprado?<br>
                     <select class="form-control" id="compra" name="compra">
                         <option value="null">Todos</option>
                         <option value="true" {{ $compra === 'true' ? 'selected' : '' }}>Sim</option>
                         <option value="false" {{ $compra === 'false' ? 'selected' : '' }}>Não</option>
                     </select>
                 </div>
-                <div class="col-md-2 col-sm-12">Categoria
+                <div class="col">Categoria
                     <select class="form-control select2" id="lista1" name="categoria[]" multiple>
                         <option value="">Todos</option>
                             @Foreach($resultCategorias as $results)
@@ -34,10 +34,10 @@
                             @endForeach
                     </select>
                 </div>
-                <div class="col-md-2 col-sm-12">Cod Fabricante
+                <div class="col-1">Cod Fabricante
                     <input class="form-control" type="text" name="cod_fab" value="{{$cod_fab}}">
                 </div>
-                <div class="col-md-2 col-sm-12">Item nome
+                <div class="col">Item nome
                     <select class="form-control select2" id="lista2" name="item[]" multiple>
                         <option value="">Todos</option>
                         @Foreach($itemmaterial as $itemmat)
@@ -46,16 +46,19 @@
                         @endForeach
                     </select>
                 </div>
-                <div class="col-md-2 col-sm-12">
-                    <input class="btn btn-light" type="submit" value="Pesquisar" style="box-shadow: 1px 2px 5px #000000;margin-top:20px;">
+                <div class="col">
+                    <input class="btn btn-light" formaction="{{route('inv.fabrica')}}" type="submit" acti value="Pesquisar" style="box-shadow: 1px 2px 5px #000000;margin-top:20px;">
                 
-                    <a href="/inventarios"><input class="btn btn-light" type="button" value="Limpar" style="box-shadow: 1px 2px 5px #000000;margin-top:20px;"></a>
+                    <a href="/inventario-fabricante"><input class="btn btn-light" type="button" value="Limpar" style="box-shadow: 1px 2px 5px #000000;margin-top:20px;"></a>
+
+                    <input class="btn btn-info" formaction="{{route('inv.pdf')}}" type="submit" acti value="Gerar PDF" style="box-shadow: 1px 2px 5px #000000;margin-top:20px;">
+
                 
                     <!--<a href=""><input class="btn btn-info" onclick="cont();" type="button" value="Imprimir" style="margin-top:20px;"></a>-->
                 </div>                        
             </div>
             </form>
-            <script>
+            <!-- <script>
                 function cont(){
                 var conteudo = document.getElementById('print').innerHTML;
                 tela_impressao = window.open('about:blank');
@@ -63,17 +66,17 @@
                 tela_impressao.window.print();
                 tela_impressao.window.close();
                 }
-            </script>
+            </script> -->
 
             <hr>
-            <div id='print' class='conteudo'>
-            <div class="container-fluid" style="background:#ffffff;">
+            <!-- <div id='print' class='conteudo'> -->
+            <div class="container-fluid" id="1" style="background:#ffffff;">
             <h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">INVENTÁRIO DE ESTOQUE</h4>
                 <div class="row">
                 <h6 class="font-weight-bold" style="color: blue;  margin-left: 10px;">INVENTÁRIO DE ESTOQUE - no dia <span class="badge badge-secondary">{{ \Carbon\Carbon::parse($data)->format('d/m/Y')}}</span> </h6>
                     <table class="table table-sm table-striped">
                         <thead style="text-align:center; background: #daffe0;">
-                            <tr style="text-align:center; font-weight: bold; font-size:15px">
+                            <tr style="text-align:center; font-weight: bold; font-size:12px">
                             <td>NR</td>
                             <td>CATEGORIA</td>
                             <td>COD FABRICANTE</td>
@@ -88,8 +91,8 @@
                         </thead>
                         <tbody>
                             @foreach ($resultItens as $rit )
-                            <tr style="text-align:center;">
-                                <td>{{ ($resultItens->firstItem() + $loop->index) }}</td>
+                            <tr style="text-align:center; font-size:10px">
+                                <td>{{  $loop->iteration  }}</td>
                                 <td style="text-align:center;">{{$rit->ncat}}</td>
                                 <td style="text-align:center;">{{$rit->fab}}</td>
                                 <td style="text-align:center;">{{$rit->nome}}</td>
@@ -108,7 +111,7 @@
                                 </tr>
                                 @endforeach
                         </tbody>
-                        @if($resultItens->currentPage() === $resultItens->lastPage())
+                    
                         <tfoot style="background: #daffe0;">
                                 <tr style="text-align:center; font-weight: bold; font-size:15px">
                                 <td></td>
@@ -123,15 +126,13 @@
                                 <td>{{number_format($total_soma,2,',','.')}}</td>
                             </tr>
                         </tfoot>
-                        @endif
+                
                     </table>
-                    <div class="d-flex justify-content-center">
-                    {{$resultItens->withQueryString()->links()}}
                     </div>
                     <h6 class="col-12  font-weight-bold" style="color: blue; margin-left: 10px; text-align:right;">O relatório foi impresso em <span class="badge badge-secondary">{{ \Carbon\Carbon::today()->locale('pt')->isoFormat('DD MMMM YYYY')}}</span> </h6>
                 </div>
             </div>
-        </div>        
+        <!-- </div>         -->
     </div>
 </div>
 
