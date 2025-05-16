@@ -152,14 +152,14 @@ $(document).ready(function () {
     });
 
     // Função para ativar/desativar selects
-    function toggleDisable(selectedId, otherId) {
-        const selectedValues = $(`#${selectedId}`).val();
-        if (selectedValues && selectedValues.length > 0) {
-            $(`#${otherId}`).prop('disabled', true).select2();
-        } else {
-            $(`#${otherId}`).prop('disabled', false).select2();
-        }
-    }
+    //function toggleDisable(selectedId, otherId) {
+    //    const selectedValues = $(`#${selectedId}`).val();
+    //    if (selectedValues && selectedValues.length > 0) {
+    //        $(`#${otherId}`).prop('disabled', true).select2();
+    //    } else {
+    //        $(`#${otherId}`).prop('disabled', false).select2();
+    //    }
+    //}
 
     // Eventos de mudança
     $('#lista1').on('change', function () {

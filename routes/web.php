@@ -268,6 +268,7 @@ Route::name('vendas')->middleware('validaUsuario')->group(function () {
   Route::get('/inventarios', 'GerenciarInventariosController@index')->middleware('validaUsuario');
   Route::get('/inventario-fabricante', 'GerenciarInventariosController@fabrica')->middleware('validaUsuario')->name('inv.fabrica');
   Route::get('/generate-pdf','PDFController@generatePDF')->name('inv.pdf');
+  Route::get('/pdf-relatorio','PDFController@relatorioPDF')->name('sai.pdf');
 
 //});
 

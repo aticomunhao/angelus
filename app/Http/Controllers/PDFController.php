@@ -162,4 +162,135 @@ class PDFController extends Controller
     return $pdf->stream('documento.pdf');
 
     }
+
+    public function relatorioPDF (Request $request)
+    {
+
+     $sessao = session()->get('usuario.depositos');
+
+        $array_sessao = explode(",", $sessao);
+
+        $nr_ordem = 1;
+
+        $saidamat = DB::table('item_material')
+                        ->leftjoin('item_catalogo_material', 'item_material.id_item_catalogo_material', 'item_catalogo_material.id')
+                        ->leftjoin('tipo_categoria_material', 'tipo_categoria_material.id','item_catalogo_material.id_categoria_material')
+                        ->leftjoin('venda_item_material', 'item_material.id', 'id_item_material')
+                        ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
+                        ->select('item_catalogo_material.nome AS nomemat', 'item_material.valor_venda','tipo_categoria_material.nome AS nomecat', 'venda.data', DB::raw('sum(item_material.valor_venda) as vlr_venda'), DB::raw('COUNT(item_material.id_item_catalogo_material) as qtdsaida'), 'item_material.adquirido')
+                        ->where('item_material.id_tipo_situacao', '>', 1)
+                        ->whereIn('item_material.id_deposito', $array_sessao)
+                        ->groupby('item_catalogo_material.nome', 'item_material.valor_venda', 'tipo_categoria_material.nome', 'venda.data', 'item_material.adquirido');
+                        //dd($saidamat->get());
+
+        $data_inicio = $request->data_inicio;
+        $data_fim = $request->data_fim;
+        $categoria = $request->categoria;
+        $compra = $request->compra;
+        $nomeitem = $request->nomeitem;
+
+
+
+        if ($request->data_inicio){
+
+            $saidamat->whereDate('venda.data', '>=' , $request->data_inicio);
+        }
+
+        if ($request->data_fim){
+
+            $saidamat->whereDate('venda.data','<=' , $request->data_fim);
+        }
+
+        if ($request->categoria){
+
+            $saidamat->whereIn('item_catalogo_material.id_categoria_material', $request->categoria);
+        }
+
+        if ($request->nomeitem){
+
+            $saidamat->whereIn('item_catalogo_material.id', $request->nomeitem);
+        }
+
+        if ($compra === 'null'){
+
+            $saidamat->where(function($query) {
+                $query->whereIn('item_material.adquirido', [true, false]) // Para booleanos
+                      ->orWhereIn('item_material.adquirido', ['true', 'false']) // Para strings
+                      ->orWhereIn('item_material.adquirido', [0, 1]); // Para inteiros
+            });
+
+        }
+        else{
+
+            $saidamat->where('item_material.adquirido', $request->compra);
+
+        }
+
+        $datesai = $saidamat->get();
+
+        $somasai = $datesai->sum('vlr_venda');
+        $somaqtd = $datesai->sum('qtdsaida');
+
+
+        $saidamat = $saidamat->orderBy('tipo_categoria_material.nome', 'desc' , 'item_catalogo_material.nome','desc')->get();
+
+       //dd($saidamat);
+    
+
+        $result = DB::select('select id, nome from tipo_categoria_material order by nome');
+        
+        $itemmaterial = DB::select ("select distinct(icm.nome), id, nome from item_catalogo_material icm order by nome"); 
+
+
+     $data = ['data_inicio' => $data_inicio,
+            'data_fim' => $data_fim,
+            'compra' => $compra,
+            'saidamat' => $saidamat,
+            'result' => [],
+            'somasai' => $somasai,
+            'somaqtd' => $somaqtd,
+            'itemmaterial' => [],
+            ];
+
+    
+    
+
+    $options = new Options();
+
+    $options->set('defaultFont', 'Courier');
+    $options->set('paper_size', 'a5');
+    $options->set('defaultFontSize', 10);
+    $options->set('orientation', 'portrait');
+    $options->set('margin_top', 10);
+    $options->set('margin_bottom', 10);
+    $options->set('margin_left', 10);
+    $options->set('margin_right', 10);
+
+    
+    $pdf = new Dompdf($options);
+
+    $htmlCompleto = View::make('relatorios.relatorio-saida', $data)->render();
+
+    // procurar a div com id="1"
+    $inicio = strpos($htmlCompleto, 'id="1"');
+
+    // verificar se encontrou
+    if ($inicio !== false) {
+        // encontrar o início da tag <div ... id="1">
+        $tagInicio = strrpos(substr($htmlCompleto, 0, $inicio), '<div');
+        $htmlCortado = substr($htmlCompleto, $tagInicio);
+        
+        // opcional: adicionar estrutura básica do HTML para o DOMPDF funcionar corretamente
+        $htmlFinal = "<html><head><style>body { font-family: Courier; }</style></head><body>" . $htmlCortado . "</body></html>";
+    } else {
+        $htmlFinal = $htmlCompleto; // fallback
+    }
+
+    $pdf->loadHtml($htmlFinal);
+    $pdf->render();
+
+    return $pdf->stream('documento.pdf');
+    
+}
+
 }
