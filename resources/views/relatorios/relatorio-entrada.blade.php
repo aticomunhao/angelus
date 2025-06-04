@@ -77,7 +77,8 @@
                 <tr style="text-align:center; font-weight: bold; font-size:15px; background: #daffe0;">
                 <td>NR</td>
                 <td>CATEGORIA</td>
-                <td>NOME</td>                
+                <td>NOME</td>
+                <td>REF FABR</td>   
                 <td>COMPRADO?</td>
                 <td>QUANTIDADE</td>
                 <td>VALOR</td>
@@ -92,7 +93,8 @@
                 <tr style="text-align:center;">
                     <td>{{$nr_ordem++}}</td>
                     <td style="text-align:center;">{{$entmats->nomecat}}</td>
-                    <td style="text-align:center;">{{$entmats->nome}}</td>                    
+                    <td style="text-align:center;">{{$entmats->nome}}</td> 
+                    <td style="text-align:center;">{{$entmats->ref_fabricante}}</td>                    
                     <td >@if($entmats->adquirido == 0)
                         Não
                         @else
@@ -108,6 +110,7 @@
             @if($entmat->currentPage() === $entmat->lastPage())
             <tfoot>
                     <tr style="text-align:center; font-weight: bold; font-size:15px; background-color:yellow">
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>

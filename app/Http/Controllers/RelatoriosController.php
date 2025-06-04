@@ -282,9 +282,9 @@ class RelatoriosController extends Controller
 
         $entmat = ModelItemMaterial::leftJoin('item_catalogo_material', 'item_material.id_item_catalogo_material', '=', 'item_catalogo_material.id')
                                 ->leftJoin('tipo_categoria_material', 'item_catalogo_material.id_categoria_material', '=', 'tipo_categoria_material.id')
-                                ->select('item_material.adquirido', 'item_material.data_cadastro','item_catalogo_material.nome', 'tipo_categoria_material.nome AS nomecat',  'item_material.valor_venda', DB::raw('COUNT(item_material.id_item_catalogo_material) as total'), DB::raw('SUM(item_material.valor_venda) as vlr_venda'))
+                                ->select('item_material.adquirido', 'item_material.data_cadastro', 'item_material.ref_fabricante', 'item_catalogo_material.nome', 'tipo_categoria_material.nome AS nomecat',  'item_material.valor_venda', DB::raw('COUNT(item_material.id_item_catalogo_material) as total'), DB::raw('SUM(item_material.valor_venda) as vlr_venda'))
                                 ->where('item_material.id_deposito', $array_sessao)
-                                ->groupBy('item_material.adquirido', 'item_material.data_cadastro', 'item_catalogo_material.nome', 'tipo_categoria_material.nome',  'item_material.valor_venda');
+                                ->groupBy('item_material.adquirido', 'item_material.ref_fabricante', 'item_material.data_cadastro', 'item_catalogo_material.nome', 'tipo_categoria_material.nome',  'item_material.valor_venda');
 
                         //dd($entmat->get());
         $data_inicio = $request->data_inicio;
@@ -362,10 +362,10 @@ class RelatoriosController extends Controller
                         ->leftjoin('tipo_categoria_material', 'tipo_categoria_material.id','item_catalogo_material.id_categoria_material')
                         ->leftjoin('venda_item_material', 'item_material.id', 'id_item_material')
                         ->leftjoin('venda', 'venda_item_material.id_venda', 'venda.id')
-                        ->select('item_catalogo_material.nome AS nomemat', 'item_material.valor_venda','tipo_categoria_material.nome AS nomecat', 'venda.data', DB::raw('sum(item_material.valor_venda) as vlr_venda'), DB::raw('COUNT(item_material.id_item_catalogo_material) as qtdsaida'), 'item_material.adquirido')
+                        ->select('item_catalogo_material.nome AS nomemat', 'item_material.ref_fabricante', 'item_material.valor_venda','tipo_categoria_material.nome AS nomecat', 'venda.data', DB::raw('sum(item_material.valor_venda) as vlr_venda'), DB::raw('COUNT(item_material.id_item_catalogo_material) as qtdsaida'), 'item_material.adquirido')
                         ->where('item_material.id_tipo_situacao', '>', 1)
                         ->whereIn('item_material.id_deposito', $array_sessao)
-                        ->groupby('item_catalogo_material.nome', 'item_material.valor_venda', 'tipo_categoria_material.nome', 'venda.data', 'item_material.adquirido');
+                        ->groupby('item_catalogo_material.nome', 'item_material.ref_fabricante', 'item_material.valor_venda', 'tipo_categoria_material.nome', 'venda.data', 'item_material.adquirido');
                         //dd($saidamat->get());
 
         $data_inicio = $request->data_inicio;

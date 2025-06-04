@@ -61,6 +61,7 @@
                         <td>NR</td>
                         <td>CATEGORIA</td>
                         <td>NOME</td>
+                        <td>REF FABR</td>
                         <td>COMPRADO?</td>
                         <td>QUANTIDADE</td>
                         <td>VALOR</td>
@@ -73,6 +74,7 @@
                             <td>{{$loop->iteration}}</td>
                             <td style="text-align:center;">{{$saidamats->nomecat}}</td>
                             <td style="text-align:center;">{{$saidamats->nomemat}}</td>
+                            <td style="text-align:center;">{{$entmats->ref_fabricante}}</td
                             <td style="text-align:center;">
                             @if($saidamats->adquirido == true)
                                 Sim
@@ -88,6 +90,7 @@
                     </tbody>
                     <tfoot>
                             <tr style="text-align:center; font-weight: bold; font-size:15px; background-color:yellow">
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
