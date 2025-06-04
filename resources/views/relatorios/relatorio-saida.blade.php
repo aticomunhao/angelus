@@ -74,7 +74,7 @@
                             <td>{{$loop->iteration}}</td>
                             <td style="text-align:center;">{{$saidamats->nomecat}}</td>
                             <td style="text-align:center;">{{$saidamats->nomemat}}</td>
-                            <td style="text-align:center;">{{$entmats->ref_fabricante}}</td
+                            <td style="text-align:center;">{{$saidamats->ref_fabricante}}</td
                             <td style="text-align:center;">
                             @if($saidamats->adquirido == true)
                                 Sim
