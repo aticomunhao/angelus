@@ -70,7 +70,7 @@
 <br>
 <div id='print' class='conteudo'>
 <div class="container" style="background:#ffffff;">
-<h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">ENTRADAS DE MATERIAL POR PERÍODO</h4>
+<h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">ENTRADAS DE MATERIAL NO PERÍODO DE {{date( 'd/m/Y' , strtotime($data_inicio))}} até {{ $data_fim ? date('d/m/Y', strtotime($data_fim)) : '-' }}</h4>
     <div class="row align-items-center">
         <table class="table table-sm table-striped">
             <thead style="text-align:center;">

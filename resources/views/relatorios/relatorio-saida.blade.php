@@ -8,7 +8,7 @@
 @section('content')
 
 
-        <div class="container-fluid">
+        <div class="container">
             <div class="row align-items-center">
                 <form  class="form-horizontal mt-4" method="GET">
                 @csrf
@@ -54,7 +54,7 @@
             </div>       
             <br>
             <div class="row align-items-center" id="1">
-            <h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">SAÍDAS DE MATERIAL POR PERÍODO</h4>
+            <h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">SAÍDAS DE MATERIAL NO PERÍODO DE {{date( 'd/m/Y' , strtotime($data_inicio))}} até {{ $data_fim ? date('d/m/Y', strtotime($data_fim)) : '-' }}</h4>
                 <table class="table table-sm table-striped">
                     <thead style="text-align:center;">
                         <tr style="text-align:center; font-weight: bold; font-size:15px; background: #daffe0;">
