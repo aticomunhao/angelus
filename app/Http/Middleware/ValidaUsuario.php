@@ -35,7 +35,7 @@ class ValidaUsuario
                     return redirect('/UNAUTHORIZED');
                 }
             case 'estoque':
-                if(!$perfil_adm && !$perfil_ger){
+                if(!$perfil_adm && !$perfil_ger && !$perfil_aux){
                     return redirect('/UNAUTHORIZED');
                 }
         }
