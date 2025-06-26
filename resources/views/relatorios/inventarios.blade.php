@@ -10,7 +10,7 @@
 
 
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -45,28 +45,24 @@
                                 @endForeach
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="exclui_vendido" class="d-block">Exclui vendido</label>
+                            <div class="custom-control custom-switch" style="text-align: center;">
+                                <input type="checkbox" class="custom-control-input" id="exclui_vendido" name="exclui_vendido" value="1" {{ request('exclui_vendido') == 1 ? 'checked' : '' }}>
+                                <label class="custom-control-label" for="exclui_vendido"></label>
+                            </div>
+                        </div>
                         <div class="col">
                             <input class="btn btn-light" type="submit" value="Pesquisar" style="box-shadow: 1px 2px 5px #000000;margin-top:20px;">
                         
                             <a href="/inventarios"><input class="btn btn-light" type="button" value="Limpar" style="box-shadow: 1px 2px 5px #000000;margin-top:20px;"></a>
+                            <input class="btn btn-info" formaction="{{route('inv.pdf')}}" type="submit" acti value="Gerar PDF" style="box-shadow: 1px 2px 5px #000000;margin-top:20px;">
                         
-                            <!--<a href=""><input class="btn btn-info" onclick="cont();" type="button" value="Imprimir" style="margin-top:20px;"></a>-->
                         </div>                        
                     </div>
-                    </form>
-                    <script>
-                        function cont(){
-                        var conteudo = document.getElementById('print').innerHTML;
-                        tela_impressao = window.open('about:blank');
-                        tela_impressao.document.write(conteudo);
-                        tela_impressao.window.print();
-                        tela_impressao.window.close();
-                        }
-                    </script>
-    
+                    </form>    
                     <hr>
-                    <div id='print' class='conteudo'>
-                    <div class="container" style="background:#ffffff;">
+                    <div class="container-fluid" style="background:#ffffff;" id="1">
                     <h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">INVENTÁRIO DE ESTOQUE</h4>
                         <div class="row">
                         <h6 class="font-weight-bold" style="color: blue;  margin-left: 10px;">INVENTÁRIO DE ESTOQUE - no dia <span class="badge badge-secondary">{{ \Carbon\Carbon::parse($data)->format('d/m/Y')}}</span> </h6>
@@ -86,9 +82,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($resultItens as $rit )
+                                    @foreach ($resultItens as $index => $rit)
                                     <tr style="text-align:center;">
-                                        <td>{{ ($resultItens->firstItem() + $loop->index) }}</td>
+                                        <td>{{($resultItens->currentPage() - 1) * $resultItens->perPage() + $index + 1}}</td>
                                         <td style="text-align:center;">{{$rit->ncat}}</td>
                                         <td style="text-align:center;">{{$rit->idmat}}</td>
                                         <td style="text-align:center;">{{$rit->nome}}</td>
@@ -107,7 +103,10 @@
                                         </tr>
                                         @endforeach
                                 </tbody>
-                                @if($resultItens->currentPage() === $resultItens->lastPage())
+                                @php
+                                    $isPdf = request()->has('pdf'); // ou outro indicador que tu queiras
+                                @endphp
+                               @if($isPdf || (method_exists($resultItens, 'currentPage') && $resultItens->currentPage() === $resultItens->lastPage()))
                                 <tfoot style="background: #daffe0;">
                                         <tr style="text-align:center; font-weight: bold; font-size:15px">
                                         <td></td>
@@ -128,7 +127,7 @@
                             {{$resultItens->withQueryString()->links()}}
                             </div>
                             <h6 class="col-12  font-weight-bold" style="color: blue; margin-left: 10px; text-align:right;">O relatório foi impresso em <span class="badge badge-secondary">{{ \Carbon\Carbon::today()->locale('pt')->isoFormat('DD MMMM YYYY')}}</span> </h6>
-                        </div>
+                        </div id="fim">
                     </div>
                 </div>
             </div>

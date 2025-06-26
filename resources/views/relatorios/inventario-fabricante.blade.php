@@ -46,12 +46,19 @@
                         @endForeach
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="exclui_vendido" class="d-block">Exclui vendido</label>
+                    <div class="custom-control custom-switch" style="text-align: center;">
+                        <input type="checkbox" class="custom-control-input" id="exclui_vendido" name="exclui_vendido" value="1" {{ request('exclui_vendido') == 1 ? 'checked' : '' }}>
+                        <label class="custom-control-label" for="exclui_vendido"></label>
+                    </div>
+                </div>
                 <div class="col">
                     <input class="btn btn-light" formaction="{{route('inv.fabrica')}}" type="submit" acti value="Pesquisar" style="box-shadow: 1px 2px 5px #000000;margin-top:20px;">
                 
                     <a href="/inventario-fabricante"><input class="btn btn-light" type="button" value="Limpar" style="box-shadow: 1px 2px 5px #000000;margin-top:20px;"></a>
 
-                    <input class="btn btn-info" formaction="{{route('inv.pdf')}}" type="submit" acti value="Gerar PDF" style="box-shadow: 1px 2px 5px #000000;margin-top:20px;">
+                    <input class="btn btn-info" formaction="{{route('inv2.pdf')}}" type="submit" acti value="Gerar PDF" style="box-shadow: 1px 2px 5px #000000;margin-top:20px;">
 
                 
                     <!--<a href=""><input class="btn btn-info" onclick="cont();" type="button" value="Imprimir" style="margin-top:20px;"></a>-->
@@ -69,9 +76,8 @@
             </script> -->
 
             <hr>
-            <!-- <div id='print' class='conteudo'> -->
             <div class="container-fluid" id="1" style="background:#ffffff;">
-            <h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">INVENTÁRIO DE ESTOQUE</h4>
+            <h4 class="card-title" class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">INVENTÁRIO DE ESTOQUE COM FABRICANTE</h4>
                 <div class="row">
                 <h6 class="font-weight-bold" style="color: blue;  margin-left: 10px;">INVENTÁRIO DE ESTOQUE - no dia <span class="badge badge-secondary">{{ \Carbon\Carbon::parse($data)->format('d/m/Y')}}</span> </h6>
                     <table class="table table-sm table-striped">
@@ -90,9 +96,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($resultItens as $rit )
+                            @foreach ($resultItens as $index => $rit )
                             <tr style="text-align:center; font-size:10px">
-                                <td>{{  $loop->iteration  }}</td>
+                                <td>{{($resultItens->currentPage() - 1) * $resultItens->perPage() + $index + 1}}</td>
                                 <td style="text-align:center;">{{$rit->ncat}}</td>
                                 <td style="text-align:center;">{{$rit->fab}}</td>
                                 <td style="text-align:center;">{{$rit->nome}}</td>
@@ -111,7 +117,7 @@
                                 </tr>
                                 @endforeach
                         </tbody>
-                    
+                     @if($resultItens->currentPage() === $resultItens->lastPage())
                         <tfoot style="background: #daffe0;">
                                 <tr style="text-align:center; font-weight: bold; font-size:15px">
                                 <td></td>
@@ -126,8 +132,11 @@
                                 <td>{{number_format($total_soma,2,',','.')}}</td>
                             </tr>
                         </tfoot>
-                
+                         @endif                
                     </table>
+                    <div class="d-flex justify-content-center">
+                            {{$resultItens->withQueryString()->links()}}
+                    </div>
                     </div>
                     <h6 class="col-12  font-weight-bold" style="color: blue; margin-left: 10px; text-align:right;">O relatório foi impresso em <span class="badge badge-secondary">{{ \Carbon\Carbon::today()->locale('pt')->isoFormat('DD MMMM YYYY')}}</span> </h6>
                 </div>
