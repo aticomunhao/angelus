@@ -119,39 +119,46 @@
                         <i class="mdi mdi-stack-overflow"></i>
                         <span>Cadastro inicial</span>
                     </a>
+
+                    <ul>
+                        <li>
+                            <a href="/filtrar-para-editar" class="waves-effect"><i class="mdi mdi-checkbox-multiple-marked-outline"></i><span>Editar em Lote</span>
+                            </a>
+
+                        </li>
+                    </ul>
                 </li>
 
-
                 {{-- Vendas de material --}}
-                
+
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="mdi mdi-cart-outline"></i>
                         <span>Vendas de material</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                   
+
                         <li>
                             <a href="/gerenciar-vendas" class="waves-effect"><span>Gerenciar vendas</span></a>
                         </li>
                             <li>
                                 <a href="/registrar-venda" class="waves-effect"><span>Registrar Venda</span></a>
                             </li>
-                        
-         
+
+
                 @if($perfil_ger)
                         <li>
                             <a href="/gerenciar-devolucoes" class="waves-effect"><span>Gerenciar Devoluções</span></a>
                         </li>
                         <li>
                             <a href="/gerenciar-desconto" class="waves-effect"><span>Gerenciar Descontos</span></a>
-                        </li>                        
+                        </li>
                 @endif
                     </ul>
                 </li>
 
                 {{-- Relatórios --}}
-                
+
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="mdi mdi-library-books"></i>
@@ -173,7 +180,7 @@
                         </li>
                         <li>
                             <a href="/relatorio-entrada" class="waves-effect"><span>Entradas Materiais</span></a>
-                        </li>                 
+                        </li>
                         <li>
                             <a href="/relatorio-saidas" class="waves-effect"><span>Saídas Materiais</span></a>
                         </li>
@@ -185,7 +192,7 @@
                         {{--@endif--}}
                     </ul>
                 </li>
-                
+
                 <!-- <li>
                     <a href="/cadastro/usuario" class="waves-effect">
                         <i class="mdi mdi-account-multiple-plus-outline"></i><span class="badge badge-pill badge-primary float-right"></span>

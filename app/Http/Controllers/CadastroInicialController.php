@@ -52,7 +52,7 @@ class CadastroInicialController extends Controller
 
 
     public function index(Request $request)
-    {        
+    {
 
         $sessao = session()->get('usuario.depositos');
 
@@ -118,7 +118,7 @@ class CadastroInicialController extends Controller
         if ($request->categoria){
             $result->where('tcm.id', '=', "$request->categoria");
         }
-        // dd($compra === null);       
+        // dd($compra === null);
         if ($compra === null){
 
             $result->where(function($query) {
@@ -132,9 +132,9 @@ class CadastroInicialController extends Controller
             $result->where('im.adquirido', $request->compra);
 
         }
-        
+
         $contar = $result->count();
-        
+
         $result = $result->orderBy('im.id', 'DESC')->paginate(100);
         //dd($result);
 
@@ -175,14 +175,14 @@ class CadastroInicialController extends Controller
 
 
         if ($id == $situacao){
-        
+
             return redirect()->action('CadastroInicialController@index')
             ->with('warning', 'Este item não pode ser alterado pois foi vendido!');
 
         }
         else {
-        
-        
+
+
 
         $itemmat = DB::table('item_material AS im')
                         ->select('im.id AS id_item', 'im.data_cadastro', 'im.valor_venda', 'im.valor_aquisicao', 'icm.id AS id_item_cat', 'icm.id_categoria_material AS id_cat_item', 'icm.nome AS nome_item', 'tcm.nome AS nome_categ', 'im.adquirido AS comprado')
@@ -191,7 +191,7 @@ class CadastroInicialController extends Controller
                         ->where('im.id',$id)
                         ->get();
                         //dd($itemmat);
-                        
+
         $comprado = DB::table('item_material AS im')->select('im.adquirido AS comprado')->where('im.id', $id)->first();
 
         $itemlista = DB::table('item_material AS im')
@@ -219,7 +219,7 @@ class CadastroInicialController extends Controller
                         //->orderBy('nome_item','ASC')
                         ->get();
 
-       
+
         $tamanho = DB::table('tipo_categoria_material AS tcm')
                         ->select('tcm.id', 't.id AS id_tam', 'tcm.id AS id_cat',  't.nome AS n3')
                         ->leftjoin('tamanho AS t', 'tcm.id' , '=', 't.id_categoria_material')
@@ -242,7 +242,7 @@ class CadastroInicialController extends Controller
                     ->orderBy('n4','ASC')
                     ->get();
 
-       
+
         $tipo = DB::table('tipo_material AS tp')
                         ->select('tp.id AS tp_id', 'tp.nome AS n8')
                         ->get();
@@ -368,7 +368,7 @@ class CadastroInicialController extends Controller
         $sql10 = "Select id, nome from tipo_unidade_medida";
         $result10 = DB::select($sql10);
 
-       
+
 
         $html='<div class="table-responsive">';
         $html.='<table class="table table-bordered table-striped mb-0">';
@@ -384,7 +384,7 @@ class CadastroInicialController extends Controller
         } elseif ($request->has('checkAdq') && $request->input('checkAdq') == 'false') {
             $html .= '<tr><td>Valor aquisição</td><td><input value="0.00" type="number" step="0.01" id="vlr_aqs" name="vlr_aqs" style="display:none;"></td></tr>';
         }
-        
+
             $html.='</table>';
             $html.='</div>';
 
@@ -517,7 +517,7 @@ class CadastroInicialController extends Controller
         }
 
             $Adquirido = isset($request->checkAdq) ? 1 : 0;
-            
+
             $Avariado = isset($request->checkAvariado) ? 1 : 0;
 
             for ($i=0; $i < $request->input('qtdItens'); $i++){
@@ -553,5 +553,132 @@ class CadastroInicialController extends Controller
 
         return redirect()->action('CadastroInicialController@index');
     }
+
+
+
+    public function lote(Request $request)
+    {
+        $sessao = session()->get('usuario.depositos');
+        $array_sessao = explode(",", $sessao);
+
+        $resultCat = DB::select('select id, nome from tipo_categoria_material order by nome');
+
+        // Se não houver NENHUM filtro, retorna lista vazia
+        if (!$request->anyFilled(['data_inicio', 'data_fim', 'material', 'obs', 'identidade1', 'identidade2', 'ref_fab', 'categoria', 'compra'])) {
+            return view('cadastroinicial/editar-em-lote', [
+                'compra'       => null,
+                'obs'          => null,
+                'identidade1'  => null,
+                'identidade2'  => null,
+                'ref_fab'      => null,
+                'contar'       => 0,
+                'result'       => collect(), // vazio
+                'categoria'    => null,
+                'data_inicio'  => null,
+                'data_fim'     => null,
+                'material'     => null,
+                'resultCat'    => $resultCat,
+            ]);
+        }
+
+        // Monta query apenas se houver filtro
+        $result = DB::table('item_material AS im')
+            ->select(
+                'im.data_cadastro', 'im.id_deposito', 'im.id',
+                'im.ref_fabricante AS ref_fab', 'im.observacao AS obs',
+                'im.adquirido', 'im.valor_venda', 'im.id_tipo_situacao',
+                'icm.id_categoria_material AS cat', 'icm.nome AS n1',
+                'm.nome AS n2', 't.nome AS n3', 'c.nome AS n4',
+                'tcm.nome AS n5', 'tcm.id AS id_cat', 'tcm.nome AS nome_cat'
+            )
+            ->where('id_tipo_situacao', 1)
+            ->leftJoin('item_catalogo_material AS icm', 'icm.id', '=', 'im.id_item_catalogo_material')
+            ->leftJoin('tipo_categoria_material AS tcm', 'icm.id_categoria_material', '=', 'tcm.id')
+            ->leftJoin('marca AS m', 'm.id', '=', 'im.id_marca')
+            ->leftJoin('tamanho AS t', 't.id', '=', 'im.id_tamanho')
+            ->leftJoin('cor AS c', 'c.id', '=', 'im.id_cor')
+            ->where(function ($query) use ($array_sessao) {
+                $query->whereNull('im.id_deposito')
+                    ->orWhereIn('im.id_deposito', $array_sessao);
+            });
+
+        $data_inicio = $request->data_inicio;
+        $data_fim = $request->data_fim;
+        $material = $request->material;
+        $obs = $request->obs;
+        $identidade1 = $request->identidade1;
+        $identidade2 = $request->identidade2;
+        $ref_fab = $request->ref_fab;
+        $categoria = $request->categoria;
+        $compra = $request->compra;
+
+
+        // Aplicar filtros normalmente...
+        if ($request->data_inicio) {
+            $result->whereDate('im.data_cadastro', '>=', $request->data_inicio);
+        }
+        if ($request->data_fim) {
+            $result->whereDate('im.data_cadastro', '<=', $request->data_fim);
+        }
+        if ($request->material) {
+            $result->whereRaw("UNACCENT(LOWER(icm.nome)) LIKE UNACCENT(LOWER(?))", ["%{$request->material}%"]);
+        }
+        if ($request->obs) {
+            $result->whereRaw("UNACCENT(LOWER(im.observacao)) ILIKE UNACCENT(LOWER(?))", ["%{$request->obs}%"]);
+        }
+        if ($request->identidade1) {
+            $result->where('im.id', '>=', $request->identidade1);
+        }
+        if ($request->identidade2) {
+            $result->where('im.id', '<=', $request->identidade2);
+        }
+        if ($request->ref_fab) {
+            $result->where('im.ref_fabricante', '=', $request->ref_fab);
+        }
+        if ($request->categoria) {
+            $result->where('tcm.id', '=', $request->categoria);
+        }
+        if ($request->compra === null) {
+            $result->where(function ($query) {
+                $query->whereIn('im.adquirido', [true, false])
+                    ->orWhereIn('im.adquirido', ['true', 'false'])
+                    ->orWhereIn('im.adquirido', [0, 1]);
+            });
+        } else {
+            $result->where('im.adquirido', $request->compra);
+        }
+
+        $contar = $result->count();
+        $result = $result->orderBy('icm.nome', 'ASC')->get();
+
+        return view('cadastroinicial/editar-em-lote', compact(
+            'compra', 'obs', 'identidade1', 'identidade2', 'ref_fab',
+            'contar', 'result', 'categoria', 'data_inicio',
+            'data_fim', 'material', 'resultCat'
+        ));
+
+    }
+
+
+    public function updateLote(Request $request)
+    {
+        $rows = $request->input('rows', []);
+
+        foreach ($rows as $row) {
+            // Só atualiza se o checkbox estiver marcado
+            if (!empty($row['update'])) {
+                DB::table('item_material')
+                    ->where('id', $row['id'])
+                    ->update([
+                        'observacao'         => $row['obs'] ?? null,
+                        'ref_fabricante'     => $row['ref_fab'] ?? null,
+                        'valor_venda' => isset($row['valor_venda']) ? str_replace(',', '.', str_replace('.', '', $row['valor_venda'])) : null,
+                    ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Registros selecionados foram atualizados com sucesso!');
+    }
+
 
 }

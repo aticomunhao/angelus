@@ -95,13 +95,13 @@ Route::name('usuario')->middleware('validaUsuario')->group(function () {
   Route::get('/usuario/alterar/{id}', 'UsuarioController@edit');
   Route::put('usuario-atualizar/{id}', 'UsuarioController@update');
   Route::get('/usuario/gerar-Senha/{id}', 'UsuarioController@gerarSenha');
-  
+
 });
 Route::post('/usuario/gravaSenha', 'UsuarioController@gravaSenha');
 Route::get('/usuario/alterar-senha', 'UsuarioController@alteraSenha');
 
-  
-Route::name('estoque')->middleware('validaUsuario')->group(function () {  
+
+Route::name('estoque')->middleware('validaUsuario')->group(function () {
   Route::get('item-catalogo-incluir', 'ItemCatalogoController@create')->middleware('validaUsuario');
   Route::post('cad-item-material/inserir', 'ItemCatalogoController@store')->middleware('validaUsuario');
   Route::get('/item-catalogo/alterar/{id}', 'ItemCatalogoController@edit')->middleware('validaUsuario');
@@ -135,7 +135,7 @@ Route::get('/cor/alterar/{id}', 'CorController@edit')->middleware('validaUsuario
 Route::put('/cor/atualizar/{id}', 'CorController@update')->middleware('validaUsuario');
 
 
-  
+
 Route::name('estoque')->middleware('validaUsuario')->group(function () {
   Route::post('/cad-cat-material/inserir', 'CatMaterialController@store')->middleware('validaUsuario');
   Route::get('/cad-cat-material/excluir/{id}', 'CatMaterialController@destroy')->middleware('validaUsuario');
@@ -195,11 +195,15 @@ Route::get('/combo/composicao/{id}', 'CadastroInicialController@getComposicao')-
 Route::post('/cad-inicial-material/inserir', 'CadastroInicialController@store')->middleware('validaUsuario');
 Route::get('/usuario-logado', 'CadastroInicialController@search');
 
+
+
 Route::get('/gerenciar-cadastro-inicial', 'CadastroInicialController@index')->name('cadastroinicial');
 Route::get('/gerenciar-cadastro-inicial/incluir', 'CadastroInicialController@create')->middleware('validaUsuario');
 Route::get('/gerenciar-cadastro-inicial/excluir/{id}', 'CadastroInicialController@destroy')->middleware('validaUsuario');
 Route::get('/editar-cadastro-inicial/{id}/{id_cat}', 'CadastroInicialController@formEditar')->middleware('validaUsuario');
 Route::put('/gerenciar-cadastro-inicial/alterar/{id}', 'CadastroInicialController@update')->middleware('validaUsuario');
+Route::get('/filtrar-para-editar', 'CadastroInicialController@lote')->middleware('validaUsuario')->name('filtra.edit');
+Route::post('/cadastro-inicial/lote-update', 'CadastroInicialController@updateLote')->name('cadastro-inicial.lote.update');
 
 Route::get('/combo/tamanho/{id}', 'CadastroInicialController@getTamanho')->middleware('validaUsuario');
 Route::get('/combo/embalagem/{id}', 'CadastroInicialController@getEmbalagem')->middleware('validaUsuario');
@@ -216,7 +220,7 @@ Route::name('vendas')->middleware('validaUsuario')->group(function () {
   Route::get('/gerenciar-vendas/finalizar/{id}', 'GerenciarVendasController@finalizar')->name('finalizarvenda.update');
   Route::get('/gerenciar-vendas/demonstrativo/{id}', 'GerenciarVendasController@update');
   Route::get('/gerenciar-vendas/demonstrativo/{id}', 'GerenciarVendasController@imprimir');
-  
+
   Route::get('/cad-sit-venda', 'SituacaovendaController@index');
 });
 
